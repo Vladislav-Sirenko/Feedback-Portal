@@ -1,0 +1,37 @@
+.form-group{
+ margin-bottom: 15px;
+}
+label{
+ margin-bottom: 15px;
+}
+input,
+input::-webkit-input-placeholder {
+ font-size: 11px;
+ padding-top: 3px;
+}
+.form-control {
+ height: auto!important;
+padding: 8px 12px !important;
+}
+.input-group {
+ box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.21)!important;
+}
+
+.main-form{
+ margin-top: 30px;
+ margin: 0 auto;
+ max-width: 400px;
+ padding: 10px 40px;
+background:#0c1a9b;
+color: #FFF;
+text-shadow: none;
+box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.31);
+}
+span.input-group-addon i {
+ color: #0c1a9b;
+ font-size: 17px;
+}
+.login-button{
+ margin-top: 5px;
+ background-color:#127aaa;
+}

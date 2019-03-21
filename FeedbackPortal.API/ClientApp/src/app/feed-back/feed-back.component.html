@@ -1,0 +1,38 @@
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-2 ">
+
+    </div>
+    <div class="PostList col-sm-4">
+      <h3>Choose Otdelenie</h3>
+        <select>
+          <option *ngFor="let post of Posts" class="Options"> {{post}} </option>
+        </select>     
+   </div>
+  
+
+    
+    <div class="PostList col-sm-4 ml-3">
+
+    </div>
+    
+  </div>
+  <div class="row mt-5">
+    <div class="col-sm-2">
+
+    </div>
+    <div class="col-sm-4">
+        <!-- <label>
+            Sending
+            <input type="radio" [(ngModel)]="selectedType" [value]="'#'">
+          </label>
+          <label>
+            Recieving
+            <input type="radio" [(ngModel)]="selectedType" [value]="'*'">
+          </label> -->
+    </div>
+    
+
+  </div>
+</div>
