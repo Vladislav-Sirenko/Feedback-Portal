@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FeedbackService } from '../feedback.service';
+import { Department } from '../department.model';
 
 @Component({
   selector: 'app-feed-back',
@@ -7,10 +9,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FeedBackComponent implements OnInit {
 
-  constructor() { }
-  Posts:string[]=['Post 213','Post 2','Post 32','Post 3'];
-  
+  constructor(private feedbackService: FeedbackService) { }
+  Posts: string[] = [];
+
   ngOnInit() {
+    this.feedbackService.getDepartments().subscribe((departments) => {
+      for (const dep in departments) {
+        if (dep) {
+          this.Posts.push(dep);
+        }
+      }
+    })
   }
 
 }
