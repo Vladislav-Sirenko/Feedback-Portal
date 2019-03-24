@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Departments } from '../PostDepatmens';////ХРАНИЛИЩЕ С ИНФОРМАЦИЕЙ///////
 import { Feedback } from '../FeedBacks';//////ПРАВИЛА ДЛЯ ЗАПОЛНЕНИЯ ИНФОРМАЦИИ////////
 import { post } from 'selenium-webdriver/http';
 import { AddPostService } from '../_services/add-post.service'
+import { FeedbackService } from '../feedback.service';
+import { Department } from '../department.model';
 
 @Component({
   selector: 'app-feed-back',
@@ -14,7 +15,7 @@ import { AddPostService } from '../_services/add-post.service'
 })
 export class FeedBackComponent implements OnInit {
 
-  constructor(private service: AddPostService) { }
+  constructor(private service: AddPostService,private feedbackService: FeedbackService) { }
   Posts: Feedback[]=[];////ПОЛУЧАЕМ ВСЕ ОТДЕЛЕНИЯИ ПУШИМ ИХ В ЛИСТ ОТДЕЛЕНИЙ////////
   id: number;
   mark: number;
@@ -53,6 +54,17 @@ export class FeedBackComponent implements OnInit {
     this.departemntName = "";
     this.mark = 0;
     this.text = "";
-  }
+  //Posts: string[] = [];
 
+  // ngOnInit() {
+  //   this.feedbackService.getDepartments().subscribe((departments) => {
+  //     for (const dep in departments) {
+  //       if (dep) {
+  //         this.Posts.push(dep);
+  //       }
+  //     }
+  //   })
+  // }
+
+}
 }
