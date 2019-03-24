@@ -1,38 +1,73 @@
-
 <div class="container">
   <div class="row">
     <div class="col-sm-2 ">
 
     </div>
     <div class="PostList col-sm-4">
-      <h3>Choose Otdelenie</h3>
-        <select>
-          <option *ngFor="let post of Posts" class="Options"> {{post}} </option>
-        </select>     
-   </div>
-  
+      <h3>Создать отзыв:</h3>
+      <div  class="btn" style="background-color:rgb(17, 129, 77);color:white;" (click)="togle()">
+          Провести ревизию
+      </div>
+      <div *ngIf="ShowForm">
+      
+          <form >
+              <div class="form-group">
+                <label>Введите название филиала:<br>
+                  <input [(ngModel)]="departemntName" type="text" name="Name">
+                </label>
+                <label>Введите Оценку:<br>
+                  <input [(ngModel)]="mark"  type="text" name="Mark">
+                </label>
+                <label>Введите Коментарий:<br>
+                  <input [(ngModel)]="text"  type="text" name="Comment">
+                </label>
+                <button (click)="Submit()" >
+                    Submit
+                </button>
+                
+            
+              </div>
+            </form>`
+      </div>
+      <div *ngIf="!ShowForm">
+          <div>
+            <p>
+                Оцените филиал и напишите кратки кометарий!!
+            </p>
+          </div>
+      </div>
+      
+    </div>
 
-    
-    <div class="PostList col-sm-4 ml-3">
+
+
+    <div class="PostList2 col-sm-4 ml-3">
+
+      <h3>Посмотреть историю отзывов</h3>
+      <select>
+        <option *ngFor="let post of Posts" class="Options" (click)="onSelect(post)"
+          [class.selected]="post === selectedPost"> {{post.departemntName}} </option>
+      </select>
+      <div *ngIf="selectedPost">
+        <div class="departmentInfo">Отделение:{{selectedPost.departemntName}}</div>
+        <div class="departmentInfo">Оценка:{{selectedPost.mark}}</div>
+        <div class="departmentInfo">Дата :{{selectedPost.date}}</div>
+        
+        <div *ngIf="selectedPost.text" class="departmentInfo">Комментарий:{{selectedPost.text}}</div>
+
+      </div>
 
     </div>
-    
+
   </div>
   <div class="row mt-5">
     <div class="col-sm-2">
 
     </div>
     <div class="col-sm-4">
-        <!-- <label>
-            Sending
-            <input type="radio" [(ngModel)]="selectedType" [value]="'#'">
-          </label>
-          <label>
-            Recieving
-            <input type="radio" [(ngModel)]="selectedType" [value]="'*'">
-          </label> -->
+
     </div>
-    
+
 
   </div>
 </div>
