@@ -1,8 +1,8 @@
 
-export class Feedback{
-    id:number;
-    mark:number;
-    text?:string;
-    date : string;
-    departemntName:string;
+export class Feedback {
+    id?: number;
+    mark: number;
+    text?: string;
+    time: string;
+    Department_ID: number;
 }

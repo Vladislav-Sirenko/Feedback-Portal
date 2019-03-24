@@ -10,12 +10,11 @@ namespace FeedbackPortal.API.Models
     public class Feedback
     {
         [Key]
-        public int Feedback_ID { get; set; }
+        public int id { get; set; }
         [Required]
-        public string User_ID { get; set; }
-        public int Mark { get; set; }
-        public string Feedback_Text { get; set; }
-        public DateTime Feedback_time { get; set; }
+        public int mark { get; set; }
+        public string text { get; set; }
+        public string time { get; set; }
         [ForeignKey("Department")]
         public int Department_ID { get; set; }
         public Department Department { get; set; }

@@ -4,48 +4,59 @@ using System.Linq;
 using System.Threading.Tasks;
 using FeedbackPortal.API.Context;
 using FeedbackPortal.API.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace FeedbackPortal.API.Services
 {
     public class FeedbackService : IFeedBackService
     {
-        FeedbackContext context; 
-        public FeedbackService(FeedbackContext FeedbackContext)
+        List<Feedback> feedbacks;
+        List<Department> departments;
+        FeedbackContext feedbackContext;
+        public FeedbackService(FeedbackContext context)
         {
-            context = FeedbackContext;
+            feedbackContext = context;
+            feedbacks = new List<Feedback>();
+            departments = new List<Department>(){
+                new Department(){Department_ID=1,Address="Бальзака",Name="Отделение номер 1"},
+                new Department(){Department_ID=2,Address="Драйзера",Name="Отделение номер 2"},
+                new Department(){Department_ID=3,Address="Волкова",Name="Отделение номер 3"},
+                new Department(){Department_ID=4,Address="Градинская",Name="Отделение номер 4"}
+                
+            };
         }
 
         public void AddFeedBack(Feedback feedback)
         {
-            context.Feedbacks.Add(feedback);
-            context.SaveChanges();
+            feedbackContext.Feedbacks.Add(feedback);
+            feedbackContext.SaveChanges();
+            feedbacks.Add(feedback);
         }
 
         public void DeleteFeedBack(int id)
         {
-            var feedback = GetFeedbackById(id);
-            context.Remove(feedback);
-            context.SaveChanges();
+            var removedFeedback = GetFeedbackById(id);
+            feedbacks.Remove(removedFeedback);
         }
 
         public List<Feedback> GetAll()
         {
-          return  context.Feedbacks.ToList();
+          return  feedbacks;
         }
 
         public List<Department> GetDepartments()
         {
-            return context.Departments.ToList();
+            return departments;
         }
 
         public Feedback GetFeedbackById(int id)
         {
-            return context.Feedbacks.First(x=>x.Feedback_ID == id);
+             return feedbacks.First(x=>x.Department_ID==id);
         }
 
         public List<Feedback> GetFeedbacksByDepartmentId(int id)
         {
-            return context.Feedbacks.Where(x => x.Department_ID == id).ToList();
+            return feedbacks.Where(x => x.Department_ID == id).ToList();
         }
     }
 }

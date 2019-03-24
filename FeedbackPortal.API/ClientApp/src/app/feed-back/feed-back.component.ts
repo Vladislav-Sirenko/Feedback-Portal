@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Feedback } from '../FeedBacks';//////ПРАВИЛА ДЛЯ ЗАПОЛНЕНИЯ ИНФОРМАЦИИ////////
-import { post } from 'selenium-webdriver/http';
-import { AddPostService } from '../_services/add-post.service'
+import { Feedback } from '../FeedBacks';
 import { FeedbackService } from '../feedback.service';
 import { Department } from '../department.model';
 
@@ -15,56 +13,54 @@ import { Department } from '../department.model';
 })
 export class FeedBackComponent implements OnInit {
 
-  constructor(private service: AddPostService,private feedbackService: FeedbackService) { }
-  Posts: Feedback[]=[];////ПОЛУЧАЕМ ВСЕ ОТДЕЛЕНИЯИ ПУШИМ ИХ В ЛИСТ ОТДЕЛЕНИЙ////////
+  constructor(private feedbackService: FeedbackService) { }
+  Posts: Department[] = [];
   id: number;
   mark: number;
   text?: string;
   date: Date;
   departemntName: string;
+  selPost: string;
+  feedbacks: Feedback[] = [];
 
-  selectedPost: Feedback;
-  onSelect(post: Feedback): void {////СОБЫТИЕ ДЛЯ ВЫБРАНОГО ОТДЕЛЕНИЯ/////////
+  selectedPost: Department;
+  _id:number;
+  onSelectPost(post: Department): void {
     this.selectedPost = post;
+    this._id=this.selectedPost.Department_ID;
+    this.getfeedbacksByDepartmentID();
   }
+  
   ShowForm: boolean = false;
   togle() {
 
     this.ShowForm = !this.ShowForm;
   }
   ngOnInit() {
-    this.service.getCategories().subscribe((posts) => {
+    this.feedbackService.getDepartments().subscribe((posts) => {
       for (const post in posts) {
         if (post) {
-          this.Posts.push(posts[post]);
+          this.Posts.push(new Department(posts[post]['name'], posts[post]['address'], posts[post]['department_ID']));
         }
       }
     })
   }
-  Submit() {
-    let Post = new Feedback();
-    Post.departemntName = this.departemntName;
-    Post.mark = this.mark;
-
-    Post.id = 1;
-    //Post.date = new Date();
-    Post.text = this.text;
-
- //   Post.push(Post);
-    this.departemntName = "";
-    this.mark = 0;
-    this.text = "";
-  //Posts: string[] = [];
-
-  // ngOnInit() {
-  //   this.feedbackService.getDepartments().subscribe((departments) => {
-  //     for (const dep in departments) {
-  //       if (dep) {
-  //         this.Posts.push(dep);
-  //       }
-  //     }
-  //   })
-  // }
-
+  pushPostProperties() {
+    const feedback = new Feedback();
+    feedback.Department_ID = this.Posts.find(x => x.Name == this.selPost).Department_ID;
+    feedback.mark = this.mark;
+    feedback.text = this.text;
+    feedback.time = Date.now().toLocaleString();
+    this.feedbackService.addFeedback(feedback);
+  }
+  getfeedbacksByDepartmentID(){
+    this.feedbackService.GetFeedbacks(this._id).subscribe((feedbacks)=>{
+      for(const feedback in feedbacks)
+      this.feedbacks.push(feedbacks[feedback]);
+    })
+  }
 }
-}
+
+// this.Posts.push(new Department(departments[dep].Name,
+//   departments[dep].Adress,
+//   departments[dep].Department_ID));
