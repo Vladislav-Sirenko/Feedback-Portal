@@ -21,18 +21,12 @@ namespace FeedbackPortal.API.Controllers
         }
 
         // GET: api/Feedbacks
-        [HttpGet]
-        public IEnumerable<Feedback> Get()
+        [HttpGet("{id}")]
+        public IEnumerable<Feedback> Get(int id)
         {
-            return _feedbackService.GetFeedbacksByDepartmentId(1);
+            return _feedbackService.GetFeedbacksByDepartmentId(id);
         }
 
-        // GET: api/Feedbacks/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
-        {
-            return "value";
-        }
 
         // POST: api/Feedbacks
         [HttpPost]
@@ -53,7 +47,7 @@ namespace FeedbackPortal.API.Controllers
         {
         }
 
-         // DELETE: api/ApiWithActions/5
+        // DELETE: api/ApiWithActions/5
         [HttpGet("[action]")]
         public IEnumerable<Department> GetDepartments()
         {
@@ -65,6 +59,16 @@ namespace FeedbackPortal.API.Controllers
         public List<Feedback> GetFeedbacksByDepartment(int id)
         {
             return _feedbackService.GetFeedbacksByDepartmentId(id);
+        }
+        [HttpGet("[action]")]
+        public IEnumerable<AuthUser> GetUsers()
+        {
+            return _feedbackService.GetUsers();
+        }
+        [HttpPost("[action]")]
+        public void AddUser([FromBody] AuthUser user)
+        {
+            _feedbackService.AddUser(user);
         }
     }
 }

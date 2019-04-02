@@ -4,44 +4,58 @@ using System.Linq;
 using System.Threading.Tasks;
 using FeedbackPortal.API.Context;
 using FeedbackPortal.API.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace FeedbackPortal.API.Services
 {
     public class FeedbackService : IFeedBackService
     {
-        List<Feedback> feedbacks;
-        List<Department> departments;
-        FeedbackContext feedbackContext;
-        public FeedbackService(FeedbackContext context)
+        //FeedbackContext context;
+        private readonly List<Feedback> feedbacks;
+
+        private readonly List<Department> departments;
+        private readonly List<AuthUser> users;
+        public FeedbackService()
         {
-            feedbackContext = context;
-            feedbacks = new List<Feedback>();
-            departments = new List<Department>(){
-                new Department(){Department_ID=1,Address="Бальзака",Name="Отделение номер 1"},
-                new Department(){Department_ID=2,Address="Драйзера",Name="Отделение номер 2"},
-                new Department(){Department_ID=3,Address="Волкова",Name="Отделение номер 3"},
-                new Department(){Department_ID=4,Address="Градинская",Name="Отделение номер 4"}
-                
+            feedbacks = new List<Feedback>()
+            {
+                new Feedback() {id = 1, date = DateTime.Now, mark = 4, text = "Все очень плохо", departmentId = 1}
             };
+            departments = new List<Department>()
+            {
+                new Department() {Address = "Бальзака", Department_ID = 1, Name = "Отделение номер 1"},
+                new Department() {Address = "Драйзера", Department_ID = 2, Name = "Отделение номер 2"}
+            };
+            users = new List<AuthUser>()
+            {
+                new AuthUser() {id = 1, admin = 1, email = "admin@ukr.net", first_name = "Admin", password = "123"}
+            };
+
         }
 
+        public List<AuthUser> GetUsers()
+        {
+            return users;
+        }
         public void AddFeedBack(Feedback feedback)
         {
-            feedbackContext.Feedbacks.Add(feedback);
-            feedbackContext.SaveChanges();
             feedbacks.Add(feedback);
+         
         }
 
         public void DeleteFeedBack(int id)
         {
-            var removedFeedback = GetFeedbackById(id);
-            feedbacks.Remove(removedFeedback);
+            var feedback = feedbacks.First(x => x.id == id);
+            feedbacks.Remove(feedback);
         }
 
         public List<Feedback> GetAll()
         {
-          return  feedbacks;
+            return feedbacks;
+        }
+
+        public List<Feedback> GetFeedbacksByDepartmentId(int id)
+        {
+            return feedbacks.Where(x => x.departmentId == id).ToList();
         }
 
         public List<Department> GetDepartments()
@@ -51,12 +65,13 @@ namespace FeedbackPortal.API.Services
 
         public Feedback GetFeedbackById(int id)
         {
-             return feedbacks.First(x=>x.Department_ID==id);
+            return feedbacks.First(x => x.id == id);
         }
 
-        public List<Feedback> GetFeedbacksByDepartmentId(int id)
+        public void AddUser(AuthUser user)
         {
-            return feedbacks.Where(x => x.Department_ID == id).ToList();
+            users.Add(user);
         }
+
     }
 }

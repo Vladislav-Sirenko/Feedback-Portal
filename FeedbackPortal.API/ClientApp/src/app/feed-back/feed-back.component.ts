@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Feedback } from '../FeedBacks';
-import { FeedbackService } from '../feedback.service';
+import { Feedback, Users } from '../FeedBacks';
+import { post } from 'selenium-webdriver/http';
+import { AddPostService } from '../_services/add-post.service';
+import { ChangePageService } from '../_services/change-page.service';
+// tslint:disable-next-line:import-blacklist
+import { Subscription } from 'rxjs';
+
+import { AuthUserService } from '../_services/auth-user.service';
 import { Department } from '../department.model';
 
 @Component({
@@ -12,55 +18,111 @@ import { Department } from '../department.model';
 
 })
 export class FeedBackComponent implements OnInit {
+  subscription: Subscription;
+  succsess: number;
+  admin: number;
+  constructor(private service: AddPostService, private ChangeP: ChangePageService, private addUsers: AuthUserService) {
+    this.subscription = this.ChangeP.getsetchangePager().subscribe(number => { this.succsess = number; });
+    this.subscription = this.ChangeP.getUserValue().subscribe(user => { this.admin = user; });
+  }
+  // checkPage:number=this.ChangeP.checkChanges();
 
-  constructor(private feedbackService: FeedbackService) { }
   Posts: Department[] = [];
   id: number;
   mark: number;
-  text?: string;
+  text: string;
   date: Date;
   departemntName: string;
-  selPost: string;
+  selectedPost: string;
+  menulink: number = null;
   feedbacks: Feedback[] = [];
-
-  selectedPost: Department;
-  _id:number;
-  onSelectPost(post: Department): void {
+  /////////////////////////////////
+  Frst_Name: string;
+  Email: string;
+  Password: string;
+  selectedType: number;
+  selectedAdmin: number;
+  // tslint:disable-next-line:no-shadowed-variable
+  onSelect(post: string): void {
+    // tslint:disable-next-line:no-unused-expression
     this.selectedPost = post;
-    this._id=this.selectedPost.Department_ID;
-    this.getfeedbacksByDepartmentID();
+    this.getfeedbacksByDepartmentID(this.Posts.find(x => x.Name === post).Department_ID);
   }
-  
-  ShowForm: boolean = false;
+  // tslint:disable-next-line:no-shadowed-variable
+  onChange(post: string) {
+    this.departemntName = post;
+  }
+  // tslint:disable-next-line:member-ordering
+  ShowForm = false;
   togle() {
 
     this.ShowForm = !this.ShowForm;
   }
   ngOnInit() {
-    this.feedbackService.getDepartments().subscribe((posts) => {
+    this.Posts = [];
+    this.service.getCategories().subscribe((posts) => {
+      console.log(posts);
+      // tslint:disable-next-line:no-shadowed-variable
       for (const post in posts) {
         if (post) {
           this.Posts.push(new Department(posts[post]['name'], posts[post]['address'], posts[post]['department_ID']));
         }
       }
-    })
+    });
+
   }
-  pushPostProperties() {
-    const feedback = new Feedback();
-    feedback.Department_ID = this.Posts.find(x => x.Name == this.selPost).Department_ID;
-    feedback.mark = this.mark;
-    feedback.text = this.text;
-    feedback.time = Date.now().toLocaleString();
-    this.feedbackService.addFeedback(feedback);
+  MenuLink1(choise: number) {
+    this.menulink = choise;
+    console.log(choise);
   }
-  getfeedbacksByDepartmentID(){
-    this.feedbackService.GetFeedbacks(this._id).subscribe((feedbacks)=>{
-      for(const feedback in feedbacks)
-      this.feedbacks.push(feedbacks[feedback]);
-    })
+  adminsProp(adminn: number) {
+    this.selectedType = adminn;
+  }
+  addUser() {
+    const User = new Users();
+    User.first_name = this.Frst_Name;
+    User.email = this.Email;
+    User.password = this.Password;
+    User.admin = 0;
+    this.addUsers.setUser(User);
+    this.Frst_Name = null;
+    this.Email = null;
+    this.Password = null;
+
+  }
+
+  Submit() {
+    const Post = new Feedback();
+    Post.departmentId = this.Posts.find(x => x.Name === this.departemntName).Department_ID;
+    Post.mark = this.mark;
+    Post.text = this.text;
+    this.service.postCategories(Post).subscribe(() => {
+      this.getfeedbacksByDepartmentID(this.Posts.find(x => x.Name === this.selectedPost).Department_ID);
+    });
+    this.departemntName = '';
+    this.mark = null;
+    this.text = null;
+    // Posts: string[] = [];
+
+    // ngOnInit() {
+    //   this.feedbackService.getDepartments().subscribe((departments) => {
+    //     for (const dep in departments) {
+    //       if (dep) {
+    //         this.Posts.push(dep);
+    //       }
+    //     }
+    //   })
+    // }
+
+  }
+  getfeedbacksByDepartmentID(id: number) {
+    this.service.getFeedbacksByDepartmentId(id).subscribe((feedbacks) => {
+      this.feedbacks = [];
+      // tslint:disable-next-line:forin
+      for (const feedback in feedbacks) {
+        console.log(feedbacks);
+        this.feedbacks.push(feedbacks[feedback]);
+      }
+    });
   }
 }
-
-// this.Posts.push(new Department(departments[dep].Name,
-//   departments[dep].Adress,
-//   departments[dep].Department_ID));

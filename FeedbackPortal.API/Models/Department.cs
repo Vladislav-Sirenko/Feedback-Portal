@@ -13,6 +13,6 @@ namespace FeedbackPortal.API.Models
         public int Department_ID { get; set; }
         public string Name { get; set; }
         public string Address { get; set; }
-        public ICollection<Feedback> feedbacks { get; set; }
+        public ICollection<Feedback> Feedbacks { get; set; }
     }
 }

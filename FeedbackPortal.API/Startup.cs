@@ -25,7 +25,8 @@ namespace FeedbackPortal.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddTransient<IFeedBackService, FeedbackService>();
+            services.AddSingleton<IFeedBackService, FeedbackService>();
+            services.AddSingleton<FeedbackContext>();
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -33,6 +34,8 @@ namespace FeedbackPortal.API
             });
             services.AddDbContext<FeedbackContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("FeedbackDatabase")));
+            services.AddDefaultIdentity<IdentityUser>()
+                .AddEntityFrameworkStores<FeedbackContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

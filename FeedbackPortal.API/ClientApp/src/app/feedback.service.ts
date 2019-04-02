@@ -1,7 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Department } from './department.model';
-import { Feedback } from './FeedBacks';
 
 @Injectable()
 export class FeedbackService {
@@ -12,12 +11,7 @@ export class FeedbackService {
   }
 
   getDepartments() {
-    return this.http.get<Department[]>(this._baseUrl + 'api/Feedbacks/GetDepartments');
+    return this.http.get<string[]>(this._baseUrl + 'api/Feedback');
   }
-  addFeedback(feedback: Feedback) {
-    this.http.post(this._baseUrl + 'api/Feedbacks', feedback).subscribe();
-  }
-  GetFeedbacks(id:number) {
-    return this.http.get<Feedback[]>(this._baseUrl + 'api/Feedbacks/' + id + "/Feedbacks");
-  }
+
 }

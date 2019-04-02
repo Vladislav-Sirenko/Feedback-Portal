@@ -1,5 +1,5 @@
-<div class="container mt-5 rounded ">
-  <div class="row main-form rounded">
+<div class="container mt-5 rounded " style="border-radius: 15px; ">
+  <div *ngIf="!succsess" class="row main-form ">
     <form class="" method="post" action="#">
 
       <div class="form-group">
@@ -7,7 +7,7 @@
         <div class="cols-sm-10">
           <div class="input-group">
             <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-            <input type="text" class="form-control" name="name" id="name" placeholder="Enter your Name" />
+            <input [(ngModel)]="name" type="text" class="form-control" name="name" id="name" placeholder="Enter your Name" />
           </div>
         </div>
       </div>
@@ -17,7 +17,7 @@
         <div class="cols-sm-10">
           <div class="input-group">
             <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
-            <input type="text" class="form-control" name="email" id="email" placeholder="Enter your Email" />
+            <input [(ngModel)]="email" type="text" class="form-control" name="email" id="email" placeholder="Enter your Email" />
           </div>
         </div>
       </div>
@@ -27,19 +27,26 @@
         <div class="cols-sm-10">
           <div class="input-group">
             <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-            <input type="password" class="form-control" name="password" id="password"
+            <input [(ngModel)]="password" type="password" class="form-control" name="password" id="password"
               placeholder="Enter your Password" />
           </div>
         </div>
       </div>
 
      
-
-      <div class="form-group ">
-        <a href="#" target="_blank" type="button" id="button"
-          class="btn btn-success login-button">Register</a>
+     
+      <div class="form-group " >
+        <a *ngIf="password && email && name" href="#"  type="button" id="button"
+          class="btn btn-success login-button " (click)="Submit()" >Acсept</a>
+          <a *ngIf="!password || !email || !name" href="#"  type="button" id="button"
+          class="btn btn-warning "  >Заполните все поля</a>
       </div>
-
+     
+      <div *ngIf="succsess==0" class="NoSuccsess">
+       Ошибка!
+    </div>
     </form>
+    
   </div>
+  
 </div>

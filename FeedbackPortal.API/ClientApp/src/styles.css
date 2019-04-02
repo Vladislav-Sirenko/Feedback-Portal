@@ -1,9 +1,20 @@
 /* You can add global styles to this file, and also import other style files */
 .header,.footer{
-    height:50px;
+    height:auto;
+    min-height: 30px;
     width:100%;
-    background-color:rgba(8, 13, 73, 0.863);
+    
+   background: #b5bdc8;
+   background: linear-gradient(to top, #d87f73 0%, #d83b3b 36%, #bd1b16 100%);
+   
+    box-shadow: 0 5px 0 rgba(250, 163, 163, 0.582);
 }
 .footer{
-    margin-top: 200px;
+    margin-top: 100px;
+}
+.logo{
+    color:rgb(255, 255, 255);
+    margin-left:10px;
+/* box-shadow: 3px 3px 10px 5px #000, 0 0 4px rgba(0, 0, 0, .5) inset; */
+    /*box-shadow: 0 14px 28px rgba(134, 131, 131, 0.25), 0 10px 10px rgba(184, 176, 176, 0.22);*/
 }

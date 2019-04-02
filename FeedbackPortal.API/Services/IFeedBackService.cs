@@ -14,5 +14,7 @@ namespace FeedbackPortal.API.Services
         List<Department> GetDepartments();
         void AddFeedBack(Feedback feedback);
         void DeleteFeedBack(int id);
+        List<AuthUser> GetUsers();
+        void AddUser(AuthUser user);
     }
 }

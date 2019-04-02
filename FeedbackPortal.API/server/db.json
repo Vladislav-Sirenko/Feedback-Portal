@@ -1,0 +1,58 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "first_name": "admin",
+      "email": "admin@ukr.net",
+      "password": "111",
+      "admin": 1
+    },
+    {
+      "id": 2,
+      "first_name": "Bob",
+      "email": "Bob@ukr.net",
+      "password": "Bob",
+      "admin": 0
+    },
+    {
+      "id": 3,
+      "first_name": "1",
+      "email": "1@ukr.net",
+      "password": "1",
+      "admin": 1
+    },
+    {
+      "first_name": "Bodya",
+      "email": "bodya@ukr.net",
+      "password": "123",
+      "admin": 0,
+      "id": 4
+    }
+    
+  ],
+  "posts": [
+    {
+      "id": 1,
+      "departemntName": "Отделение 1 (ул.Полупанова 2)",
+      "mark": 2,
+      "text": "Вынесли посылку быстро ,вернули товар без вопросов",
+      "date": "2018-01-01"
+    },
+    {
+      "departemntName": "Отделение 2 (ул.Маршала малиновского 3)",
+      "mark": "2",
+      "date": "22/02/15",
+      "text": "Долго несли посылку,приветлевый персонал.",
+      "id": 2
+    },
+    {
+      "departemntName": "Отделение 3 (ул.Новопетровская 5/15)",
+      "mark": "3",
+      "date": "22/02/15",
+      "text": "Довольно долго ждал в очереди работала одна кассирша на пункте выдачи.",
+      "id": 3
+    }
+   
+    
+  ]
+}

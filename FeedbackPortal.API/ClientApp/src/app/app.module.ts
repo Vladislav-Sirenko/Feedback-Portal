@@ -7,12 +7,15 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { FeedBackComponent } from './feed-back/feed-back.component';
+import { AddPostService } from './_services/add-post.service';
 import { FeedbackService } from './feedback.service';
+import { AuthUserService } from './_services/auth-user.service';
+import { ChangePageService } from './_services/change-page.service';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    
     LoginComponent,
     FeedBackComponent
   ],
@@ -24,7 +27,7 @@ import { FeedbackService } from './feedback.service';
      
     ])
   ],
-  providers: [FeedbackService],
+  providers: [AddPostService,FeedbackService,AuthUserService,ChangePageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
