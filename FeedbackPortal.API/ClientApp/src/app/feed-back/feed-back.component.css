@@ -10,10 +10,13 @@
 .PostList,.PostList2{
     
     min-height: 350px;
-    height:auto;
-   
+    height:50hv;
+    border-radius:10px;
+    padding-left: 20px;
+    
     color: #FFF;
     text-shadow: none;
+    box-shadow: 7px 7px 5px rgba(0,0,0,0.6); /* Тень */
     /* box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22); */
     background: #be2b2b;
 }
@@ -37,7 +40,6 @@ select{
     width:90%;
     border-radius: 5px;
     color:rgb(15, 15, 15);
-
 }
 .departmentInfo{
     margin-top: 5px;

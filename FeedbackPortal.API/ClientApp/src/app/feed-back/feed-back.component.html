@@ -1,150 +1,134 @@
-<div  *ngIf="succsess===1" class="container" >
-    <!--  -->
-    <div class="row  mt-5"  >
-      <div class="col-sm-2"></div>
-      <div class="col-sm-10 " > 
-        <div class="container" style="padding:0;height: 50px;">
-          <div class="row " align="center" style="height: 50px;">
-            
-            <button class="col-2 btn m-1 menu-link" (click)="MenuLink1(1)">Добавить отзыв </button>
-            <button class="col-2 btn m-1 menu-link" (click)="MenuLink1(2)">Посмотреть отзывы </button>
-            <button *ngIf="admin==1" class="col-2 btn m-1 menu-link" (click)="MenuLink1(3)">Add User</button>
-            <!-- <button class="col-2 btn m-1 menu-link" (click)="MenuLink1(4)">w </button> -->
-          </div>
-        </div>
-      </div>
+<div  *ngIf="succsess===1" class="container-fluid mt-3" style="min-height:300px;height:90hv;">
+  <!--  -->
+  
+<div   class="row justify-content-md-center" align="center">
+  
+  <div *ngIf="menulink==1" class="PostList col-sm-9 " align="left">
+    <h3>Создать отзыв:</h3>
+    <div  class="btn" style="background-color:rgb(17, 129, 77);color:white;" (click)="togle()">
+        Провести ревизию
     </div>
-  <div   class="row ml-5" align="center">
-    <div class="col-sm-2 ">
+    <div *ngIf="ShowForm">
+    
+        <form >
+            <div class="form-group">
+              <br> <label>Введите название филиала:<br>
+                <select [ngModel]="departemntName" name="departemntName"  (change)="onChange($event.target.value)">
+                  <option *ngFor="let post of Posts" selected="selected" class="Options" > {{post.Name}} </option>
+                </select>
+            </label>
 
+              <br><label >Введите Оценку:<br>
+                <input [(ngModel)]="mark"  type="text" name="Mark">
+              </label>
+              <br> <label>Введите Коментарий:<br>
+                <input [(ngModel)]="text"  type="text" name="Comment">
+              </label >
+              <br> <button *ngIf="departemntName && mark && text" class="btn btn-success"  (click)="Submit()" >
+                
+                  Submit
+              </button>
+              <button *ngIf="!departemntName || !mark || !text" class="btn btn-warning"   >
+               Заполните все поля!
+                
+            </button>
+              
+          
+            </div>
+          </form>
     </div>
-    <div *ngIf="menulink==1" class="PostList col-md-8" align="left">
-      <h3>Создать отзыв:</h3>
+    <div *ngIf="!ShowForm">
+        <div>
+          <p>
+              Оцените филиал и напишите кратки кометарий!!
+          </p>
+        </div>
+    </div>
+    
+  </div>
+  <div *ngIf="menulink==3" class="PostList col-md-9 " align="left">
+      <h3>Создать Юзера:</h3>
       <div  class="btn" style="background-color:rgb(17, 129, 77);color:white;" (click)="togle()">
-          Провести ревизию
+          Add User
       </div>
       <div *ngIf="ShowForm">
       
           <form >
-              <div class="form-group">
-                  <br> <label>Введите название филиала:<br>
-                    <select [ngModel]="departemntName" name="departemntName"  (change)="onChange($event.target.value)">
-                      <option *ngFor="let post of Posts" selected="selected" class="Options" > {{post.Name}} </option>
-                    </select>
+              <div class="form-group ml-5">
+                  <br> <label>Введите Имя Юзера:<br>
+                  <input [(ngModel)]="Frst_Name" type="text" name="F_Name">
                 </label>
-                <br><label>Введите Оценку:<br>
-                  <input [(ngModel)]="mark"  type="text" name="Mark">
+                <br><label>Введите email:<br>
+                  <input [(ngModel)]="Email"  type="text" name="Email">
                 </label>
-                <br> <label>Введите Коментарий:<br>
-                  <input [(ngModel)]="text"  type="text" name="Comment">
+                <br> <label>создайте пароль:<br>
+                  <input [(ngModel)]="Password"  type="text" name="Password">
                 </label>
-                <br> <button *ngIf="departemntName && mark && text" class="btn btn-success"  (click)="Submit()" >
+               <!-- /* <div class="mt-2">
+                    <span>Дать права админа?</span><br>
+                    <label>
+                      Да
+                      <input type="radio"  ng-model="selectedType" value="0">
+                    </label>
+                    <label>
+                      Нет
+                      <input type="radio"  ng-model="selectedType" value="1">
+                    </label>
+                  </div>*/ -->
+                <br> <button *ngIf="Password && Email && Frst_Name" class="btn btn-success" (click)="addUser()" >
                   
                     Submit
                 </button>
-                <button *ngIf="!departemntName || !mark || !text" class="btn btn-warning"   >
-                 Заполните все поля!
+                <button *ngIf="!Password || !Email || !Frst_Name" class="btn btn-warning" >
                   
+                  Заполните все поля
               </button>
                 
             
               </div>
             </form>
       </div>
-      <div *ngIf="!ShowForm">
+       <div *ngIf="!ShowForm">
           <div>
             <p>
-                Оцените филиал и напишите кратки кометарий!!
+                Создайте нового пользователя!
             </p>
           </div>
       </div>
       
     </div>
-    <div *ngIf="menulink==3" class="PostList col-md-8 " align="left">
-        <h3>Создать Юзера:</h3>
-        <div  class="btn" style="background-color:rgb(17, 129, 77);color:white;" (click)="togle()">
-            Add User
-        </div>
-        <div *ngIf="ShowForm">
-        
-            <form >
-                <div class="form-group ml-5">
-                    <br> <label>Введите Имя Юзера:<br>
-                    <input [(ngModel)]="Frst_Name" type="text" name="F_Name">
-                  </label>
-                  <br><label>Введите email:<br>
-                    <input [(ngModel)]="Email"  type="text" name="Email">
-                  </label>
-                  <br> <label>создайте пароль:<br>
-                    <input [(ngModel)]="Password"  type="text" name="Password">
-                  </label>
-                 <!-- /* <div class="mt-2">
-                      <span>Дать права админа?</span><br>
-                      <label>
-                        Да
-                        <input type="radio"  ng-model="selectedType" value="0">
-                      </label>
-                      <label>
-                        Нет
-                        <input type="radio"  ng-model="selectedType" value="1">
-                      </label>
-                    </div>*/ -->
-                  <br> <button *ngIf="Password && Email && Frst_Name" class="btn btn-success" (click)="addUser()" >
-                    
-                      Submit
-                  </button>
-                  <button *ngIf="!Password || !Email || !Frst_Name" class="btn btn-warning" >
-                    
-                    Заполните все поля
-                </button>
-                  
-              
-                </div>
-              </form>
-        </div>
-        <div *ngIf="!ShowForm">
-            <div>
-              <p>
-                  Оцените филиал и напишите кратки кометарий!!
-              </p>
-            </div>
-        </div>
-        
-      </div>
 
 
 
-    <div *ngIf="menulink==2" class="PostList2 col-md-8" align="center">
- 
-      <h3>Посмотреть историю отзывов</h3>
+  <div *ngIf="menulink==2" class="PostList2 col-md-9" align="center">
+
+    <h3>Посмотреть историю отзывов</h3>
       <select [ngModel]="selectedPost" name="departemntName"  (change)="onSelect($event.target.value)">
         <option *ngFor="let post of Posts" selected="selected" class="Options" > {{post.Name}} </option>
       </select>
       <div *ngFor="let feedback of feedbacks">
         <p>{{feedback.text}}</p>
       </div>
-       <!-- <div *ngIf="selectedPost">
-        <div class="departmentInfo"><b>Отделение</b>:{{selectedPost.departemntName}}</div>
-        <div class="departmentInfo"><b>Оценка</b>:{{selectedPost.mark}}</div>
-        <div class="departmentInfo"><b>Дата проверки</b>:{{selectedPost.date}}</div>
+
+
+  </div>
+  
+</div>
+<div class="row justify-content-md-center mt-3"   >
+ 
+  <!-- <div class="col-sm-8 " >  -->
+    <!-- <div class="container-fluid " align="center" > -->
+      <!-- <div class="row  " align="center" style="height: auto;"> -->
         
-        <div *ngIf="selectedPost.text" class="departmentInfo">
-          <b>Коментарии</b>:{{selectedPost.text}}
-        </div> 
+        <button class="col-3 btn m-1 ml-0 menu-link" (click)="MenuLink1(1)"><i class="fa fa-envelope fa ml-2"></i></button>
+        <button class="col-3 btn m-1 menu-link" (click)="MenuLink1(2)"><i class="fa fa-calendar ml-2" ></i>
+        </button>
+        <button  *ngIf="admin==1" class="col-3 btn m-1 menu-link" (click)="MenuLink1(3)"><i class="fa fa-users ml-2"></i></button>
+        <!-- <button  class="col-2 btn m-1 menu-link" (click)="MenuLink1(3)"><i class="fa fa-users "></i></button> -->
+        <!-- <button        class="col-2 btn m-1 menu-link" (click)="MenuLink1(4)">w </button> --> 
+      <!-- </div> -->
+    <!-- </div> -->
+  <!-- </div> -->
+</div>
 
-      </div> -->
-
-    </div>
-    
-  </div>
-  <div class="row mt-5">
-    <div class="col-sm-2">
-
-    </div>
-    <div class="col-sm-4">
-
-    </div>
-
-
-  </div>
 </div>
