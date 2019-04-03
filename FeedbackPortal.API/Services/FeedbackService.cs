@@ -20,10 +20,11 @@ namespace FeedbackPortal.API.Services
         {
             feedbacks = new List<Feedback>()
             {
-                new Feedback() {id = 1, date = DateTime.Now, mark = 4, text = "Все очень плохо", departmentId = 1}
+                new Feedback() {id = 1, date = DateTime.Now, mark = 4, text = "Все очень плохо", departmentId = 1,username = "Admin"}
             };
             departments = new List<Department>()
             {
+                new Department(),
                 new Department() {Address = "Бальзака", Department_ID = 1, Name = "Отделение номер 1"},
                 new Department() {Address = "Драйзера", Department_ID = 2, Name = "Отделение номер 2"}
             };

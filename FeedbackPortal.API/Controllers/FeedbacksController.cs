@@ -32,6 +32,7 @@ namespace FeedbackPortal.API.Controllers
         [HttpPost]
         public void Post([FromBody] Feedback feedback)
         {
+            feedback.date = DateTime.Now;
             _feedbackService.AddFeedBack(feedback);
         }
 

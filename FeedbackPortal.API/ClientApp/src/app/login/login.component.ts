@@ -42,6 +42,7 @@ export class LoginComponent implements OnInit {
         if (user.admin === 1) {
           this.admin = 1;
         }
+        localStorage.setItem('Username', this.name);
         console.log(this.admin);
         this.name = null;
         this.email = null;

@@ -47,6 +47,7 @@ export class FeedBackComponent implements OnInit {
   // tslint:disable-next-line:no-shadowed-variable
   onSelect(post: string): void {
     // tslint:disable-next-line:no-unused-expression
+    this.feedbacks = [];
     this.selectedPost = post;
     this.getfeedbacksByDepartmentID(this.Posts.find(x => x.Name === post).Department_ID);
   }
@@ -98,6 +99,7 @@ export class FeedBackComponent implements OnInit {
     Post.departmentId = this.Posts.find(x => x.Name === this.departemntName).Department_ID;
     Post.mark = this.mark;
     Post.text = this.text;
+    Post.username = localStorage.getItem('Username');
     this.service.postCategories(Post).subscribe(() => {
       this.getfeedbacksByDepartmentID(this.Posts.find(x => x.Name === this.selectedPost).Department_ID);
     });

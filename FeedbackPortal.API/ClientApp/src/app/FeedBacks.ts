@@ -5,6 +5,7 @@ export class Feedback {
     text: string;
     date: Date;
     departmentId: number;
+    username: string;
 }
 export class Users {
     id: number;

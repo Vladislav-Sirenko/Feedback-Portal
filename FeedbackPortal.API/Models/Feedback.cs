@@ -16,6 +16,7 @@ namespace FeedbackPortal.API.Models
         public int mark { get; set; }
         public DateTime date { get; set; }
         public int departmentId { get; set; }
+        public string username { get; set; }
 
     }
 }
