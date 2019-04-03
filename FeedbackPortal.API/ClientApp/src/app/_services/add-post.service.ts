@@ -26,4 +26,7 @@ export class AddPostService {
   getFeedbacksByDepartmentId(id: number) {
     return this._http.get<Feedback[]>(this._baseUrl + 'api/Feedbacks/' + id);
   }
+  addDepartment(department: Department) {
+    return this._http.post(this._baseUrl + 'api/Feedbacks/AddDepartment', department);
+  }
 }

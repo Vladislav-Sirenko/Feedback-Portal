@@ -1,9 +1,9 @@
-<div  *ngIf="succsess===1" class="container-fluid mt-3" style="min-height:300px;height:90hv;">
-  <!--  -->
+<div   class="container-fluid mt-3" style="min-height:300px;height:90hv;">
+  <!--*ngIf="succsess===1"  -->
   
 <div   class="row justify-content-md-center" align="center">
   
-  <div *ngIf="menulink==1" class="PostList col-sm-9 " align="left">
+  <div *ngIf="menulink==1" class="PostList col-sm-9 " align="center">
     <h3>Создать отзыв:</h3>
     <div  class="btn" style="background-color:rgb(17, 129, 77);color:white;" (click)="togle()">
         Провести ревизию
@@ -22,7 +22,7 @@
                 <input [(ngModel)]="mark"  type="text" name="Mark">
               </label>
               <br> <label>Введите Коментарий:<br>
-                <input [(ngModel)]="text"  type="text" name="Comment">
+                <input [(ngModel)]="text"   type="text" name="Comment">
               </label >
               <br> <button *ngIf="departemntName && mark && text" class="btn btn-success"  (click)="Submit()" >
                 
@@ -46,7 +46,7 @@
     </div>
     
   </div>
-  <div *ngIf="menulink==3" class="PostList col-md-9 " align="left">
+  <div *ngIf="menulink==3" class="PostList col-md-9 " align="center">
       <h3>Создать Юзера:</h3>
       <div  class="btn" style="background-color:rgb(17, 129, 77);color:white;" (click)="togle()">
           Add User
@@ -108,7 +108,46 @@
       </select>
       <div *ngFor="let feedback of feedbacks">
         <p>{{feedback.text}}</p>
+        <p>{{feedback.date.split('T')[0] + ' ' + feedback.date.split('T')[1].substring(0,8) }}</p>
+        <p>{{feedback.mark}}</p>
       </div>
+
+
+  </div>
+  <div *ngIf="menulink==4" class="PostList2 col-md-9" align="center">
+
+    <h3>Посмотреть историю отзывов</h3>
+    <form >
+      <div class="form-group ml-5">
+          <br> <label>Введите Имя отделения:<br>
+          <input [(ngModel)]="postDepartmentName" type="text" name="postDepartmentName">
+        </label>
+        <br><label>Введите адрес:<br>
+          <input [(ngModel)]="postDepartmentAdress"  type="text" name="postDepartmentAdress">
+        </label>
+       <!-- /* <div class="mt-2">
+            <span>Дать права админа?</span><br>
+            <label>
+              Да
+              <input type="radio"  ng-model="selectedType" value="0">
+            </label>
+            <label>
+              Нет
+              <input type="radio"  ng-model="selectedType" value="1">
+            </label>
+          </div>*/ -->
+        <br> <button *ngIf="postDepartmentName && postDepartmentAdress" class="btn btn-success" (click)="addDepartment()" >
+          
+            Submit
+        </button>
+        <button *ngIf="!postDepartmentName || !postDepartmentAdress" class="btn btn-warning" >
+          
+          Заполните все поля
+      </button>
+        
+    
+      </div>
+    </form>
 
 
   </div>
@@ -120,12 +159,13 @@
     <!-- <div class="container-fluid " align="center" > -->
       <!-- <div class="row  " align="center" style="height: auto;"> -->
         
-        <button class="col-3 btn m-1 ml-0 menu-link" (click)="MenuLink1(1)"><i class="fa fa-envelope fa ml-2"></i></button>
-        <button class="col-3 btn m-1 menu-link" (click)="MenuLink1(2)"><i class="fa fa-calendar ml-2" ></i>
+        <button class="col-2 btn m-1 ml-0 menu-link" (click)="MenuLink1(1)"><i class="fa fa-envelope fa ml-2"></i></button>
+        <button class="col-2 btn m-1 menu-link" (click)="MenuLink1(2)"><i class="fa fa-calendar ml-2" ></i>
         </button>
-        <button  *ngIf="admin==1" class="col-3 btn m-1 menu-link" (click)="MenuLink1(3)"><i class="fa fa-users ml-2"></i></button>
+        <button   class="col-2 btn m-1 menu-link" (click)="MenuLink1(3)"><i class="fa fa-users ml-2"></i></button>
+        <button   class="col-2 btn m-1 menu-link" (click)="MenuLink1(4)"><i class="fa fa-university ml-2"></i></button>
         <!-- <button  class="col-2 btn m-1 menu-link" (click)="MenuLink1(3)"><i class="fa fa-users "></i></button> -->
-        <!-- <button        class="col-2 btn m-1 menu-link" (click)="MenuLink1(4)">w </button> --> 
+        <!-- <button    *ngIf="admin==1"    class="col-2 btn m-1 menu-link" (click)="MenuLink1(4)">w </button> --> 
       <!-- </div> -->
     <!-- </div> -->
   <!-- </div> -->

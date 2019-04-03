@@ -12,6 +12,8 @@ namespace FeedbackPortal.API.Services
         //FeedbackContext context;
         private readonly List<Feedback> feedbacks;
 
+        private static int Department_ID = 3;
+
         private readonly List<Department> departments;
         private readonly List<AuthUser> users;
         public FeedbackService()
@@ -71,6 +73,13 @@ namespace FeedbackPortal.API.Services
         public void AddUser(AuthUser user)
         {
             users.Add(user);
+        }
+
+        public void AddDepartment(Department department)
+        {
+            department.Department_ID = Department_ID;
+            departments.Add(department);
+            Department_ID++;
         }
 
     }

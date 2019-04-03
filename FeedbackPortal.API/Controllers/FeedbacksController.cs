@@ -70,5 +70,10 @@ namespace FeedbackPortal.API.Controllers
         {
             _feedbackService.AddUser(user);
         }
+        [HttpPost("[action]")]
+        public void AddDepartment([FromBody] Department department)
+        {
+            _feedbackService.AddDepartment(department);
+        }
     }
 }

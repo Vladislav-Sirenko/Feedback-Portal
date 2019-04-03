@@ -8,6 +8,7 @@ namespace FeedbackPortal.API.Services
 {
     public interface IFeedBackService
     {
+        void AddDepartment(Department department);
         List<Feedback> GetAll();
         Feedback GetFeedbackById(int id);
         List<Feedback> GetFeedbacksByDepartmentId(int id);

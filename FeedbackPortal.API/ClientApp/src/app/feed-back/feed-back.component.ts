@@ -42,6 +42,8 @@ export class FeedBackComponent implements OnInit {
   Password: string;
   selectedType: number;
   selectedAdmin: number;
+  postDepartmentName: string;
+  postDepartmentAdress: string;
   // tslint:disable-next-line:no-shadowed-variable
   onSelect(post: string): void {
     // tslint:disable-next-line:no-unused-expression
@@ -123,6 +125,22 @@ export class FeedBackComponent implements OnInit {
         console.log(feedbacks);
         this.feedbacks.push(feedbacks[feedback]);
       }
+    });
+  }
+  addDepartment() {
+    const department = new Department(this.postDepartmentName, this.postDepartmentAdress, 1);
+    this.service.addDepartment(department).subscribe(() => {
+      this.service.getCategories().subscribe((posts) => {
+        this.Posts = [];
+        // tslint:disable-next-line:no-shadowed-variable
+        for (const post in posts) {
+          if (post) {
+            this.Posts.push(new Department(posts[post]['name'], posts[post]['address'], posts[post]['department_ID']));
+          }
+        }
+        this.postDepartmentName = null;
+        this.postDepartmentAdress = null;
+      });
     });
   }
 }
