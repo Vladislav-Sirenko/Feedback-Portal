@@ -44,6 +44,7 @@ export class FeedBackComponent implements OnInit {
   selectedAdmin: number;
   postDepartmentName: string;
   postDepartmentAdress: string;
+  isPositive = true;
   // tslint:disable-next-line:no-shadowed-variable
   onSelect(post: string): void {
     // tslint:disable-next-line:no-unused-expression
@@ -60,6 +61,10 @@ export class FeedBackComponent implements OnInit {
   togle() {
 
     this.ShowForm = !this.ShowForm;
+  }
+  isPositiveT(numb:boolean){
+    
+    this.isPositive=numb;
   }
   ngOnInit() {
     this.Posts = [];
@@ -98,7 +103,8 @@ export class FeedBackComponent implements OnInit {
     const Post = new Feedback();
     Post.departmentId = this.Posts.find(x => x.Name === this.departemntName).Department_ID;
     Post.mark = this.mark;
-    Post.text = this.text;
+    Post.text = this.isPositive ? '+' + this.text : '-' + this.text;
+
     Post.username = localStorage.getItem('Username');
     this.service.postCategories(Post).subscribe(() => {
       this.getfeedbacksByDepartmentID(this.Posts.find(x => x.Name === this.selectedPost).Department_ID);

@@ -1,4 +1,4 @@
-<div *ngIf="succsess===1" class="container-fluid mt-3" style="min-height:300px;height:90hv;">
+<div  class="container-fluid mt-3" style="min-height:300px;height:90hv;">
     <!--*ngIf="succsess===1"  -->
   
     <div class="row justify-content-md-center" align="center">
@@ -23,7 +23,16 @@
               </label>
               <br> <label>Введите Коментарий:<br>
                 <input [(ngModel)]="text" type="text" name="Comment">
-              </label>
+              </label><br>
+              <label for="contactChoice1">+</label>
+              <input  type="radio" id="contactChoice1"
+               name="contact" value="true" (click)="isPositiveT(true)">  
+
+            <label for="contactChoice1">-</label>
+
+           <input type="radio" id="contactChoice2"
+            name="contact" value="false" (click)="isPositiveT(false)">
+
               <br> <button *ngIf="departemntName && mark && text" class="btn btn-success" (click)="Submit()">
   
                 Submit
@@ -100,7 +109,7 @@
   
   
   
-      <div *ngIf="menulink==2" class="PostList2 col-md-9" align="center">
+      <div *ngIf="menulink==2" class="PostList2 col-md-10 " align="center">
   
         <h3>Посмотреть историю отзывов</h3>
   
@@ -115,28 +124,29 @@
           </div>
         </div>
   
+        <div style="height:200px;max-height:350px; overflow: scroll;border-radius:5px;overflow-y:scroll;background-color:white;color:black">
+        <div *ngFor="let feedback of feedbacks" class="row border  m-1 " >
   
-        <div *ngFor="let feedback of feedbacks" class="row border m-1">
-  
-          <div class="col-sm-2" align="left">
+          <div class="col-sm-2 col-xsm-8 p-0" align="center">
 
-            <span>Имя<br>{{feedback.username}}</span>
+            <span style="font-size:0.9em;padding: 0;margin: 0"><b>Имя</b><br>{{feedback.username}}</span>
           </div>
-            <div class="col-sm-2" align="left">
-              <span>Дата:<br>{{feedback.date.split('T')[0] + ' ' + feedback.date.split('T')[1].substring(0,8) }}</span>
+            <div class="col-sm-2 col-xsm-5 border-top pl-1" align="left" style="font-size:0.9em;padding: 0">
+              <span><b>Дата:</b><br>{{feedback.date.split('T')[0] + ' ' + feedback.date.split('T')[1].substring(0,8) }}</span>
             </div>
          
-          <div class="col-sm-2 border" align="center">
-          <span class="ml-2 " align="center">Оценка: <br>{{feedback.mark}}</span>
+          <div class="col-sm-2 col-xsm-5 border" align="center">
+          <span class="ml-2 " align="center" style="font-size:0.9em;padding: 0"><b>Оценка:</b> <br>{{feedback.mark}}</span>
         </div>
-          <div class="col-sm-6" align="left">
-            <ul>
-              <li style="font-size:0.8em;padding: 0">
+          <div class="col-sm-6 col-xsm-11 ml-0" align="left" >
+            <ul class="m-0 p-0">
+              <li style="font-size:0.9em;padding: 0">
                 {{feedback.text}}
               </li>
             </ul>
           </div>
         </div>
+      </div>
       
   
   
@@ -191,9 +201,9 @@
     <button class="col-2 btn m-1 ml-0 menu-link" (click)="MenuLink1(1)"><i class="fa fa-envelope fa ml-2"></i></button>
     <button class="col-2 btn m-1 menu-link" (click)="MenuLink1(2)"><i class="fa fa-calendar ml-2"></i>
     </button>
-    <button *ngIf="admin==1" class="col-2 btn m-1 menu-link" (click)="MenuLink1(3)"><i class="fa fa-users ml-2"></i></button>
-    <button *ngIf="admin==1" class="col-2 btn m-1 menu-link" (click)="MenuLink1(4)"><i class="fa fa-university ml-2"></i></button>
-    <!-- <button  class="col-2 btn m-1 menu-link" (click)="MenuLink1(3)"><i class="fa fa-users "></i></button> -->
+    <button  class="col-2 btn m-1 menu-link" (click)="MenuLink1(3)"><i class="fa fa-users ml-2"></i></button>
+    <button  class="col-2 btn m-1 menu-link" (click)="MenuLink1(4)"><i class="fa fa-university ml-2"></i></button>
+    <!-- <button  *ngIf="admin==1" class="col-2 btn m-1 menu-link" (click)="MenuLink1(3)"><i class="fa fa-users "></i></button> -->
     <!-- <button        class="col-2 btn m-1 menu-link" (click)="MenuLink1(4)">w </button> -->
     <!-- </div> -->
     <!-- </div> -->
