@@ -1,10 +1,10 @@
 export class Department {
-    Department_ID: number;
+    Id: number;
     Name: string;
-    Adress: string;
-    constructor(Name: string, Adress: string, Department_ID: number) {
+    Address: string;
+    constructor(Name: string, Address: string, Department_ID: number) {
         this.Name = Name;
-        this.Adress = Adress;
-        this.Department_ID = Department_ID;
+        this.Address = Address;
+        this.Id = Department_ID;
     }
 }

@@ -50,7 +50,7 @@ export class FeedBackComponent implements OnInit {
     // tslint:disable-next-line:no-unused-expression
     this.feedbacks = [];
     this.selectedPost = post;
-    this.getfeedbacksByDepartmentID(this.Posts.find(x => x.Name === post).Department_ID);
+    this.getfeedbacksByDepartmentID(this.Posts.find(x => x.Name === post).Id);
   }
   // tslint:disable-next-line:no-shadowed-variable
   onChange(post: string) {
@@ -73,7 +73,7 @@ export class FeedBackComponent implements OnInit {
       // tslint:disable-next-line:no-shadowed-variable
       for (const post in posts) {
         if (post) {
-          this.Posts.push(new Department(posts[post]['name'], posts[post]['address'], posts[post]['department_ID']));
+          this.Posts.push(new Department(posts[post]['name'], posts[post]['address'], posts[post]['id']));
         }
       }
     });
@@ -101,13 +101,13 @@ export class FeedBackComponent implements OnInit {
 
   Submit() {
     const Post = new Feedback();
-    Post.departmentId = this.Posts.find(x => x.Name === this.departemntName).Department_ID;
+    Post.departmentId = this.Posts.find(x => x.Name === this.departemntName).Id;
     Post.mark = this.mark;
     Post.text = this.isPositive ? '+ ' + this.text : '- ' + this.text;
 
     Post.username = localStorage.getItem('Username');
     this.service.postCategories(Post).subscribe(() => {
-      this.getfeedbacksByDepartmentID(this.Posts.find(x => x.Name === this.selectedPost).Department_ID);
+      this.getfeedbacksByDepartmentID(this.Posts.find(x => x.Name === this.selectedPost).Id);
     });
     this.departemntName = '';
     this.mark = null;
@@ -143,7 +143,7 @@ export class FeedBackComponent implements OnInit {
         // tslint:disable-next-line:no-shadowed-variable
         for (const post in posts) {
           if (post) {
-            this.Posts.push(new Department(posts[post]['name'], posts[post]['address'], posts[post]['department_ID']));
+            this.Posts.push(new Department(posts[post]['name'], posts[post]['address'], posts[post]['id']));
           }
         }
         this.postDepartmentName = null;

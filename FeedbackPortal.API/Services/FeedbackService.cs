@@ -9,78 +9,61 @@ namespace FeedbackPortal.API.Services
 {
     public class FeedbackService : IFeedBackService
     {
-        //FeedbackContext context;
-        private readonly List<Feedback> feedbacks;
-
-        private static int Department_ID = 3;
-
-        private readonly List<Department> departments;
-        private readonly List<AuthUser> users;
-        public FeedbackService()
+        private readonly FeedbackContext _context;
+        public FeedbackService(FeedbackContext context)
         {
-            feedbacks = new List<Feedback>()
-            {
-                new Feedback() {id = 1, date = new DateTime(2019,4,3,14,10,10), mark = 4, text = "Тип отправки получение пакет Время в отделении 3 минуты без очереди, фасад урна и дверь разбитая без ручки, уфо на полу, порядок, чисто, приятный оператор, удобные вывески с дороги", departmentId = 1,username = "Admin"}
-            };
-            departments = new List<Department>()
-            {
-                new Department(),
-                new Department() {Address = "Бальзака", Department_ID = 1, Name = "Отделение номер 1"},
-                new Department() {Address = "Драйзера", Department_ID = 2, Name = "Отделение номер 2"}
-            };
-            users = new List<AuthUser>()
-            {
-                new AuthUser() {id = 1, admin = 1, email = "admin@ukr.net", first_name = "Admin", password = "123"}
-            };
-
+            _context = context;
         }
 
         public List<AuthUser> GetUsers()
         {
-            return users;
+            return _context.AuthUsers.ToList();
         }
         public void AddFeedBack(Feedback feedback)
         {
-            feedbacks.Add(feedback);
-         
+            feedback.authUserId = _context.AuthUsers.FirstOrDefault(x => x.first_name == feedback.username).id;
+            _context.Feedbacks.Add(feedback);
+            _context.SaveChanges();
         }
 
         public void DeleteFeedBack(int id)
         {
-            var feedback = feedbacks.First(x => x.id == id);
-            feedbacks.Remove(feedback);
+            var feedback = _context.Feedbacks.First(x => x.id == id);
+            _context.Feedbacks.Remove(feedback);
+            _context.SaveChanges();
         }
 
         public List<Feedback> GetAll()
         {
-            return feedbacks;
+            return _context.Feedbacks.ToList();
         }
 
         public List<Feedback> GetFeedbacksByDepartmentId(int id)
         {
-            return feedbacks.Where(x => x.departmentId == id).ToList();
+            return _context.Feedbacks.Where(x => x.departmentId == id).ToList();
         }
 
         public List<Department> GetDepartments()
         {
-            return departments;
+            return _context.Departments.ToList();
         }
 
         public Feedback GetFeedbackById(int id)
         {
-            return feedbacks.First(x => x.id == id);
+            return _context.Feedbacks.First(x => x.id == id);
         }
 
         public void AddUser(AuthUser user)
         {
-            users.Add(user);
+            _context.AuthUsers.Add(user);
+            _context.SaveChanges();
         }
 
         public void AddDepartment(Department department)
         {
-            department.Department_ID = Department_ID;
-            departments.Add(department);
-            Department_ID++;
+            department.Id = 0;
+            _context.Departments.Add(department);
+            _context.SaveChanges();
         }
 
     }

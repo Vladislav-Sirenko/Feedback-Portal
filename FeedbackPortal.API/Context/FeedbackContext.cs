@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace FeedbackPortal.API.Context
 {
-    public class FeedbackContext: IdentityDbContext
+    public class FeedbackContext: DbContext
     {
         public FeedbackContext(DbContextOptions<FeedbackContext> options):base(options) 
         {
-            Database.EnsureCreated();
         }
+        public DbSet<AuthUser> AuthUsers { get; set; }
         public DbSet<Feedback> Feedbacks { get; set; }
         public DbSet<Department> Departments{ get; set; }
     }

@@ -10,7 +10,7 @@ namespace FeedbackPortal.API.Models
     public class Department
     {
         [Key]
-        public int Department_ID { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Address { get; set; }
         public ICollection<Feedback> Feedbacks { get; set; }

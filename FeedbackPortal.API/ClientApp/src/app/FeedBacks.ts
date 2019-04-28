@@ -7,6 +7,7 @@ export class Feedback {
     departmentId: number;
     username: string;
     ispositive: boolean;
+    authUserId:number;
 }
 export class Users {
     id: number;

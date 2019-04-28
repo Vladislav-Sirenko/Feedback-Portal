@@ -18,6 +18,7 @@ namespace FeedbackPortal.API.Models
         public int departmentId { get; set; }
         public string username { get; set; }
         public bool ispositive { get; set; }
+        public int authUserId { get; set; }
 
     }
 }
