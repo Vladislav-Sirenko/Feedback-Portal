@@ -1,4 +1,4 @@
-<div  class="container-fluid mt-3" style="min-height:300px;height:90hv;">
+<div *ngIf="succsess===1"  class="container-fluid mt-3" style="min-height:300px;height:90hv;">
     <!--*ngIf="succsess===1"  -->
   
     <div class="row justify-content-md-center" align="center">
@@ -17,7 +17,19 @@
                   <option *ngFor="let post of Posts" selected="selected" class="Options"> {{post.Name}} </option>
                 </select>
               </label>
+              
+              <br><label>Введите время отправки:<br>
+                <input [(ngModel)]="dispatch_time" type="text" name="dispatch_time">
+              </label>
   
+              <br><label>Введите время прибытия:<br>
+                <input [(ngModel)]="arrived_time" type="text" name="arrived_time">
+              </label>
+              
+              <br><label>Введите время в отделении:<br>
+                <input [(ngModel)]="department_time" type="text" name="department_time">
+              </label>
+
               <br><label>Введите Оценку:<br>
                 <input [(ngModel)]="mark" type="text" name="Mark">
               </label>
@@ -201,8 +213,8 @@
     <button class="col-2 btn m-1 ml-0 menu-link" (click)="MenuLink1(1)"><i class="fa fa-envelope fa ml-2"></i></button>
     <button class="col-2 btn m-1 menu-link" (click)="MenuLink1(2)"><i class="fa fa-calendar ml-2"></i>
     </button>
-    <button  class="col-2 btn m-1 menu-link" (click)="MenuLink1(3)"><i class="fa fa-users ml-2"></i></button>
-    <button  class="col-2 btn m-1 menu-link" (click)="MenuLink1(4)"><i class="fa fa-university ml-2"></i></button>
+    <button  *ngIf="admin==1" class="col-2 btn m-1 menu-link" (click)="MenuLink1(3)"><i class="fa fa-users ml-2"></i></button>
+    <button *ngIf="admin==1"  class="col-2 btn m-1 menu-link" (click)="MenuLink1(4)"><i class="fa fa-university ml-2"></i></button>
     <!-- <button  *ngIf="admin==1" class="col-2 btn m-1 menu-link" (click)="MenuLink1(3)"><i class="fa fa-users "></i></button> -->
     <!-- <button        class="col-2 btn m-1 menu-link" (click)="MenuLink1(4)">w </button> -->
     <!-- </div> -->

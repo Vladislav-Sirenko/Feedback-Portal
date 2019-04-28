@@ -62,9 +62,9 @@ export class FeedBackComponent implements OnInit {
 
     this.ShowForm = !this.ShowForm;
   }
-  isPositiveT(numb:boolean){
-    
-    this.isPositive=numb;
+  isPositiveT(numb: boolean) {
+
+    this.isPositive = numb;
   }
   ngOnInit() {
     this.Posts = [];
@@ -103,7 +103,7 @@ export class FeedBackComponent implements OnInit {
     const Post = new Feedback();
     Post.departmentId = this.Posts.find(x => x.Name === this.departemntName).Department_ID;
     Post.mark = this.mark;
-    Post.text = this.isPositive ? '+' + this.text : '-' + this.text;
+    Post.text = this.isPositive ? '+ ' + this.text : '- ' + this.text;
 
     Post.username = localStorage.getItem('Username');
     this.service.postCategories(Post).subscribe(() => {
