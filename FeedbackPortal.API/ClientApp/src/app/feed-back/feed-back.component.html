@@ -1,16 +1,16 @@
-<div *ngIf="succsess===1"  class="container-fluid mt-3" style="min-height:300px;height:90hv;">
+<div  *ngIf="succsess===1" class="container-fluid mt-3" style="min-height:300px;height:90hv;">
     <!--*ngIf="succsess===1"  -->
   
     <div class="row justify-content-md-center" align="center">
   
-      <div *ngIf="menulink==1" class="PostList col-sm-9 " align="center">
+      <div *ngIf="menulink==1" class="PostList col-sm-9 " >
         <h3>Создать отзыв:</h3>
         <div class="btn" style="background-color:rgb(17, 129, 77);color:white;" (click)="togle()">
           Провести ревизию
         </div>
         <div *ngIf="ShowForm">
   
-          <form>
+          <!-- <form> -->
             <div class="form-group">
               <br> <label>Введите название филиала:<br>
                 <select [ngModel]="departemntName" name="departemntName" (change)="onChange($event.target.value)">
@@ -18,7 +18,7 @@
                 </select>
               </label>
               
-              <br><label>Введите время отправки:<br>
+              <!-- <br><label>Введите время отправки:<br>
                 <input [(ngModel)]="dispatch_time" type="text" name="dispatch_time">
               </label>
   
@@ -28,22 +28,22 @@
               
               <br><label>Введите время в отделении:<br>
                 <input [(ngModel)]="department_time" type="text" name="department_time">
-              </label>
+              </label> -->
 
               <br><label>Введите Оценку:<br>
                 <input [(ngModel)]="mark" type="text" name="Mark">
               </label>
               <br> <label>Введите Коментарий:<br>
-                <input [(ngModel)]="text" type="text" name="Comment">
+                <input [(ngModel)]="text" class="input" type="text" name="Comment">
               </label><br>
-              <label for="contactChoice1">+</label>
+              <!-- <label for="contactChoice1">+</label>
               <input  type="radio" id="contactChoice1"
                name="contact" value="true" (click)="isPositiveT(true)">  
 
             <label for="contactChoice1">-</label>
 
            <input type="radio" id="contactChoice2"
-            name="contact" value="false" (click)="isPositiveT(false)">
+            name="contact" value="false" (click)="isPositiveT(false)"> -->
 
               <br> <button *ngIf="departemntName && mark && text" class="btn btn-success" (click)="Submit()">
   
@@ -56,7 +56,7 @@
   
   
             </div>
-          </form>
+          <!-- </form> -->
         </div>
         <div *ngIf="!ShowForm">
           <div>
@@ -136,16 +136,16 @@
           </div>
         </div>
   
-        <div style="height:200px;max-height:350px; overflow: scroll;border-radius:5px;overflow-y:scroll;background-color:white;color:black">
+        <div class="feadbacksList" >
         <div *ngFor="let feedback of feedbacks" class="row border  m-1 " >
   
           <div class="col-sm-2 col-xsm-8 p-0" align="center">
 
             <span style="font-size:0.9em;padding: 0;margin: 0"><b>Имя</b><br>{{feedback.username}}</span>
           </div>
-            <div class="col-sm-2 col-xsm-5 border-top pl-1" align="left" style="font-size:0.9em;padding: 0">
+            <!-- <div class="col-sm-2 col-xsm-5 border-top pl-1" align="left" style="font-size:0.9em;padding: 0">
               <span><b>Дата:</b><br>{{feedback.date.split('T')[0] + ' ' + feedback.date.split('T')[1].substring(0,8) }}</span>
-            </div>
+            </div> -->
          
           <div class="col-sm-2 col-xsm-5 border" align="center">
           <span class="ml-2 " align="center" style="font-size:0.9em;padding: 0"><b>Оценка:</b> <br>{{feedback.mark}}</span>
@@ -204,17 +204,17 @@
     </div>
   
   </div>
-  <div class="row justify-content-md-center mt-3">
+  <div id="footer" class="row justify-content-center mt-3 footer navbar-fixed-bottom">
   
     <!-- <div class="col-sm-8 " >  -->
     <!-- <div class="container-fluid " align="center" > -->
     <!-- <div class="row  " align="center" style="height: auto;"> -->
   
-    <button class="col-2 btn m-1 ml-0 menu-link" (click)="MenuLink1(1)"><i class="fa fa-envelope fa ml-2"></i></button>
-    <button class="col-2 btn m-1 menu-link" (click)="MenuLink1(2)"><i class="fa fa-calendar ml-2"></i>
+    <button class="col-2 btn m-2 ml-0 menu-link" (click)="MenuLink1(1)"><i class="fa fa-envelope fa ml-2"></i></button>
+    <button class="col-2 btn m-2 menu-link" (click)="MenuLink1(2)"><i class="fa fa-calendar ml-2"></i>
     </button>
-    <button  *ngIf="admin==1" class="col-2 btn m-1 menu-link" (click)="MenuLink1(3)"><i class="fa fa-users ml-2"></i></button>
-    <button *ngIf="admin==1"  class="col-2 btn m-1 menu-link" (click)="MenuLink1(4)"><i class="fa fa-university ml-2"></i></button>
+    <button  *ngIf="admin==1" class="col-2 btn m-2 menu-link" (click)="MenuLink1(3)"><i class="fa fa-users ml-2"></i></button>
+    <button  *ngIf="admin==1" class="col-2 btn m-2 menu-link" (click)="MenuLink1(4)"><i class="fa fa-university ml-2"></i></button>
     <!-- <button  *ngIf="admin==1" class="col-2 btn m-1 menu-link" (click)="MenuLink1(3)"><i class="fa fa-users "></i></button> -->
     <!-- <button        class="col-2 btn m-1 menu-link" (click)="MenuLink1(4)">w </button> -->
     <!-- </div> -->
