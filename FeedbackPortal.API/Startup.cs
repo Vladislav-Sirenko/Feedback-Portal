@@ -32,7 +32,8 @@ namespace FeedbackPortal.API
                 configuration.RootPath = "ClientApp/dist";
             });
             services.AddDbContext<FeedbackContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("FeedbackDatabase")));
+            options.UseSqlServer(Configuration.GetConnectionString("MyDbConnection")));
+            services.BuildServiceProvider().GetService<FeedbackContext>().Database.Migrate();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
