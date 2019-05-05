@@ -1,8 +1,16 @@
 .menu-link{
     background-color: #be2b2b;
     cursor: pointer;
-    border-left:1px solid #181815;
-    border-right:1px solid #181815;
+    border-left:1px solid #a70f0f;
+    border-right:1px solid #721505;
+    height:auto;
+    color: #FFF;
+}
+.menu-link:active{
+    background-color: #c53d3d;
+    cursor: pointer;
+    border-left:2px solid #7a0a0a;
+    border-right:2px solid #7a0a0a;
     height:auto;
     color: #FFF;
 }
@@ -75,4 +83,8 @@ input{
     border-radius:5px;
     min-width:250px;
    
+}
+#footer{
+    background-color: rgba(212, 212, 212, 0.637);
+    
 }
