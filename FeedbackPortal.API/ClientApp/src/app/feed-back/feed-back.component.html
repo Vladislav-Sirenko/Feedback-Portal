@@ -13,9 +13,7 @@
           <!-- <form> -->
             <div class="form-group">
               <br> <label>Введите название филиала:<br>
-                <select [ngModel]="departemntName" name="departemntName" (change)="onChange($event.target.value)">
-                  <option *ngFor="let post of Posts" selected="selected" class="Options"> {{post.Name}} </option>
-                </select>
+        <ngx-select-dropdown (change)="onSelect($event.value)" [multiple]="false" [ngModel]="selectedPost" [config]="config" [options]="Posts" ></ngx-select-dropdown>
               </label>
               
                <!-- <br><label>Введите время отправки:<br>
