@@ -20,11 +20,12 @@ namespace FeedbackPortal.API.Services
         {
             return _context.AuthUsers.ToList();
         }
-        public void AddFeedBack(Feedback feedback)
+        public int AddFeedBack(Feedback feedback)
         {
             feedback.authUserId = _context.AuthUsers.FirstOrDefault(x => x.first_name == feedback.username).id;
             _context.Feedbacks.Add(feedback);
             _context.SaveChanges();
+            return _context.Feedbacks.FirstOrDefault(x => x.departmentId == feedback.departmentId && x.date == feedback.date).id;
         }
 
         public void DeleteFeedBack(int id)
@@ -66,10 +67,9 @@ namespace FeedbackPortal.API.Services
             _context.Departments.Add(department);
             _context.SaveChanges();
         }
-        public void AddImage(string image,string Id)
+        public void AddImage(string image,int Id)
         {
-            int id = Convert.ToInt32(Id);
-            var feedback = _context.Feedbacks.FirstOrDefault(x => x.id == id);
+            var feedback = _context.Feedbacks.FirstOrDefault(x => x.id == Id);
             if (feedback != null)
             {
                 feedback.photo = image;

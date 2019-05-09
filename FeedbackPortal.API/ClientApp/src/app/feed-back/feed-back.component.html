@@ -126,11 +126,7 @@
   
         <h3>Посмотреть историю отзывов</h3>
   
-  
-  
-        <select [ngModel]="selectedPost" name="departemntName" (change)="onSelect($event.target.value)">
-          <option *ngFor="let post of Posts" selected="selected" class="Options"> {{post.Name}} </option>
-        </select>
+        <ngx-select-dropdown (change)="onSelect($event.value)" [multiple]="false" [ngModel]="selectedPost" [config]="config" [options]="Posts" ></ngx-select-dropdown>
         <div class="">
           <div class="col-sm">
   
@@ -147,7 +143,7 @@
             <div class="col-sm-2 col-xsm-5 border-left border-right pl-1" align="left" style="font-size:0.9em;padding: 0">
               <span><b>Дата:</b><br>{{feedback.date.split('T')[0] + ' ' + feedback.date.split('T')[1].substring(0,8) }}</span>
             </div>
-         
+            <img src="data:image/jpeg;base64,{{feedback.photo}}" />
           <div class="col-sm-2 col-xsm-5 border-right" align="center">
           <span class="ml-2 " align="center" style="font-size:0.9em;padding: 0"><b>Оценка:</b> <br>{{feedback.mark}}</span>
         </div>

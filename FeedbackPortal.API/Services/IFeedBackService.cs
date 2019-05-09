@@ -13,10 +13,10 @@ namespace FeedbackPortal.API.Services
         Feedback GetFeedbackById(int id);
         List<Feedback> GetFeedbacksByDepartmentId(int id);
         List<Department> GetDepartments();
-        void AddFeedBack(Feedback feedback);
+        int AddFeedBack(Feedback feedback);
         void DeleteFeedBack(int id);
         List<AuthUser> GetUsers();
         void AddUser(AuthUser user);
-        void AddImage(string image,string Id);
+        void AddImage(string image,int Id);
     }
 }

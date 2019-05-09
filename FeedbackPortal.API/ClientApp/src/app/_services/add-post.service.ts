@@ -15,7 +15,7 @@ import 'rxjs/add/operator/map'
 )
 export class AddPostService {
   _baseUrl: string;
-  private _feedbackAdded =  new Subject<void>();
+  private _feedbackAdded =  new Subject<number>();
   public feedbackAdded = this._feedbackAdded.asObservable();
   constructor(private _http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this._baseUrl = baseUrl;
@@ -33,8 +33,7 @@ export class AddPostService {
     return this._http.post(this._baseUrl + 'api/Feedbacks/AddDepartment', department);
   }
 
-  postFile(fileToUpload: File): Observable<boolean> {
-    const id = sessionStorage.getItem('ID');
+  postFile(fileToUpload: File,id:number): Observable<boolean> {
     sessionStorage.removeItem('ID');
     const endpoint = this._baseUrl + 'api/Feedbacks/' + id + '/UploadFile';
     const formData: FormData = new FormData();
@@ -44,7 +43,7 @@ export class AddPostService {
       .map(() => { return true; })
      // .catch((e) => this.handleError(e));
 }
-postFileEvent(){
-  this._feedbackAdded.next();
+postFileEvent(id:number){
+  this._feedbackAdded.next(id);
 }
 }

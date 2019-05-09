@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
@@ -12,7 +11,8 @@ import { FeedbackService } from './feedback.service';
 import { AuthUserService } from './_services/auth-user.service';
 import { ChangePageService } from './_services/change-page.service';
 import { FileUploadComponent } from './file-upload/file-upload.component';
-
+import { SelectDropDownModule } from 'ngx-select-dropdown'
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -24,6 +24,7 @@ import { FileUploadComponent } from './file-upload/file-upload.component';
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
+    SelectDropDownModule,
     FormsModule,
     RouterModule.forRoot([
      

@@ -32,10 +32,10 @@ namespace FeedbackPortal.API.Controllers
 
         // POST: api/Feedbacks
         [HttpPost]
-        public void Post([FromBody] Feedback feedback)
+        public int Post([FromBody] Feedback feedback)
         {
             feedback.date = DateTime.Now;
-            _feedbackService.AddFeedBack(feedback);
+          return _feedbackService.AddFeedBack(feedback);
         }
 
         // PUT: api/Feedbacks/5
@@ -80,7 +80,7 @@ namespace FeedbackPortal.API.Controllers
         }
 
         [HttpPost("{id}/UploadFile")]
-        public HttpResponseMessage UploadFile(string id)
+        public HttpResponseMessage UploadFile(int id)
         {
             HttpResponseMessage response = new HttpResponseMessage();
             var files = HttpContext.Request.Form.Files;

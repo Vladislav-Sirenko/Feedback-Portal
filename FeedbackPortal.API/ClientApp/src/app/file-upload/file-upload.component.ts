@@ -11,8 +11,8 @@ export class FileUploadComponent implements OnInit {
   constructor(private service: AddPostService, ) { }
 
   ngOnInit() {
-    this.service.feedbackAdded.subscribe(()=>{
-      this.service.postFile(this.fileToUpload).subscribe();
+    this.service.feedbackAdded.subscribe((id)=>{
+      this.service.postFile(this.fileToUpload,id).subscribe();
     })
   }
 

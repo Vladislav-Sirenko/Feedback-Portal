@@ -4,10 +4,13 @@ import { post } from 'selenium-webdriver/http';
 import { AddPostService } from '../_services/add-post.service';
 import { ChangePageService } from '../_services/change-page.service';
 // tslint:disable-next-line:import-blacklist
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 
 import { AuthUserService } from '../_services/auth-user.service';
 import { Department } from '../department.model';
+import { FormControl } from '@angular/forms';
+import { startWith } from 'rxjs/operator/startWith';
+import { map } from 'rxjs/operator/map';
 
 @Component({
   selector: 'app-feed-back',
@@ -33,10 +36,9 @@ export class FeedBackComponent implements OnInit {
   text: string;
   date: Date;
   departemntName: string;
-  selectedPost: string;
+  selectedPost: Department;
   menulink: number = null;
   feedbacks: Feedback[] = [];
-  /////////////////////////////////
   Frst_Name: string;
   Email: string;
   Password: string;
@@ -45,12 +47,25 @@ export class FeedBackComponent implements OnInit {
   postDepartmentName: string;
   postDepartmentAdress: string;
   isPositive = true;
+  config = {
+    displayKey:"Name",
+    search:true,
+    height: '500px',
+    overflow:'hidden',
+    placeholder:'Select',
+    customComparator: ()=>{},
+    limitTo: this.Posts.length,
+    moreText: 'more',
+    noResultsFound: 'No results found!',
+    searchPlaceholder:'Search',
+    searchOnKey: 'Name'
+  }
   // tslint:disable-next-line:no-shadowed-variable
-  onSelect(post: string): void {
+  onSelect(post: Department): void {
     // tslint:disable-next-line:no-unused-expression
     this.feedbacks = [];
     this.selectedPost = post;
-    this.getfeedbacksByDepartmentID(this.Posts.find(x => x.Name === post).Id);
+    this.getfeedbacksByDepartmentID(this.selectedPost.Id);
   }
   // tslint:disable-next-line:no-shadowed-variable
   onChange(post: string) {
@@ -79,6 +94,7 @@ export class FeedBackComponent implements OnInit {
     });
 
   }
+
   MenuLink1(choise: number) {
     this.menulink = choise;
     console.log(choise);
@@ -104,13 +120,11 @@ export class FeedBackComponent implements OnInit {
     Post.departmentId = this.Posts.find(x => x.Name === this.departemntName).Id;
     Post.mark = this.mark;
     Post.text = this.isPositive ? '+ ' + this.text : '- ' + this.text;
-
     Post.username = localStorage.getItem('Username');
-    this.service.postCategories(Post).subscribe(() => {
-      sessionStorage.setItem('ID',this.Posts.find(x => x.Name === this.selectedPost).Id.toString());
-      this.service.postFileEvent();
-      this.getfeedbacksByDepartmentID(this.Posts.find(x => x.Name === this.selectedPost).Id);
-      
+    this.service.postCategories(Post).subscribe((id: number) => {
+      this.service.postFileEvent(id);
+      this.getfeedbacksByDepartmentID(this.selectedPost.Id);
+
     });
     this.departemntName = '';
     this.mark = null;
