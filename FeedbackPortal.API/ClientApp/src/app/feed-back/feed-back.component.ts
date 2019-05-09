@@ -107,7 +107,10 @@ export class FeedBackComponent implements OnInit {
 
     Post.username = localStorage.getItem('Username');
     this.service.postCategories(Post).subscribe(() => {
+      sessionStorage.setItem('ID',this.Posts.find(x => x.Name === this.selectedPost).Id.toString());
+      this.service.postFileEvent();
       this.getfeedbacksByDepartmentID(this.Posts.find(x => x.Name === this.selectedPost).Id);
+      
     });
     this.departemntName = '';
     this.mark = null;

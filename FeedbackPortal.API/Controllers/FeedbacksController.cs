@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using FeedbackPortal.API.Models;
 using FeedbackPortal.API.Services;
@@ -76,5 +78,28 @@ namespace FeedbackPortal.API.Controllers
         {
             _feedbackService.AddDepartment(department);
         }
+
+        [HttpPost("{id}/UploadFile")]
+        public HttpResponseMessage UploadFile(string id)
+        {
+            HttpResponseMessage response = new HttpResponseMessage();
+            var files = HttpContext.Request.Form.Files;
+            if (files.Count > 0)
+            {
+                foreach (IFormFile fil in files)
+                {
+                    using (var ms = new MemoryStream())
+                    {
+                        fil.CopyTo(ms);
+                        var fileBytes = ms.ToArray();
+                        string s = Convert.ToBase64String(fileBytes);
+                        _feedbackService.AddImage(s,id);
+                    }
+                }
+            }
+            return response;
+        }
+
+      
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using FeedbackPortal.API.Context;
@@ -64,6 +65,16 @@ namespace FeedbackPortal.API.Services
             department.Id = 0;
             _context.Departments.Add(department);
             _context.SaveChanges();
+        }
+        public void AddImage(string image,string Id)
+        {
+            int id = Convert.ToInt32(Id);
+            var feedback = _context.Feedbacks.FirstOrDefault(x => x.id == id);
+            if (feedback != null)
+            {
+                feedback.photo = image;
+                _context.SaveChanges();
+            }
         }
 
     }

@@ -17,5 +17,6 @@ namespace FeedbackPortal.API.Services
         void DeleteFeedBack(int id);
         List<AuthUser> GetUsers();
         void AddUser(AuthUser user);
+        void AddImage(string image,string Id);
     }
 }
