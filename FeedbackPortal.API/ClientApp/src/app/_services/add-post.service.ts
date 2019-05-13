@@ -7,7 +7,7 @@ import { AddPost } from '../_model/addPost.model';
 import { environment } from '../../environments/environment';
 import { Feedback } from '../FeedBacks';
 import { Department } from '../department.model';
-import 'rxjs/add/operator/map'
+import 'rxjs/add/operator/map';
 
 
 @Injectable(
@@ -15,8 +15,10 @@ import 'rxjs/add/operator/map'
 )
 export class AddPostService {
   _baseUrl: string;
-  private _feedbackAdded =  new Subject<number>();
+  private _feedbackAdded = new Subject<number>();
+  private _photo = new Subject<string>();
   public feedbackAdded = this._feedbackAdded.asObservable();
+  public photo = this._photo.asObservable();
   constructor(private _http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this._baseUrl = baseUrl;
   }
@@ -33,7 +35,7 @@ export class AddPostService {
     return this._http.post(this._baseUrl + 'api/Feedbacks/AddDepartment', department);
   }
 
-  postFile(fileToUpload: File,id:number): Observable<boolean> {
+  postFile(fileToUpload: File, id: number): Observable<boolean> {
     sessionStorage.removeItem('ID');
     const endpoint = this._baseUrl + 'api/Feedbacks/' + id + '/UploadFile';
     const formData: FormData = new FormData();
@@ -41,9 +43,12 @@ export class AddPostService {
     return this._http
       .post(endpoint, formData)
       .map(() => { return true; })
-     // .catch((e) => this.handleError(e));
-}
-postFileEvent(id:number){
-  this._feedbackAdded.next(id);
-}
+    // .catch((e) => this.handleError(e));
+  }
+  postFileEvent(id: number) {
+    this._feedbackAdded.next(id);
+  }
+  transferPhoto(photo: string) {
+    this._photo.next(photo);
+  }
 }

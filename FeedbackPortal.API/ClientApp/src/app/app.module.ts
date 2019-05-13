@@ -11,15 +11,17 @@ import { FeedbackService } from './feedback.service';
 import { AuthUserService } from './_services/auth-user.service';
 import { ChangePageService } from './_services/change-page.service';
 import { FileUploadComponent } from './file-upload/file-upload.component';
-import { SelectDropDownModule } from 'ngx-select-dropdown'
+import { SelectDropDownModule } from 'ngx-select-dropdown';
 import { FormsModule } from '@angular/forms';
+import { PhotoComponent } from './photo/photo.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     FeedBackComponent,
-    FileUploadComponent
+    FileUploadComponent,
+    PhotoComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -27,10 +29,10 @@ import { FormsModule } from '@angular/forms';
     SelectDropDownModule,
     FormsModule,
     RouterModule.forRoot([
-     
+      { path: 'photo', component: PhotoComponent }
     ])
   ],
-  providers: [AddPostService,FeedbackService,AuthUserService,ChangePageService],
+  providers: [AddPostService, FeedbackService, AuthUserService, ChangePageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

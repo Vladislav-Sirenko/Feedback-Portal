@@ -11,6 +11,7 @@ import { Department } from '../department.model';
 import { FormControl } from '@angular/forms';
 import { startWith } from 'rxjs/operator/startWith';
 import { map } from 'rxjs/operator/map';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-feed-back',
@@ -24,7 +25,9 @@ export class FeedBackComponent implements OnInit {
   subscription: Subscription;
   succsess: number;
   admin: number;
-  constructor(private service: AddPostService, private ChangeP: ChangePageService, private addUsers: AuthUserService) {
+  photo: string;
+  constructor(private service: AddPostService, private roouter: Router,
+    private ChangeP: ChangePageService, private addUsers: AuthUserService) {
     this.subscription = this.ChangeP.getsetchangePager().subscribe(number => { this.succsess = number; });
     this.subscription = this.ChangeP.getUserValue().subscribe(user => { this.admin = user; });
   }
@@ -48,18 +51,18 @@ export class FeedBackComponent implements OnInit {
   postDepartmentAdress: string;
   isPositive = true;
   config = {
-    displayKey:"Name",
-    search:true,
+    displayKey: 'Name',
+    search: true,
     height: '500px',
-    overflow:'hidden',
-    placeholder:'Select',
-    customComparator: ()=>{},
+    overflow: 'hidden',
+    placeholder: 'Select',
+    customComparator: () => { },
     limitTo: this.Posts.length,
     moreText: 'more',
     noResultsFound: 'No results found!',
-    searchPlaceholder:'Search',
+    searchPlaceholder: 'Search',
     searchOnKey: 'Name'
-  }
+  };
   // tslint:disable-next-line:no-shadowed-variable
   onSelect(post: Department): void {
     // tslint:disable-next-line:no-unused-expression
@@ -167,5 +170,13 @@ export class FeedBackComponent implements OnInit {
         this.postDepartmentAdress = null;
       });
     });
+  }
+  getPhoto(photo: string) {
+    this.photo = photo;
+    this.roouter.navigate(['photo']);
+    this.service.transferPhoto(photo);
+  }
+  inPhotoMode(): boolean {
+    return window.location.href.includes('/photo');
   }
 }

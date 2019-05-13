@@ -1,22 +1,23 @@
-<div *ngIf="succsess===1" class="container-fluid mt-3" style="min-height:300px;height:90hv;">
-    <!--*ngIf="succsess===1"  -->
-  
-    <div class="row justify-content-md-center" align="center">
-  
-      <div *ngIf="menulink==1" class="PostList col-sm-10 " >
-        <h3>Создать отзыв:</h3>
-        <div class="btn" style="background-color:rgb(17, 129, 77);color:white;" (click)="togle()">
-          Провести ревизию
-        </div>
-        <div *ngIf="ShowForm">
-  
-          <!-- <form> -->
-            <div class="form-group">
-              <br> <label>Введите название филиала:<br>
-        <ngx-select-dropdown (change)="onSelect($event.value)" [multiple]="false" [ngModel]="selectedPost" [config]="config" [options]="Posts" ></ngx-select-dropdown>
+<div *ngIf="!inPhotoMode()">
+    <div *ngIf="succsess===1" class="container-fluid mt-3" style="min-height:300px;height:90hv;">
+        <!--*ngIf="succsess===1"  -->
+
+        <div class="row justify-content-md-center" align="center">
+
+            <div *ngIf="menulink==1" class="PostList col-sm-10 ">
+                <h3>Создать отзыв:</h3>
+                <div class="btn" style="background-color:rgb(17, 129, 77);color:white;" (click)="togle()">
+                    Провести ревизию
+                </div>
+                <div *ngIf="ShowForm">
+
+                    <!-- <form> -->
+                    <div class="form-group">
+                        <br> <label>Введите название филиала:<br>
+        <ngx-select-dropdown (change)="onChange($event.value)" [multiple]="false" [ngModel]="selectedPost" [config]="config" [options]="Posts" ></ngx-select-dropdown>
               </label>
-              
-               <!-- <br><label>Введите время отправки:<br>
+
+                        <!-- <br><label>Введите время отправки:<br>
                 <input [(ngModel)]="dispatch_time" type="text" name="dispatch_time">
               </label>
   
@@ -28,14 +29,14 @@
                 <input [(ngModel)]="department_time" type="text" name="department_time">
               </label>  -->
 
-              <br><label>Введите Оценку:<br>
+                        <br><label>Введите Оценку:<br>
                 <input [(ngModel)]="mark" type="text" name="Mark">
               </label>
-              <br> <label>Введите Коментарий:<br>
+                        <br> <label>Введите Коментарий:<br>
                 <input [(ngModel)]="text" class="input" type="text" name="Comment">
               </label><br>
-              <app-file-upload></app-file-upload>
-              <!-- <label for="contactChoice1">+</label>
+                        <app-file-upload></app-file-upload>
+                        <!-- <label for="contactChoice1">+</label>
               <input  type="radio" id="contactChoice1"
                name="contact" value="true" (click)="isPositiveT(true)">  
 
@@ -44,47 +45,47 @@
            <input type="radio" id="contactChoice2"
             name="contact" value="false" (click)="isPositiveT(false)"> -->
 
-              <br> <button *ngIf="departemntName && mark && text" class="btn btn-success" (click)="Submit()">
+                        <br> <button *ngIf="departemntName && mark && text" class="btn btn-success" (click)="Submit()">
   
                 Submit
               </button>
-              <button *ngIf="!departemntName || !mark || !text" class="btn btn-warning">
+                        <button *ngIf="!departemntName || !mark || !text" class="btn btn-warning">
                 Заполните все поля!
   
               </button>
-  
-  
+
+
+                    </div>
+                    <!-- </form> -->
+                </div>
+                <div *ngIf="!ShowForm">
+                    <div>
+                        <p>
+                            Оцените филиал и напишите кратки кометарий!!
+                        </p>
+                    </div>
+                </div>
+
             </div>
-          <!-- </form> -->
-        </div>
-        <div *ngIf="!ShowForm">
-          <div>
-            <p>
-              Оцените филиал и напишите кратки кометарий!!
-            </p>
-          </div>
-        </div>
-  
-      </div>
-      <div *ngIf="menulink==3" class="PostList col-md-10 " align="center">
-        <h3>Создать Юзера:</h3>
-        <div class="btn" style="background-color:rgb(17, 129, 77);color:white;" (click)="togle()">
-          Add User
-        </div>
-        <div *ngIf="ShowForm">
-  
-          <form>
-            <div class="form-group ml-5">
-              <br> <label>Введите Имя Юзера:<br>
+            <div *ngIf="menulink==3" class="PostList col-md-10 " align="center">
+                <h3>Создать Юзера:</h3>
+                <div class="btn" style="background-color:rgb(17, 129, 77);color:white;" (click)="togle()">
+                    Add User
+                </div>
+                <div *ngIf="ShowForm">
+
+                    <form>
+                        <div class="form-group ml-5">
+                            <br> <label>Введите Имя Юзера:<br>
                 <input [(ngModel)]="Frst_Name" type="text" name="F_Name">
               </label>
-              <br><label>Введите email:<br>
+                            <br><label>Введите email:<br>
                 <input [(ngModel)]="Email" type="text" name="Email">
               </label>
-              <br> <label>создайте пароль:<br>
+                            <br> <label>создайте пароль:<br>
                 <input [(ngModel)]="Password" type="text" name="Password">
               </label>
-              <!-- /* <div class="mt-2">
+                            <!-- /* <div class="mt-2">
                       <span>Дать права админа?</span><br>
                       <label>
                         Да
@@ -95,82 +96,82 @@
                         <input type="radio"  ng-model="selectedType" value="1">
                       </label>
                     </div>*/ -->
-              <br> <button *ngIf="Password && Email && Frst_Name" class="btn btn-success" (click)="addUser()">
+                            <br> <button *ngIf="Password && Email && Frst_Name" class="btn btn-success" (click)="addUser()">
   
                 Submit
               </button>
-              <button *ngIf="!Password || !Email || !Frst_Name" class="btn btn-warning">
+                            <button *ngIf="!Password || !Email || !Frst_Name" class="btn btn-warning">
   
                 Заполните все поля
               </button>
-  
-  
-            </div>
-          </form>
-        </div>
-        <div *ngIf="!ShowForm">
-          <div>
-            <p>
-              Создайте нового пользователя!
-            </p>
-          </div>
-        </div>
-  
-      </div>
-  
-  
-  
-      <div *ngIf="menulink==2" class="PostList2 col-md-10 " align="center">
-  
-        <h3>Посмотреть историю отзывов</h3>
-  
-        <ngx-select-dropdown (change)="onSelect($event.value)" [multiple]="false" [ngModel]="selectedPost" [config]="config" [options]="Posts" ></ngx-select-dropdown>
-        <div class="">
-          <div class="col-sm">
-  
-          </div>
-        </div>
-  
-        <div class="feadbacksList" >
-        <div *ngFor="let feedback of feedbacks" class="row border  m-1 " >
-  
-          <div class="col-sm-2 col-xsm-8 p-0" align="center">
 
-            <span style="font-size:0.9em;padding: 0;margin: 0"><b>Имя</b><br>{{feedback.username}}</span>
-          </div>
-            <div class="col-sm-2 col-xsm-5 border-left border-right pl-1" align="left" style="font-size:0.9em;padding: 0">
-              <span><b>Дата:</b><br>{{feedback.date.split('T')[0] + ' ' + feedback.date.split('T')[1].substring(0,8) }}</span>
+
+                        </div>
+                    </form>
+                </div>
+                <div *ngIf="!ShowForm">
+                    <div>
+                        <p>
+                            Создайте нового пользователя!
+                        </p>
+                    </div>
+                </div>
+
             </div>
-            <img src="data:image/jpeg;base64,{{feedback.photo}}" />
-          <div class="col-sm-2 col-xsm-5 border-right" align="center">
-          <span class="ml-2 " align="center" style="font-size:0.9em;padding: 0"><b>Оценка:</b> <br>{{feedback.mark}}</span>
-        </div>
-          <div class="col-sm-6 col-xsm-11 ml-0" align="left" >
-            <ul class="m-0 p-0">
-              <li style="font-size:0.9em;padding: 0">
-                {{feedback.text}}
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      
-  
-  
-  
-    </div>
-    <div *ngIf="menulink==4" class="PostList2 col-md-10" align="center">
-  
-      <h3>Добавить отделение</h3>
-      <form>
-        <div class="form-group ml-5">
-          <br> <label>Введите Имя отделения:<br>
+
+
+
+            <div *ngIf="menulink==2" class="PostList2 col-md-10 " align="center">
+
+                <h3>Посмотреть историю отзывов</h3>
+
+                <ngx-select-dropdown (change)="onSelect($event.value)" [multiple]="false" [ngModel]="selectedPost" [config]="config" [options]="Posts"></ngx-select-dropdown>
+                <div class="">
+                    <div class="col-sm">
+
+                    </div>
+                </div>
+
+                <div class="feadbacksList">
+                    <div *ngFor="let feedback of feedbacks" class="row border  m-1 ">
+
+                        <div class="col-sm-2 col-xsm-8 p-0" align="center">
+
+                            <span style="font-size:0.9em;padding: 0;margin: 0"><b>Имя</b><br>{{feedback.username}}</span>
+                        </div>
+                        <div class="col-sm-2 col-xsm-5 border-left border-right pl-1" align="left" style="font-size:0.9em;padding: 0">
+                            <span><b>Дата:</b><br>{{feedback.date.split('T')[0] + ' ' + feedback.date.split('T')[1].substring(0,8) }}</span>
+                        </div>
+                        <button (click)="getPhoto(feedback.photo)">Фото</button>
+                        <div class="col-sm-2 col-xsm-5 border-right" align="center">
+                            <span class="ml-2 " align="center" style="font-size:0.9em;padding: 0"><b>Оценка:</b> <br>{{feedback.mark}}</span>
+                        </div>
+                        <div class="col-sm-6 col-xsm-11 ml-0" align="left">
+                            <ul class="m-0 p-0">
+                                <li style="font-size:0.9em;padding: 0">
+                                    {{feedback.text}}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+            <div *ngIf="menulink==4" class="PostList2 col-md-10" align="center">
+
+                <h3>Добавить отделение</h3>
+                <form>
+                    <div class="form-group ml-5">
+                        <br> <label>Введите Имя отделения:<br>
             <input [(ngModel)]="postDepartmentName" type="text" name="postDepartmentName">
           </label>
-          <br><label>Введите адрес:<br>
+                        <br><label>Введите адрес:<br>
             <input [(ngModel)]="postDepartmentAdress" type="text" name="postDepartmentAdress">
           </label>
-          <!-- /* <div class="mt-2">
+                        <!-- /* <div class="mt-2">
               <span>Дать права админа?</span><br>
               <label>
                 Да
@@ -181,40 +182,41 @@
                 <input type="radio"  ng-model="selectedType" value="1">
               </label>
             </div>*/ -->
-          <br> <button *ngIf="postDepartmentName && postDepartmentAdress" class="btn btn-success"
-            (click)="addDepartment()">
+                        <br> <button *ngIf="postDepartmentName && postDepartmentAdress" class="btn btn-success" (click)="addDepartment()">
   
             Submit
           </button>
-          <button *ngIf="!postDepartmentName || !postDepartmentAdress" class="btn btn-warning">
+                        <button *ngIf="!postDepartmentName || !postDepartmentAdress" class="btn btn-warning">
   
             Заполните все поля
           </button>
-  
-  
+
+
+                    </div>
+                </form>
+
+
+            </div>
+
         </div>
-      </form>
-  
-  
-    </div>
-  
-  </div>
-  <div id="footer" class="row justify-content-center mt-3  navbar-fixed-bottom border-top mr-0" style="margin-right: 0">
-  
-    <!-- <div class="col-sm-8 " >  -->
-    <!-- <div class="container-fluid " align="center" > -->
-    <!-- <div class="row  " align="center" style="height: auto;"> -->
-  
-    <button class="col-2 btn m-3 ml-0 mt-1 menu-link" (click)="MenuLink1(1)"><i class="fa fa-envelope fa ml-2"></i></button>
-    <button class="col-2 btn m-3  mt-1 menu-link" (click)="MenuLink1(2)"><i class="fa fa-calendar ml-2"></i>
+        <div id="footer" class="row justify-content-center mt-3  navbar-fixed-bottom border-top mr-0" style="margin-right: 0">
+
+            <!-- <div class="col-sm-8 " >  -->
+            <!-- <div class="container-fluid " align="center" > -->
+            <!-- <div class="row  " align="center" style="height: auto;"> -->
+
+            <button class="col-2 btn m-3 ml-0 mt-1 menu-link" (click)="MenuLink1(1)"><i class="fa fa-envelope fa ml-2"></i></button>
+            <button class="col-2 btn m-3  mt-1 menu-link" (click)="MenuLink1(2)"><i class="fa fa-calendar ml-2"></i>
     </button>
-    <button *ngIf="admin==1"  class="col-2 btn m-3 mt-1 menu-link" (click)="MenuLink1(3)"><i class="fa fa-users ml-2"></i></button>
-    <button *ngIf="admin==1" class="col-2 btn m-3 mt-1 menu-link" (click)="MenuLink1(4)"><i class="fa fa-university ml-2"></i></button>
-    <!-- <button  *ngIf="admin==1" class="col-2 btn m-1 menu-link" (click)="MenuLink1(3)"><i class="fa fa-users "></i></button> -->
-    <!-- <button        class="col-2 btn m-1 menu-link" (click)="MenuLink1(4)">w </button> -->
-    <!-- </div> -->
-    <!-- </div> -->
-    <!-- </div> -->
-  </div>
-  
-  </div>
+            <button *ngIf="admin==1" class="col-2 btn m-3 mt-1 menu-link" (click)="MenuLink1(3)"><i class="fa fa-users ml-2"></i></button>
+            <button *ngIf="admin==1" class="col-2 btn m-3 mt-1 menu-link" (click)="MenuLink1(4)"><i class="fa fa-university ml-2"></i></button>
+            <!-- <button  *ngIf="admin==1" class="col-2 btn m-1 menu-link" (click)="MenuLink1(3)"><i class="fa fa-users "></i></button> -->
+            <!-- <button        class="col-2 btn m-1 menu-link" (click)="MenuLink1(4)">w </button> -->
+            <!-- </div> -->
+            <!-- </div> -->
+            <!-- </div> -->
+        </div>
+
+    </div>
+</div>
+<app-photo *ngIf="inPhotoMode()" [photo]="photo"></app-photo>
