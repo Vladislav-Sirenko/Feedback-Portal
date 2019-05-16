@@ -35,11 +35,13 @@ export class AddPostService {
     return this._http.post(this._baseUrl + 'api/Feedbacks/AddDepartment', department);
   }
 
-  postFile(fileToUpload: File, id: number): Observable<boolean> {
+  postFile(fileToUpload: File[], id: number): Observable<boolean> {
     sessionStorage.removeItem('ID');
     const endpoint = this._baseUrl + 'api/Feedbacks/' + id + '/UploadFile';
     const formData: FormData = new FormData();
-    formData.append('fileKey', fileToUpload, fileToUpload.name);
+    for (const file of fileToUpload) {
+      formData.append('fileKey' + file.name, file, file.name);
+    }
     return this._http
       .post(endpoint, formData)
       .map(() => { return true; })

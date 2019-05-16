@@ -14,7 +14,17 @@
                     <!-- <form> -->
                     <div class="form-group">
                         <br> <label>Введите название филиала:<br>
-        <ngx-select-dropdown (change)="onChange($event.value)" [multiple]="false" [ngModel]="selectedPost" [config]="config" [options]="Posts" ></ngx-select-dropdown>
+                            <form class="example-form">
+                                <mat-form-field class="example-full-width">
+                                  <input type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
+                                  <mat-autocomplete #auto="matAutocomplete">
+                                    <mat-option  *ngFor="let option of filteredOptions  | async" [value]="option">
+                                      {{option}}
+                                    </mat-option>
+                                  </mat-autocomplete>
+                                </mat-form-field>
+                              </form>
+                              <div></div>
               </label>
 
                         <!-- <br><label>Введите время отправки:<br>
@@ -45,11 +55,11 @@
            <input type="radio" id="contactChoice2"
             name="contact" value="false" (click)="isPositiveT(false)"> -->
 
-                        <br> <button *ngIf="departemntName && mark && text" class="btn btn-success" (click)="Submit()">
+                        <br> <button *ngIf="departemntName && mark && text && departemntName.length>10" class="btn btn-success" (click)="Submit()">
   
                 Submit
               </button>
-                        <button *ngIf="!departemntName || !mark || !text" class="btn btn-warning">
+                        <button *ngIf="!departemntName || !mark || !text && departemntName.length>10" class="btn btn-warning">
                 Заполните все поля!
   
               </button>
@@ -125,7 +135,16 @@
 
                 <h3>Посмотреть историю отзывов</h3>
 
-                <ngx-select-dropdown (change)="onSelect($event.value)" [multiple]="false" [ngModel]="selectedPost" [config]="config" [options]="Posts"></ngx-select-dropdown>
+                <form class="example-form">
+                    <mat-form-field class="example-full-width">
+                        <input type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
+                        <mat-autocomplete #auto="matAutocomplete">
+                            <mat-option *ngFor="let option of filteredOptions  | async" [value]="option">
+                                {{option}}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </form>
                 <div class="">
                     <div class="col-sm">
 

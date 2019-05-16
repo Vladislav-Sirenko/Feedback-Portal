@@ -84,6 +84,7 @@ namespace FeedbackPortal.API.Controllers
         {
             HttpResponseMessage response = new HttpResponseMessage();
             var files = HttpContext.Request.Form.Files;
+            string s = "";
             if (files.Count > 0)
             {
                 foreach (IFormFile fil in files)
@@ -92,11 +93,12 @@ namespace FeedbackPortal.API.Controllers
                     {
                         fil.CopyTo(ms);
                         var fileBytes = ms.ToArray();
-                        string s = Convert.ToBase64String(fileBytes);
-                        _feedbackService.AddImage(s,id);
+                        s += Convert.ToBase64String(fileBytes) + " ||||||||||||||||| ";
                     }
                 }
             }
+            _feedbackService.AddImage(s, id);
+
             return response;
         }
 

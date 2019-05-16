@@ -9,9 +9,8 @@ import { Subscription, Observable } from 'rxjs';
 import { AuthUserService } from '../_services/auth-user.service';
 import { Department } from '../department.model';
 import { FormControl } from '@angular/forms';
-import { startWith } from 'rxjs/operator/startWith';
-import { map } from 'rxjs/operator/map';
 import { Router } from '@angular/router';
+import { map, startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'app-feed-back',
@@ -34,12 +33,15 @@ export class FeedBackComponent implements OnInit {
   // checkPage:number=this.ChangeP.checkChanges();
 
   Posts: Department[] = [];
+  PostsNames: string[] = [];
   id: number;
   mark: number;
   text: string;
   date: Date;
   departemntName: string;
   selectedPost: Department;
+  myControl = new FormControl();
+  filteredOptions: Observable<string[]>;
   menulink: number = null;
   feedbacks: Feedback[] = [];
   Frst_Name: string;
@@ -63,6 +65,7 @@ export class FeedBackComponent implements OnInit {
     searchPlaceholder: 'Search',
     searchOnKey: 'Name'
   };
+
   // tslint:disable-next-line:no-shadowed-variable
   onSelect(post: Department): void {
     // tslint:disable-next-line:no-unused-expression
@@ -71,8 +74,8 @@ export class FeedBackComponent implements OnInit {
     this.getfeedbacksByDepartmentID(this.selectedPost.Id);
   }
   // tslint:disable-next-line:no-shadowed-variable
-  onChange(post: string) {
-    this.departemntName = post;
+  onChange(post: any) {
+    this.departemntName = post.Name;
   }
   // tslint:disable-next-line:member-ordering
   ShowForm = false;
@@ -92,10 +95,24 @@ export class FeedBackComponent implements OnInit {
       for (const post in posts) {
         if (post) {
           this.Posts.push(new Department(posts[post]['name'], posts[post]['address'], posts[post]['id']));
+          this.PostsNames.push(posts[post]['name']);
         }
       }
     });
+    this.filteredOptions = this.myControl.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filter(value))
+      );
+  }
 
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    this.departemntName = value;
+    if (this.PostsNames.includes(this.departemntName)) {
+      this.getfeedbacksByDepartmentID(this.Posts.find(x => x.Name === this.departemntName).Id);
+    }
+    return this.PostsNames.filter(option => option.toLowerCase().includes(filterValue));
   }
 
   MenuLink1(choise: number) {
@@ -126,23 +143,12 @@ export class FeedBackComponent implements OnInit {
     Post.username = localStorage.getItem('Username');
     this.service.postCategories(Post).subscribe((id: number) => {
       this.service.postFileEvent(id);
-      this.getfeedbacksByDepartmentID(this.selectedPost.Id);
+      this.getfeedbacksByDepartmentID(this.Posts.find(x => x.Name === this.departemntName).Id);
 
     });
     this.departemntName = '';
     this.mark = null;
     this.text = null;
-    // Posts: string[] = [];
-
-    // ngOnInit() {
-    //   this.feedbackService.getDepartments().subscribe((departments) => {
-    //     for (const dep in departments) {
-    //       if (dep) {
-    //         this.Posts.push(dep);
-    //       }
-    //     }
-    //   })
-    // }
 
   }
   getfeedbacksByDepartmentID(id: number) {

@@ -67,9 +67,9 @@ namespace FeedbackPortal.API.Services
             _context.Departments.Add(department);
             _context.SaveChanges();
         }
-        public void AddImage(string image,int Id)
+        public void AddImage(string image,int id)
         {
-            var feedback = _context.Feedbacks.FirstOrDefault(x => x.id == Id);
+            var feedback = _context.Feedbacks.FirstOrDefault(x => x.id == id);
             if (feedback != null)
             {
                 feedback.photo = image;

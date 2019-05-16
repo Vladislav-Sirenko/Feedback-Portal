@@ -12,8 +12,11 @@ import { AuthUserService } from './_services/auth-user.service';
 import { ChangePageService } from './_services/change-page.service';
 import { FileUploadComponent } from './file-upload/file-upload.component';
 import { SelectDropDownModule } from 'ngx-select-dropdown';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PhotoComponent } from './photo/photo.component';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatInputModule} from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -27,7 +30,11 @@ import { PhotoComponent } from './photo/photo.component';
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     SelectDropDownModule,
+    ReactiveFormsModule,
+    MatAutocompleteModule,
+    BrowserAnimationsModule,
     FormsModule,
+    MatInputModule,
     RouterModule.forRoot([
       { path: 'photo', component: PhotoComponent }
     ])

@@ -8,9 +8,12 @@ import { AddPostService } from '../_services/add-post.service';
 })
 export class PhotoComponent implements OnInit {
   @Input() photo: string;
+  photos: string[] = [];
   constructor() { }
 
   ngOnInit() {
+    this.photos = this.photo.split(' ||||||||||||||||| ');
+    this.photos.pop();
   }
 
 }
