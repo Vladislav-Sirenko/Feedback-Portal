@@ -37,22 +37,6 @@
     /* box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22); */
 }
 
-.Options {
-    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
-    background-color: rgb(219, 226, 223);
-    color: rgb(15, 15, 15);
-    border-radius: 5px;
-    margin-left: 5px;
-}
-
-select {
-    border-radius: 5px;
-    color: rgb(15, 15, 15);
-    background: rgb(100, 100, 100) radial-gradient(circle at 0 0, rgba(255, 255, 255, .65), rgba(255, 255, 255, .35));
-    box-shadow: inset rgba(0, 0, 0, .5) -3px -3px 8px, inset rgba(255, 255, 255, .9) 3px 3px 8px, rgba(0, 0, 0, .8) 3px 3px 8px -3px;
-    min-width: 250px;
-}
-
 .departmentInfo {
     margin-top: 5px;
     color: #fafafa;
@@ -82,15 +66,26 @@ input {
 }
 
 #footer {
-    background-color: rgba(212, 212, 212, 0.637);
+    background: rgba(173, 173, 173, 0.603);
 }
 
-example-form {
-    min-width: 150px;
-    max-width: 150px;
-    width: 100%;
+row>.col-xs-3 {
+    display: flex;
+    flex: 0 0 25%;
+    max-width: 25%
 }
 
-.example-full-width {
-    width: 100%;
+.flex-nowrap {
+    -webkit-flex-wrap: nowrap!important;
+    -ms-flex-wrap: nowrap!important;
+    flex-wrap: nowrap!important;
+}
+
+.flex-row {
+    display: flex;
+    -webkit-box-orient: horizontal!important;
+    -webkit-box-direction: normal!important;
+    -webkit-flex-direction: row!important;
+    -ms-flex-direction: row!important;
+    flex-direction: row!important;
 }

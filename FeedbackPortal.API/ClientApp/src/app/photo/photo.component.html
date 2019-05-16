@@ -1,1 +1,7 @@
-<img *ngFor="let photo of photos" style="width:1000px;" src="data:image/jpeg;base64,{{photo}}" />
+<div class="container">
+    <div class="row justify-content-md-center mt-5" align="center">
+        <div class="col-sm-4 ">
+            <img *ngFor="let photo of photos" style="border-radius: 5px;max-width: 500px;min-width: 400px;" class="img border round" src="data:image/jpeg;base64,{{photo}}" />
+        </div>
+    </div>
+</div>

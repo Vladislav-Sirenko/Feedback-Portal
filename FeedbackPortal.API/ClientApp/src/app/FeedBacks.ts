@@ -7,7 +7,10 @@ export class Feedback {
     departmentId: number;
     username: string;
     ispositive: boolean;
-    authUserId:number;
+    authUserId: number;
+    dispatch_time: Date;
+    arrived_time: Date;
+    department_time: string;
 }
 export class Users {
     id: number;

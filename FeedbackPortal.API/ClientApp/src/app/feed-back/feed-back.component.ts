@@ -37,12 +37,16 @@ export class FeedBackComponent implements OnInit {
   id: number;
   mark: number;
   text: string;
+  text2: string;
   date: Date;
   departemntName: string;
+  department_time: string;
+  arrived_time: Date;
+  dispatch_time: Date;
   selectedPost: Department;
   myControl = new FormControl();
   filteredOptions: Observable<string[]>;
-  menulink: number = null;
+  menulink = 1;
   feedbacks: Feedback[] = [];
   Frst_Name: string;
   Email: string;
@@ -71,8 +75,14 @@ export class FeedBackComponent implements OnInit {
     // tslint:disable-next-line:no-unused-expression
     this.feedbacks = [];
     this.selectedPost = post;
-    this.getfeedbacksByDepartmentID(this.selectedPost.Id);
+    this.getfeedbacksByDepartmentID(this.Posts.find(x => x.Name === this.departemntName).Id);
   }
+  onSearchChange(searchValue: string) {
+    if (this.PostsNames.includes(searchValue)) {
+      this.getfeedbacksByDepartmentID(this.Posts.find(x => x.Name === this.departemntName).Id);
+    }
+  }
+
   // tslint:disable-next-line:no-shadowed-variable
   onChange(post: any) {
     this.departemntName = post.Name;
@@ -96,6 +106,7 @@ export class FeedBackComponent implements OnInit {
         if (post) {
           this.Posts.push(new Department(posts[post]['name'], posts[post]['address'], posts[post]['id']));
           this.PostsNames.push(posts[post]['name']);
+          console.log(this.PostsNames);
         }
       }
     });
@@ -139,7 +150,11 @@ export class FeedBackComponent implements OnInit {
     const Post = new Feedback();
     Post.departmentId = this.Posts.find(x => x.Name === this.departemntName).Id;
     Post.mark = this.mark;
-    Post.text = this.isPositive ? '+ ' + this.text : '- ' + this.text;
+    Post.department_time = this.department_time;
+    Post.arrived_time = this.arrived_time;
+    Post.dispatch_time = this.dispatch_time;
+    Post.text =  '+ ' + this.text;
+    Post.text += '\n' + '- ' + this.text2;
     Post.username = localStorage.getItem('Username');
     this.service.postCategories(Post).subscribe((id: number) => {
       this.service.postFileEvent(id);

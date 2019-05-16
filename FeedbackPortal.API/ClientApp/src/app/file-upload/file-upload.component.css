@@ -1,0 +1,7 @@
+input[type="file"] {
+    display: none;
+    background: rgba(118, 118, 138, 0.466);
+    display: table;
+    border-radius: 5px;
+    color: #fff;
+}

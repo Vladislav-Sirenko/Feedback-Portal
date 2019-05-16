@@ -12,8 +12,10 @@ export class PhotoComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.photos = this.photo.split(' ||||||||||||||||| ');
-    this.photos.pop();
+    if (this.photo) {
+      this.photos = this.photo.split(' ||||||||||||||||| ');
+      this.photos.pop();
+    }
   }
 
 }
