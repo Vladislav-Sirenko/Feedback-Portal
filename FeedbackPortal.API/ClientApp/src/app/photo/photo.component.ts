@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { AddPostService } from '../_services/add-post.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Photo } from '../photo.model';
+// tslint:disable-next-line:import-blacklist
 import { Observable } from 'rxjs';
 
 @Component({
