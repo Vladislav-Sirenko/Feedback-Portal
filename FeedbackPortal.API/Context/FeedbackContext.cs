@@ -16,5 +16,6 @@ namespace FeedbackPortal.API.Context
         public DbSet<AuthUser> AuthUsers { get; set; }
         public DbSet<Feedback> Feedbacks { get; set; }
         public DbSet<Department> Departments{ get; set; }
+        public DbSet<Photo> Photos { get; set; }
     }
 }

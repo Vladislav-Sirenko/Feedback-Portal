@@ -18,7 +18,13 @@ export class FileUploadComponent implements OnInit {
       if (this.fileToUpload) { this.files.push(this.fileToUpload); }
       if (this.fileToUpload1) { this.files.push(this.fileToUpload1); }
       if (this.fileToUpload2) { this.files.push(this.fileToUpload2); }
-      this.service.postFile(this.files, id).subscribe();
+      this.fileToUpload = null;
+      this.fileToUpload1 = null;
+      this.fileToUpload2 = null;
+      this.service.postFile(this.files, id).subscribe(() => {
+        alert('Фото добалены');
+        this.files = [];
+      });
     });
   }
 

@@ -8,6 +8,7 @@ import { environment } from '../../environments/environment';
 import { Feedback } from '../FeedBacks';
 import { Department } from '../department.model';
 import 'rxjs/add/operator/map';
+import { Photo } from '../photo.model';
 
 
 @Injectable(
@@ -16,7 +17,7 @@ import 'rxjs/add/operator/map';
 export class AddPostService {
   _baseUrl: string;
   private _feedbackAdded = new Subject<number>();
-  private _photo = new Subject<string>();
+  private _photo = new Subject<number>();
   public feedbackAdded = this._feedbackAdded.asObservable();
   public photo = this._photo.asObservable();
   constructor(private _http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
@@ -50,7 +51,16 @@ export class AddPostService {
   postFileEvent(id: number) {
     this._feedbackAdded.next(id);
   }
-  transferPhoto(photo: string) {
-    this._photo.next(photo);
+  transferPhoto(id: number) {
+    this._photo.next(id);
+  }
+  getFirstPhoto(id: number) {
+    return this._http.get<Photo>(this._baseUrl + 'api/Feedbacks/' + id + '/FirstPhoto');
+  }
+  getSecondPhoto(id: number) {
+    return this._http.get<Photo>(this._baseUrl + 'api/Feedbacks/' + id + '/SecondPhoto');
+  }
+  getThirdPhoto(id: number) {
+    return this._http.get<Photo>(this._baseUrl + 'api/Feedbacks/' + id + '/ThirdPhoto');
   }
 }

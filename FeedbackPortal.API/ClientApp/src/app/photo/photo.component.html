@@ -1,7 +1,10 @@
 <div class="container">
     <div class="row justify-content-md-center mt-5" align="center">
         <div class="col-sm-4 ">
-            <img *ngFor="let photo of photos" style="border-radius: 5px;max-width: 500px;min-width: 400px;" class="img border round" src="data:image/jpeg;base64,{{photo}}" />
+            <img *ngIf="photo | async; let photo" style="border-radius: 5px;max-width: 500px;width: auto;border:2px solid silver" class="img " src="data:image/jpeg;base64,{{photo.code}}" />
         </div>
     </div>
 </div>
+<div class="btn btn-primary" (click)="getFirst()">Первое фото</div>
+<div class="btn btn-primary" (click)="getSecond()">Второе фото</div>
+<div class="btn btn-primary" (click)="getThird()">Третье фото</div>

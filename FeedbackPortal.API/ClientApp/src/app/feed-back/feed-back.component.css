@@ -7,6 +7,18 @@
     color: #FFF;
 }
 
+select,
+option {
+    color: black;
+}
+
+select {
+    margin-top: 3%;
+    width: 250px;
+    height: 25px;
+    border-radius: 5px;
+}
+
 .menu-link:active {
     background-color: #c53d3d;
     cursor: pointer;
@@ -88,4 +100,9 @@ row>.col-xs-3 {
     -webkit-flex-direction: row!important;
     -ms-flex-direction: row!important;
     flex-direction: row!important;
+}
+
+.row:before,
+.row:after {
+    display: none;
 }

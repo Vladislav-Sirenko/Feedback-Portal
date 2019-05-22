@@ -11,7 +11,6 @@ namespace FeedbackPortal.API.Models
         [Key]
         public int id { get; set; }
         public string first_name{ get; set; }
-        public string email { get; set; }
         public string password{ get; set; }
         public int admin { get; set; }
         public ICollection<Feedback> Feedbacks { get; set; }

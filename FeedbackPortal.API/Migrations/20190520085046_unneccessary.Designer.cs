@@ -4,14 +4,16 @@ using FeedbackPortal.API.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FeedbackPortal.API.Migrations
 {
     [DbContext(typeof(FeedbackContext))]
-    partial class FeedbackContextModelSnapshot : ModelSnapshot
+    [Migration("20190520085046_unneccessary")]
+    partial class unneccessary
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -95,8 +97,6 @@ namespace FeedbackPortal.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FeedbackId");
-
                     b.ToTable("Photos");
                 });
 
@@ -110,14 +110,6 @@ namespace FeedbackPortal.API.Migrations
                     b.HasOne("FeedbackPortal.API.Models.Department")
                         .WithMany("Feedbacks")
                         .HasForeignKey("departmentId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("FeedbackPortal.API.Models.Photo", b =>
-                {
-                    b.HasOne("FeedbackPortal.API.Models.Feedback")
-                        .WithMany("Feedbacks")
-                        .HasForeignKey("FeedbackId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

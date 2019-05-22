@@ -18,5 +18,8 @@ namespace FeedbackPortal.API.Services
         List<AuthUser> GetUsers();
         void AddUser(AuthUser user);
         void AddImage(string image,int Id);
+        Photo GetFirstImage(int id);
+        Photo GetSecondImage(int id);
+        Photo GetThirdImage(int id);
     }
 }

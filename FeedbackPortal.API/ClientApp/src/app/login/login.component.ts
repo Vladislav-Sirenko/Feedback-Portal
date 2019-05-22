@@ -13,7 +13,6 @@ import { AuthUser } from '../_model/addPost.model';
 export class LoginComponent implements OnInit {
   Users: AuthUser[] = [];
   name: string;
-  email: string;
   password: string;
   succsess: number = null;
   changes: number;
@@ -26,7 +25,7 @@ export class LoginComponent implements OnInit {
     this.service.getUsers().subscribe(users => {
       for (const user in users) {
         if (user) {
-          this.Users.push(new AuthUser(users[user].first_name, users[user].email, users[user].password, users[user].admin));
+          this.Users.push(new AuthUser(users[user].first_name, users[user].password, users[user].admin));
         }
       }
     });
@@ -37,15 +36,15 @@ export class LoginComponent implements OnInit {
     for (const user of this.Users) {
       console.log(user.first_name);
       console.log(user['first_name']);
-      if (user.first_name === this.name && user.email === this.email && user.password === this.password) {
+      if (user.first_name === this.name  && user.password === this.password) {
 
         if (user.admin === 1) {
           this.admin = 1;
         }
         localStorage.setItem('Username', this.name);
+        localStorage.setItem('Admin', this.admin.toString());
         console.log(this.admin);
         this.name = null;
-        this.email = null;
         this.password = null;
         this.succsess = 1;
         this.ChangePage.setchangePager(this.succsess, this.admin);
@@ -56,9 +55,5 @@ export class LoginComponent implements OnInit {
     }
     this.succsess = 0;
     console.log('something wrong');
-    /* User.first_name=this.name;
-      User.email=this.email;
-      User.password=this.password;
-     */
   }
 }

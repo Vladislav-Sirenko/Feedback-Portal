@@ -35,7 +35,7 @@ namespace FeedbackPortal.API.Controllers
         public int Post([FromBody] Feedback feedback)
         {
             feedback.date = DateTime.Now;
-          return _feedbackService.AddFeedBack(feedback);
+            return _feedbackService.AddFeedBack(feedback);
         }
 
         // PUT: api/Feedbacks/5
@@ -78,13 +78,31 @@ namespace FeedbackPortal.API.Controllers
         {
             _feedbackService.AddDepartment(department);
         }
+        [HttpGet("{id}/FirstPhoto")]
+        public ActionResult<Photo> GetFirstPhoto(int id)
+        {
+            var photo = _feedbackService.GetFirstImage(id);
+            return Ok(photo);
+        }
+
+        [HttpGet("{id}/SecondPhoto")]
+        public ActionResult<Photo> GetSecondPhoto(int id)
+        {
+            var photo = _feedbackService.GetSecondImage(id);
+            return Ok(photo);
+        }
+        [HttpGet("{id}/ThirdPhoto")]
+        public ActionResult<Photo> GetThirdPhoto(int id)
+        {
+            var photo = _feedbackService.GetThirdImage(id);
+            return Ok(photo);
+        }
 
         [HttpPost("{id}/UploadFile")]
         public HttpResponseMessage UploadFile(int id)
         {
             HttpResponseMessage response = new HttpResponseMessage();
             var files = HttpContext.Request.Form.Files;
-            string s = "";
             if (files.Count > 0)
             {
                 foreach (IFormFile fil in files)
@@ -93,15 +111,15 @@ namespace FeedbackPortal.API.Controllers
                     {
                         fil.CopyTo(ms);
                         var fileBytes = ms.ToArray();
-                        s += Convert.ToBase64String(fileBytes) + " ||||||||||||||||| ";
+                        _feedbackService.AddImage(Convert.ToBase64String(fileBytes), id);
                     }
                 }
             }
-            _feedbackService.AddImage(s, id);
+            
 
             return response;
         }
 
-      
+
     }
 }

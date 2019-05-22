@@ -16,9 +16,6 @@ import { map, startWith } from 'rxjs/operators';
   selector: 'app-feed-back',
   templateUrl: './feed-back.component.html',
   styleUrls: ['./feed-back.component.css'],
-
-
-
 })
 export class FeedBackComponent implements OnInit {
   subscription: Subscription;
@@ -43,19 +40,21 @@ export class FeedBackComponent implements OnInit {
   department_time: string;
   arrived_time: Date;
   dispatch_time: Date;
-  selectedPost: Department;
+  selectedPost: string;
   myControl = new FormControl();
   filteredOptions: Observable<string[]>;
   menulink = 1;
   feedbacks: Feedback[] = [];
   Frst_Name: string;
-  Email: string;
   Password: string;
   selectedType: number;
   selectedAdmin: number;
+  depName: string;
   postDepartmentName: string;
   postDepartmentAdress: string;
   isPositive = true;
+  adminCheck = false;
+  fakePosts: Department[] = [];
   config = {
     displayKey: 'Name',
     search: true,
@@ -71,21 +70,15 @@ export class FeedBackComponent implements OnInit {
   };
 
   // tslint:disable-next-line:no-shadowed-variable
-  onSelect(post: Department): void {
+  onSelect(post: string): void {
     // tslint:disable-next-line:no-unused-expression
     this.feedbacks = [];
     this.selectedPost = post;
-    this.getfeedbacksByDepartmentID(this.Posts.find(x => x.Name === this.departemntName).Id);
-  }
-  onSearchChange(searchValue: string) {
-    if (this.PostsNames.includes(searchValue)) {
-      this.getfeedbacksByDepartmentID(this.Posts.find(x => x.Name === this.departemntName).Id);
-    }
   }
 
   // tslint:disable-next-line:no-shadowed-variable
-  onChange(post: any) {
-    this.departemntName = post.Name;
+  onChange(post: string) {
+    this.departemntName = post;
   }
   // tslint:disable-next-line:member-ordering
   ShowForm = false;
@@ -98,32 +91,14 @@ export class FeedBackComponent implements OnInit {
     this.isPositive = numb;
   }
   ngOnInit() {
-    this.Posts = [];
     this.service.getCategories().subscribe((posts) => {
-      console.log(posts);
-      // tslint:disable-next-line:no-shadowed-variable
-      for (const post in posts) {
-        if (post) {
-          this.Posts.push(new Department(posts[post]['name'], posts[post]['address'], posts[post]['id']));
-          this.PostsNames.push(posts[post]['name']);
-          console.log(this.PostsNames);
-        }
-      }
+      this.Posts = posts;
+      console.log(this.Posts);
+      this.fakePosts = posts;
     });
-    this.filteredOptions = this.myControl.valueChanges
-      .pipe(
-        startWith(''),
-        map(value => this._filter(value))
-      );
   }
-
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-    this.departemntName = value;
-    if (this.PostsNames.includes(this.departemntName)) {
-      this.getfeedbacksByDepartmentID(this.Posts.find(x => x.Name === this.departemntName).Id);
-    }
-    return this.PostsNames.filter(option => option.toLowerCase().includes(filterValue));
+  logOut() {
+    localStorage.clear();
   }
 
   MenuLink1(choise: number) {
@@ -136,32 +111,36 @@ export class FeedBackComponent implements OnInit {
   addUser() {
     const User = new Users();
     User.first_name = this.Frst_Name;
-    User.email = this.Email;
     User.password = this.Password;
-    User.admin = 0;
-    this.addUsers.setUser(User);
+    User.admin = this.adminCheck ? 1 : 0;
+    this.addUsers.setUser(User).subscribe(() => {
+      alert('Пользователь успешно создан');
+    });
     this.Frst_Name = null;
-    this.Email = null;
     this.Password = null;
 
   }
 
   Submit() {
     const Post = new Feedback();
-    Post.departmentId = this.Posts.find(x => x.Name === this.departemntName).Id;
+    Post.departmentId = this.Posts.find(x => x.name === this.departemntName).id;
     Post.mark = this.mark;
     Post.department_time = this.department_time;
     Post.arrived_time = this.arrived_time;
     Post.dispatch_time = this.dispatch_time;
-    Post.text =  '+ ' + this.text;
+    Post.text = '+ ' + this.text;
     Post.text += '\n' + '- ' + this.text2;
     Post.username = localStorage.getItem('Username');
     this.service.postCategories(Post).subscribe((id: number) => {
+      alert('Отзыв успешно создан. Подождите,пожалуйста, пока загрузяться фото.');
       this.service.postFileEvent(id);
-      this.getfeedbacksByDepartmentID(this.Posts.find(x => x.Name === this.departemntName).Id);
-
+      this.getfeedbacksByDepartmentID(this.Posts.find(x => x.name === this.departemntName).id);
+      this.departemntName = '';
     });
-    this.departemntName = '';
+    this.dispatch_time = null;
+    this.arrived_time = null;
+    this.text2 = null;
+    this.department_time = null;
     this.mark = null;
     this.text = null;
 
@@ -170,34 +149,36 @@ export class FeedBackComponent implements OnInit {
     this.service.getFeedbacksByDepartmentId(id).subscribe((feedbacks) => {
       this.feedbacks = [];
       // tslint:disable-next-line:forin
-      for (const feedback in feedbacks) {
-        console.log(feedbacks);
-        this.feedbacks.push(feedbacks[feedback]);
-      }
+      this.feedbacks = feedbacks;
     });
   }
   addDepartment() {
-    const department = new Department(this.postDepartmentName, this.postDepartmentAdress, 1);
+    const department = new Department(this.postDepartmentName, 1);
     this.service.addDepartment(department).subscribe(() => {
+      alert('Отделение успешно создано');
       this.service.getCategories().subscribe((posts) => {
-        this.Posts = [];
-        // tslint:disable-next-line:no-shadowed-variable
-        for (const post in posts) {
-          if (post) {
-            this.Posts.push(new Department(posts[post]['name'], posts[post]['address'], posts[post]['id']));
-          }
-        }
+        this.Posts = posts;
         this.postDepartmentName = null;
-        this.postDepartmentAdress = null;
       });
     });
   }
-  getPhoto(photo: string) {
-    this.photo = photo;
-    this.roouter.navigate(['photo']);
-    this.service.transferPhoto(photo);
+  checkAdmin() {
+    return localStorage.getItem('Admin') === '1';
+  }
+  checkName() {
+    return localStorage.getItem('Username');
+  }
+  getPhoto(id: number) {
+    this.roouter.navigate(['photo'], { queryParams: { id: id } });
   }
   inPhotoMode(): boolean {
     return window.location.href.includes('/photo');
+  }
+  searchList() {
+    this.departemntName = this.Posts.find(x => x.name.startsWith(this.departemntName)).name;
+    this.getfeedbacksByDepartmentID(this.Posts.find(x => x.name === this.departemntName).id);
+  }
+  clear() {
+    this.departemntName = '';
   }
 }

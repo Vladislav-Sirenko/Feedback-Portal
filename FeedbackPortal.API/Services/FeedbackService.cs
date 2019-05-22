@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FeedbackPortal.API.Context;
 using FeedbackPortal.API.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace FeedbackPortal.API.Services
 {
@@ -67,15 +68,27 @@ namespace FeedbackPortal.API.Services
             _context.Departments.Add(department);
             _context.SaveChanges();
         }
-        public void AddImage(string image,int id)
+        public void AddImage(string image, int id)
         {
-            var feedback = _context.Feedbacks.FirstOrDefault(x => x.id == id);
-            if (feedback != null)
-            {
-                feedback.photo = image;
+           _context.Photos.Add(new Photo(){Code = image ,FeedbackId = id});
                 _context.SaveChanges();
-            }
         }
 
+        public Photo GetFirstImage(int id)
+        {
+            return _context.Photos.AsNoTracking().FirstOrDefault(x => x.FeedbackId == id);
+        }
+
+        public Photo GetSecondImage(int id)
+        {
+            var photos = _context.Photos.AsNoTracking().Where(x=>x.FeedbackId==id);
+            return photos.ToList().ElementAtOrDefault(1);
+        }
+
+        public Photo GetThirdImage(int id)
+        {
+            var photos = _context.Photos.AsNoTracking().Where(x => x.FeedbackId == id);
+            return photos.ToList().ElementAtOrDefault(2);
+        }
     }
 }

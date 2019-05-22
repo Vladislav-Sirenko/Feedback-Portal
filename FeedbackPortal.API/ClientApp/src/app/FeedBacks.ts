@@ -6,7 +6,6 @@ export class Feedback {
     date: Date;
     departmentId: number;
     username: string;
-    ispositive: boolean;
     authUserId: number;
     dispatch_time: Date;
     arrived_time: Date;
@@ -15,7 +14,6 @@ export class Feedback {
 export class Users {
     id: number;
     first_name: string;
-    email: string;
     password: string;
     admin: number;
 

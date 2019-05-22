@@ -1,14 +1,29 @@
 <div *ngIf="!inPhotoMode()">
-    <div class="container-fluid mt-3" style="min-height:300px;height:90hv;">
+
+    <div *ngIf="checkName()" class="container-fluid mt-3" style="min-height:300px;height:90hv;">
         <!--*ngIf="succsess===1"  -->
 
+        <div class="row  d-flex justify-content-between">
+
+            <div class="img ml-5 col-2 " align="center">
+                <img src="assets\img\np.png">
+            </div>
+            <div class="col-3 mr-5 mt-4" align="center">
+                <div (click)="logOut()" class="btn btn-primary" style="position: absolute;">
+                    Выход
+                </div>
+            </div>
+
+
+        </div>
         <div class="row justify-content-md-center" align="center">
             <!-- <div class="col-8">
                 <select class="selectpicker" data-show-subtext="true" data-live-search="true">
                             <option *ngFor="let post of PostsNames" data-subtext="Rep California">{{post}}</option>
                            </select>
             </div> -->
-            <div *ngIf="menulink==1" class="PostList col-sm-10 ">
+
+            <div *ngIf="menulink==1" class="PostList col-sm-10 " style="margin-bottom: 20%;padding-bottom: 5%">
                 <h3>Создать отзыв:</h3>
                 <div class="btn" style="background-color:rgb(17, 129, 77);color:white;" (click)="togle()">
                     Провести ревизию
@@ -18,44 +33,28 @@
 
                     <!-- <form> -->
                     <div class="form-group">
-                        <br> <label>Введите название филиала:<br>
-                            <input list="browsers" (change)="onSearchChange($event.target.value)" [(ngModel)]="departemntName" name="browser">
-                            <datalist id="browsers">
-                              <option *ngFor="let post of PostsNames"  >{{post}}</option>
-                              
-                            </datalist>
-                            
-                           
-                            <!--  <select [ngModel]="departemntName" name="departemntName" (change)="onChange($event.target.value)"> 
-                                    <option *ngFor="let post of PostsNames" selected="selected" class="Options"> {{post}} </option>
-                                  </select>
-                                  
-                              <div></div> -->
-                              <!-- <select [ngModel]="departemntName" (change)="onChange($event.target.value)" class="selectpicker" data-live-search="true" style="color:black">
-                                <option *ngFor="let post of PostsNames" data-tokens="post">{{post}}</option>
-                            </select> -->                  
-              </label>
+                        <input [(ngModel)]="departemntName" (change)="searchList()" (click)="clear()" placeholder="Номер отделения">
 
-                        <br><label>Введите время отправки:<br>
+                        <br><label>Время отправки:<br>
                 <input [(ngModel)]="dispatch_time" type="datetime-local" name="dispatch_time">
               </label>
 
-                        <br><label>Введите время прибытия:<br>
+                        <br><label>Время прибытия:<br>
                 <input [(ngModel)]="arrived_time" type="datetime-local" name="arrived_time">
               </label>
 
-                        <br><label>Введите время в отделении:<br>
+                        <br><label>Время в отделении:<br>
                 <input [(ngModel)]="department_time" type="text" name="department_time">
               </label>
 
-                        <br><label>Введите Оценку:<br>
+                        <br><label>Оценка:<br>
                 <input [(ngModel)]="mark" type="text" name="Mark">
               </label>
-                        <br> <label>Введите положительный комментарий:<br>
-                <input [(ngModel)]="text" class="input" type="text" name="Comment">
+                        <br> <label>Положительный комментарий:<br>
+                <input [(ngModel)]="text" class="input " type="text" name="Comment" style="border:3px solid rgb(90, 202, 76)" >
               </label><br>
-                        <label>Введите отрицательный комментарий:<br>
-                <input [(ngModel)]="text2" class="input" type="text" name="Comment">
+                        <label>Отрицательный комментарий:<br>
+                <input [(ngModel)]="text2" class="input " type="text" name="Comment" style="border:3px solid rgb(233, 56, 50)">
               </label>
                         <br>
                         <app-file-upload></app-file-upload>
@@ -68,11 +67,11 @@
            <input type="radio" id="contactChoice2"
             name="contact" value="false" (click)="isPositiveT(false)"> -->
 
-                        <br> <button *ngIf="departemntName && mark && text" class="btn btn-success" (click)="Submit()">
+                        <br> <button *ngIf="departemntName && mark && text " class="btn btn-success" (click)="Submit()">
   
                 Submit
               </button>
-                        <button *ngIf="!departemntName || !mark || !text" class="btn btn-warning">
+                        <button *ngIf="!departemntName || !mark || !text " class="btn btn-warning">
                 Заполните все поля!
   
               </button>
@@ -84,13 +83,13 @@
                 <div *ngIf="!ShowForm">
                     <div>
                         <p>
-                            Оцените филиал и напишите кратки кометарий!!
+                            Оцените филиал и напишите краткий кометарий!!
                         </p>
                     </div>
                 </div>
 
             </div>
-            <div *ngIf="menulink==3" class="PostList col-md-10 " align="center">
+            <div *ngIf="menulink==3" class="PostList col-md-10 " align="center" style="margin-bottom: 20%;">
                 <h3>Создать Юзера:</h3>
                 <div class="btn" style="background-color:rgb(17, 129, 77);color:white;" (click)="togle()">
                     Add User
@@ -102,12 +101,13 @@
                             <br> <label>Введите Имя Юзера:<br>
                 <input [(ngModel)]="Frst_Name" type="text" name="F_Name">
               </label>
-                            <br><label>Введите email:<br>
-                <input [(ngModel)]="Email" type="text" name="Email">
-              </label>
-                            <br> <label>создайте пароль:<br>
+                            <br> <label>Создайте пароль:<br>
                 <input [(ngModel)]="Password" type="text" name="Password">
               </label>
+                            <br>
+                            <label for="adminCheck">Админ:</label>
+                            <input id="adminCheck" type="checkbox" [(ngModel)]="adminCheck" [ngModelOptions]="{standalone: true}" />
+
                             <!-- /* <div class="mt-2">
                       <span>Дать права админа?</span><br>
                       <label>
@@ -119,11 +119,11 @@
                         <input type="radio"  ng-model="selectedType" value="1">
                       </label>
                     </div>*/ -->
-                            <br> <button *ngIf="Password && Email && Frst_Name" class="btn btn-success" (click)="addUser()">
+                            <br> <button *ngIf="Password && Frst_Name" class="btn btn-success" (click)="addUser()">
   
                 Submit
               </button>
-                            <button *ngIf="!Password || !Email || !Frst_Name" class="btn btn-warning">
+                            <button *ngIf="!Password || !Frst_Name" class="btn btn-warning">
   
                 Заполните все поля
               </button>
@@ -144,33 +144,22 @@
 
 
 
-            <div *ngIf="menulink==2" class="PostList2 col-md-10 " align="center">
+            <div *ngIf="menulink==2" class="PostList2 col-md-10 " align="center" style="margin-bottom: 20%;">
 
                 <h3>Посмотреть историю отзывов</h3>
-                <input list="browsers" (change)="onSearchChange($event.target.value)" [(ngModel)]="departemntName" name="browser">
-                <datalist id="browsers">
-                  <option *ngFor="let post of PostsNames"  >{{post}}</option>
-                  
-                </datalist>
-                <div class="">
-                    <div class="col-sm">
+                <input [(ngModel)]="departemntName" (change)="searchList()" (click)="clear()" placeholder="Номер отделения">
 
-                    </div>
-                </div>
+                <div class="feadbacksList pt-2">
+                    <div *ngFor="let feedback of feedbacks" class="row flex-row flex-nowrap   m-1 " style="font-size:0.9em;margin-left:2%;margin-top: 1%">
 
-                <div class="feadbacksList">
-                    <div *ngFor="let feedback of feedbacks" class="row flex-row flex-nowrap   m-1 " style="font-size:0.9em;">
+                        <div class=" col-4 p-0 m-0 text-sm-center border " align="center" style="float: left;">
 
-                        <div class=" col-4 p-0 text-sm-center border " align="center ">
-
-                            <span style="font-size:0.8em;padding: 0;margin: 0 text-sm-center "><b>Имя</b><br>{{feedback.username}}</span>
+                            <span style="font-size:0.9em;padding: 0;margin: 0 text-sm-center "><b>Имя</b><br>{{feedback.username}}</span>
                         </div>
-                        <div class="col-4 border-left border pl-1 " align="left " style="font-size:0.9em;padding: 0 ">
+                        <div class="col-4 border pl-1 " align="left " style="font-size:0.9em;padding: 0 ">
                             <span><b>Дата отзыва:</b><br>{{feedback.date.split('T')[0] + ' ' + feedback.date.split('T')[1].substring(0,8) }}</span>
                         </div>
-                        <div class="col-3 border p-0 pt-1">
-                            <div class="btn btn-success" (click)=" getPhoto(feedback.photo) ">Фото</div>
-                        </div>
+
                         <div class="col-3 border " align="center ">
                             <span class="ml-2 text-sm-center " style="font-size:0.9em;padding: 0 "><b>Оценка:</b> <br>{{feedback.mark}}</span>
                         </div>
@@ -188,6 +177,9 @@
                         <div class="col-3 border " align="center ">
                             <span class="ml-2 text-sm-center " style="font-size:0.9em;padding: 0 "><b>Время в отделении:</b> <br>{{feedback.department_time}}</span>
                         </div>
+                        <div class="col-3 border">
+                            <div class="btn btn-dark btn-sm mt-2" (click)="getPhoto(feedback.id)">Фото</div>
+                        </div>
                     </div>
                 </div>
 
@@ -203,25 +195,11 @@
                         <br> <label>Введите Имя отделения:<br>
             <input [(ngModel)]="postDepartmentName " type="text " name="postDepartmentName ">
           </label>
-                        <br><label>Введите адрес:<br>
-            <input [(ngModel)]="postDepartmentAdress " type="text " name="postDepartmentAdress ">
-          </label>
-                        <!-- /* <div class="mt-2 ">
-              <span>Дать права админа?</span><br>
-              <label>
-                Да
-                <input type="radio "  ng-model="selectedType " value="0 ">
-              </label>
-              <label>
-                Нет
-                <input type="radio "  ng-model="selectedType " value="1 ">
-              </label>
-            </div>*/ -->
-                        <br> <button *ngIf="postDepartmentName && postDepartmentAdress " class="btn btn-success " (click)="addDepartment() ">
+                        <br> <button *ngIf="postDepartmentName" class="btn btn-success " (click)="addDepartment() ">
   
             Submit
           </button>
-                        <button *ngIf="!postDepartmentName || !postDepartmentAdress " class="btn btn-warning ">
+                        <button *ngIf="!postDepartmentName " class="btn btn-warning ">
   
             Заполните все поля
           </button>
@@ -234,18 +212,16 @@
             </div>
 
         </div>
-        <div id="footer" class="row justify-content-center mt-3 navbar-fixed-bottom border-top mr-0 " style="margin-right: 0 ">
+        <div id="footer" class="row justify-content-center mb-3 navbar-fixed-bottom border mr-0 " style="margin-right: 0 ">
 
             <!-- <div class="col-sm-8 " >  -->
             <!-- <div class="container-fluid " align="center " > -->
             <!-- <div class="row " align="center " style="height: auto; "> -->
 
             <button class="col-2 btn m-3 ml-0 mt-1 menu-link " (click)="MenuLink1(1) "><i class="fa fa-envelope fa ml-2 "></i></button>
-            <button class="col-2 btn m-3 mt-1 menu-link " (click)="MenuLink1(2) "><i class="fa fa-calendar ml-2 "></i>
-    </button>
-            <button *ngIf="admin==1 " class="col-2 btn m-3 mt-1 menu-link " (click)="MenuLink1(3) "><i class="fa fa-users ml-2 "></i></button>
-            <button *ngIf="admin==1 " class="col-2 btn m-3 mt-1 menu-link " (click)="MenuLink1(4) "><i class="fa fa-university ml-2 "></i></button>
-            <!-- <button  *ngIf="admin==1 " class="col-2 btn m-1 menu-link " (click)="MenuLink1(3) "><i class="fa fa-users "></i></button> -->
+            <button class="col-2 btn m-3 mt-1 menu-link " (click)="MenuLink1(2) "><i class="fa fa-calendar ml-2" ></i></button>
+            <button *ngIf="checkAdmin()" class="col-2 btn m-3 mt-1 menu-link " (click)="MenuLink1(3) "><i class="fa fa-users ml-2 "></i></button>
+            <button *ngIf="checkAdmin()" class="col-2 btn m-3 mt-1 menu-link " (click)="MenuLink1(4) "><i class="fa fa-university ml-2 "></i></button>
             <!-- <button        class="col-2 btn m-1 menu-link " (click)="MenuLink1(4) ">w </button> -->
             <!-- </div> -->
             <!-- </div> -->
@@ -254,4 +230,4 @@
 
     </div>
 </div>
-<app-photo *ngIf="inPhotoMode()" [photo]="photo"></app-photo>
+<app-photo *ngIf="inPhotoMode()"></app-photo>

@@ -14,7 +14,7 @@ export class AuthUserService {
     return this._http.get<AuthUser[]>( this._baseUrl + 'api/Feedbacks/GetUsers');
   }
   setUser(user: AuthUser) {
-    return this._http.post(this._baseUrl + 'api/Feedbacks/AddUser', user).subscribe();
+    return this._http.post(this._baseUrl + 'api/Feedbacks/AddUser', user);
   }
 
 
