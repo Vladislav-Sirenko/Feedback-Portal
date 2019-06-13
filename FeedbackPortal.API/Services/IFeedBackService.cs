@@ -17,9 +17,12 @@ namespace FeedbackPortal.API.Services
         void DeleteFeedBack(int id);
         List<AuthUser> GetUsers();
         void AddUser(AuthUser user);
-        void AddImage(string image,int Id);
+        void AddImage(string image, int Id);
         Photo GetFirstImage(int id);
         Photo GetSecondImage(int id);
         Photo GetThirdImage(int id);
+        IOrderedQueryable<Feedback> GetFeedbacksByMark(int mark);
+        List<Feedback> GetFeedbacksByUser(UserPeriod period);
+        void EditFeedback(int id, Feedback feedback);
     }
 }

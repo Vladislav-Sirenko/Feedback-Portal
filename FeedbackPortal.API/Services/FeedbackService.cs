@@ -29,6 +29,22 @@ namespace FeedbackPortal.API.Services
             return _context.Feedbacks.FirstOrDefault(x => x.departmentId == feedback.departmentId && x.date == feedback.date).id;
         }
 
+        public void EditFeedback(int id ,Feedback feedback)
+        {
+            var feedbackModel = _context.Feedbacks.FirstOrDefault(x => x.id == id);
+            if (feedbackModel != null)
+            {
+                feedbackModel.arrived_time = feedback.arrived_time;
+                feedbackModel.cost = feedback.cost;
+                feedbackModel.department_time = feedback.department_time;
+                feedbackModel.dispatch_time = feedback.dispatch_time;
+                feedbackModel.mark = feedback.mark;
+                feedbackModel.text = feedbackModel.text;
+                _context.Feedbacks.Update(feedbackModel);
+                _context.SaveChanges();
+            }
+        }
+
         public void DeleteFeedBack(int id)
         {
             var feedback = _context.Feedbacks.First(x => x.id == id);
@@ -68,6 +84,11 @@ namespace FeedbackPortal.API.Services
             _context.Departments.Add(department);
             _context.SaveChanges();
         }
+
+        public List<Feedback> GetFeedbacksByUser(UserPeriod period)
+        {
+            return _context.Feedbacks.Where(x => x.date > period.StartTime && x.date < period.EndTime && x.username == period.UserName).ToList();
+        }
         public void AddImage(string image, int id)
         {
            _context.Photos.Add(new Photo(){Code = image ,FeedbackId = id});
@@ -89,6 +110,12 @@ namespace FeedbackPortal.API.Services
         {
             var photos = _context.Photos.AsNoTracking().Where(x => x.FeedbackId == id);
             return photos.ToList().ElementAtOrDefault(2);
+        }
+
+        public IOrderedQueryable<Feedback> GetFeedbacksByMark(int mark)
+        {
+            var feedbacks = _context.Feedbacks.Where(x => x.mark == mark).OrderByDescending(x=>x.date);
+            return feedbacks;
         }
     }
 }

@@ -10,3 +10,4 @@
     <label for="file">Choose File</label>
     <input type="file" id="file" (change)="handleFileInput2($event.target.files)">
 </div>
+<app-loaging-spinner *ngIf="showSpinner"></app-loaging-spinner>

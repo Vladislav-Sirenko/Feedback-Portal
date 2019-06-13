@@ -11,10 +11,12 @@ export class FileUploadComponent implements OnInit {
   fileToUpload1: File = null;
   fileToUpload2: File = null;
   files: File[] = [];
+  showSpinner:boolean=false;
   constructor(private service: AddPostService, ) { }
 
   ngOnInit() {
     this.service.feedbackAdded.subscribe((id) => {
+      this.showSpinner=true;
       if (this.fileToUpload) { this.files.push(this.fileToUpload); }
       if (this.fileToUpload1) { this.files.push(this.fileToUpload1); }
       if (this.fileToUpload2) { this.files.push(this.fileToUpload2); }
@@ -22,7 +24,7 @@ export class FileUploadComponent implements OnInit {
       this.fileToUpload1 = null;
       this.fileToUpload2 = null;
       this.service.postFile(this.files, id).subscribe(() => {
-        alert('Фото добалены');
+        this.showSpinner=false;
         this.files = [];
       });
     });

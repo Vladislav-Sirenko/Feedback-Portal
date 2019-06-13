@@ -9,6 +9,7 @@ import { Feedback } from '../FeedBacks';
 import { Department } from '../department.model';
 import 'rxjs/add/operator/map';
 import { Photo } from '../photo.model';
+import { UserPeriod } from '../_model/period.model';
 
 
 @Injectable(
@@ -29,11 +30,21 @@ export class AddPostService {
   postCategories(feedback: Feedback) {
     return this._http.post(this._baseUrl + 'api/Feedbacks', feedback);
   }
+  editFeedback(feedback: Feedback) {
+    return this._http.put(this._baseUrl + 'api/Feedbacks/' + feedback.id, feedback);
+  }
   getFeedbacksByDepartmentId(id: number) {
     return this._http.get<Feedback[]>(this._baseUrl + 'api/Feedbacks/' + id);
   }
+  getFeedbacksByDepartmentMark(id: number) {
+    return this._http.get<Feedback[]>(this._baseUrl + 'api/Feedbacks/' + id + '/GetFeedbacksByMark');
+  }
   addDepartment(department: Department) {
     return this._http.post(this._baseUrl + 'api/Feedbacks/AddDepartment', department);
+  }
+
+  getFeedbacksByUser(userPeriod: UserPeriod) {
+    return this._http.post(this._baseUrl + 'api/Feedbacks/GetByUserName', userPeriod);
   }
 
   postFile(fileToUpload: File[], id: number): Observable<boolean> {

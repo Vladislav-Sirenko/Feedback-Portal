@@ -1,6 +1,6 @@
 <div *ngIf="!inPhotoMode()">
 
-    <div *ngIf="checkName()" class="container-fluid mt-3" style="min-height:300px;height:90hv;">
+    <div *ngIf="checkName()" class="container-fluid mt-3" style="min-height:300px;height:90hv; ">
         <!--*ngIf="succsess===1"  -->
 
         <div class="row  d-flex justify-content-between">
@@ -32,49 +32,130 @@
                 <div *ngIf="ShowForm">
 
                     <!-- <form> -->
-                    <div class="form-group">
+                    <div class="form-group mt-2">
                         <input [(ngModel)]="departemntName" (change)="searchList()" (click)="clear()" placeholder="Номер отделения">
+                        <br>
 
                         <br><label>Время отправки:<br>
-                <input [(ngModel)]="dispatch_time" type="datetime-local" name="dispatch_time">
-              </label>
+                                <input [(ngModel)]="dispatch_time" type="datetime-local" name="dispatch_time" >
+                                
+                            </label>
+                        <br>
+                        <span>Прибытие
+                        <div class="btn btn-dispatch" (click)="DispatchArive()">
+                            <i *ngIf="!DispatchArive_time" class="fa fa-toggle-off fa-2x"></i>
+                            <i *ngIf="DispatchArive_time" class="fa fa-toggle-on fa-2x" aria-hidden="true"></i>
+                        </div>
+                        <br>
+                    </span>
+                        <div *ngIf="DispatchArive_time">
+                            <label>Время прибытия:<br>
+                                    <input [(ngModel)]="arrived_time" type="datetime-local" name="arrived_time">
+                                </label>
+                        </div>
 
-                        <br><label>Время прибытия:<br>
-                <input [(ngModel)]="arrived_time" type="datetime-local" name="arrived_time">
-              </label>
 
-                        <br><label>Время в отделении:<br>
-                <input [(ngModel)]="department_time" type="text" name="department_time">
-              </label>
-
+                        <label>Время в отделении:<br>
+                            <input [(ngModel)]="department_time" type="text" name="department_time">
+                        </label>
+                        <br><label>Затраты:<br>
+                            <input [(ngModel)]="Money" type="text" name="Money">
+                        </label>
                         <br><label>Оценка:<br>
-                <input [(ngModel)]="mark" type="text" name="Mark">
-              </label>
+                            <input [(ngModel)]="mark" type="text" name="Mark">
+                        </label>
                         <br> <label>Положительный комментарий:<br>
-                <input [(ngModel)]="text" class="input " type="text" name="Comment" style="border:3px solid rgb(90, 202, 76)" >
-              </label><br>
+                            <input [(ngModel)]="text" class="input " type="text" name="Comment"
+                                style="border:3px solid rgb(90, 202, 76)">
+                        </label><br>
                         <label>Отрицательный комментарий:<br>
-                <input [(ngModel)]="text2" class="input " type="text" name="Comment" style="border:3px solid rgb(233, 56, 50)">
-              </label>
+                            <input [(ngModel)]="text2" class="input " type="text" name="Comment"
+                                style="border:3px solid rgb(233, 56, 50)">
+                        </label>
                         <br>
                         <app-file-upload></app-file-upload>
-                        <!-- <label for="contactChoice1">+</label>
-              <input  type="radio" id="contactChoice1"
-               name="contact" value="true" (click)="isPositiveT(true)">  
 
-            <label for="contactChoice1">-</label>
-
-           <input type="radio" id="contactChoice2"
-            name="contact" value="false" (click)="isPositiveT(false)"> -->
 
                         <br> <button *ngIf="departemntName && mark && text " class="btn btn-success" (click)="Submit()">
-  
-                Submit
-              </button>
+
+                            Submit
+                        </button>
                         <button *ngIf="!departemntName || !mark || !text " class="btn btn-warning">
-                Заполните все поля!
-  
-              </button>
+                            Заполните все поля!
+
+                        </button>
+
+
+                    </div>
+                    <!-- </form> -->
+                </div>
+                <div *ngIf="!ShowForm">
+                    <div>
+                        <p>
+                            Оцените филиал и напишите краткий кометарий!!
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+            <div *ngIf="menulink==6" class="PostList col-sm-10 " style="margin-bottom: 20%;padding-bottom: 5%">
+                <h3>Создать отзыв:</h3>
+                <div class="btn" style="background-color:rgb(17, 129, 77);color:white;" (click)="togle()">
+                    Редактировать отзыв </div>
+
+                <div *ngIf="ShowForm">
+
+                    <!-- <form> -->
+                    <div class="form-group mt-2">
+                        <input [(ngModel)]="departemntName" disabled="true">
+                        <br>
+
+                        <br><label>Время отправки:<br>
+                                <input [(ngModel)]="dispatch_time" type="datetime-local" name="dispatch_time" >
+                                
+                            </label>
+                        <br>
+                        <span>Прибытие
+                        <div class="btn btn-dispatch" (click)="DispatchArive()">
+                            <i *ngIf="!DispatchArive_time" class="fa fa-toggle-off fa-2x"></i>
+                            <i *ngIf="DispatchArive_time" class="fa fa-toggle-on fa-2x" aria-hidden="true"></i>
+                        </div>
+                        <br>
+                    </span>
+                        <div *ngIf="DispatchArive_time">
+                            <label>Время прибытия:<br>
+                                    <input [(ngModel)]="arrived_time" type="datetime-local" name="arrived_time">
+                                </label>
+                        </div>
+
+
+                        <label>Время в отделении:<br>
+                            <input [(ngModel)]="department_time" type="text" name="department_time">
+                        </label>
+                        <br><label>Затраты:<br>
+                            <input [(ngModel)]="Money" type="text" name="Money">
+                        </label>
+                        <br><label>Оценка:<br>
+                            <input [(ngModel)]="mark" type="text" name="Mark">
+                        </label>
+                        <br> <label>Положительный комментарий:<br>
+                            <input [(ngModel)]="text" class="input " type="text" name="Comment"
+                                style="border:3px solid rgb(90, 202, 76)">
+                        </label><br>
+                        <label>Отрицательный комментарий:<br>
+                            <input [(ngModel)]="text2" class="input " type="text" name="Comment"
+                                style="border:3px solid rgb(233, 56, 50)">
+                        </label>
+                        <br>
+
+                        <br> <button *ngIf="departemntName && mark && text " class="btn btn-success" (click)="editFeedback()">
+
+                            Submit
+                        </button>
+                        <button *ngIf="!departemntName || !mark || !text " class="btn btn-warning">
+                            Заполните все поля!
+
+                        </button>
 
 
                     </div>
@@ -99,34 +180,22 @@
                     <form>
                         <div class="form-group ml-5">
                             <br> <label>Введите Имя Юзера:<br>
-                <input [(ngModel)]="Frst_Name" type="text" name="F_Name">
-              </label>
+                                <input [(ngModel)]="Frst_Name" type="text" name="F_Name">
+                            </label>
                             <br> <label>Создайте пароль:<br>
-                <input [(ngModel)]="Password" type="text" name="Password">
-              </label>
+                                <input [(ngModel)]="Password" type="text" name="Password">
+                            </label>
                             <br>
                             <label for="adminCheck">Админ:</label>
                             <input id="adminCheck" type="checkbox" [(ngModel)]="adminCheck" [ngModelOptions]="{standalone: true}" />
-
-                            <!-- /* <div class="mt-2">
-                      <span>Дать права админа?</span><br>
-                      <label>
-                        Да
-                        <input type="radio"  ng-model="selectedType" value="0">
-                      </label>
-                      <label>
-                        Нет
-                        <input type="radio"  ng-model="selectedType" value="1">
-                      </label>
-                    </div>*/ -->
                             <br> <button *ngIf="Password && Frst_Name" class="btn btn-success" (click)="addUser()">
-  
-                Submit
-              </button>
+
+                                Submit
+                            </button>
                             <button *ngIf="!Password || !Frst_Name" class="btn btn-warning">
-  
-                Заполните все поля
-              </button>
+
+                                Заполните все поля
+                            </button>
 
 
                         </div>
@@ -148,20 +217,31 @@
 
                 <h3>Посмотреть историю отзывов</h3>
                 <input [(ngModel)]="departemntName" (change)="searchList()" (click)="clear()" placeholder="Номер отделения">
-
+                <input [(ngModel)]="searchMark" (change)="searchListbyMark()" (click)="clear()" placeholder="Оценка">
                 <div class="feadbacksList pt-2">
-                    <div *ngFor="let feedback of feedbacks" class="row flex-row flex-nowrap   m-1 " style="font-size:0.9em;margin-left:2%;margin-top: 1%">
+                    <div *ngFor="let feedback of feedbacks;index as i;" class="row flex-row flex-nowrap   m-1 " style="font-size:0.9em;margin-left:2%;margin-top: 1%">
 
+                        <div class="col-3 border " align="center ">
+                            <span class="ml-2 text-sm-center " style="font-size:0.9em;padding: 0 "><b></b>
+                                <br>{{i+1}}</span>
+                        </div>
+                        <div class=" col-4 p-0 m-0 text-sm-center border " align="center" style="float: left;">
+
+                            <span style="font-size:0.9em;padding: 0;margin: 0 text-sm-center "><b>
+                                    Отделение</b><br>{{getFeedbackNameByID(feedback.departmentId)}}</span>
+                        </div>
                         <div class=" col-4 p-0 m-0 text-sm-center border " align="center" style="float: left;">
 
                             <span style="font-size:0.9em;padding: 0;margin: 0 text-sm-center "><b>Имя</b><br>{{feedback.username}}</span>
                         </div>
                         <div class="col-4 border pl-1 " align="left " style="font-size:0.9em;padding: 0 ">
-                            <span><b>Дата отзыва:</b><br>{{feedback.date.split('T')[0] + ' ' + feedback.date.split('T')[1].substring(0,8) }}</span>
+                            <span><b>Дата
+                                    отзыва:</b><br>{{feedback.date.split('T')[0] + ' ' + feedback.date.split('T')[1].substring(0,8) }}</span>
                         </div>
 
                         <div class="col-3 border " align="center ">
-                            <span class="ml-2 text-sm-center " style="font-size:0.9em;padding: 0 "><b>Оценка:</b> <br>{{feedback.mark}}</span>
+                            <span class="ml-2 text-sm-center " style="font-size:0.9em;padding: 0 "><b>Оценка:</b>
+                                <br>{{feedback.mark}}</span>
                         </div>
                         <div class="col-6 ml-0 border text-justify" align="left " style="word-wrap:  break-word">
 
@@ -169,16 +249,25 @@
                             <p style="font-size:0.8em">- {{feedback.text.split('-')[1]}}</p>
                         </div>
                         <div class="col-4 border-left border pl-1 " align="left " style="font-size:0.9em;padding: 0 ">
-                            <span><b>Дата отправки:</b><br>{{feedback.dispatch_time.split('T')[0] + ' ' + feedback.date.split('T')[1].substring(0,8) }}</span>
+                            <span><b>Дата
+                                    отправки:</b><br>{{feedback.dispatch_time.split('T')[0] + ' ' + feedback.dispatch_time.split('T')[1].substring(0,8) }}</span>
                         </div>
                         <div class="col-4 border-left border pl-1 " align="left " style="font-size:0.9em;padding: 0 ">
-                            <span><b>Дата получения:</b><br>{{feedback.arrived_time.split('T')[0] + ' ' + feedback.date.split('T')[1].substring(0,8) }}</span>
+                            <span><b>Дата
+                                    получения:</b><br>{{feedback.arrived_time.split('T')[0] + ' ' + feedback.arrived_time.split('T')[1].substring(0,8) }}</span>
                         </div>
                         <div class="col-3 border " align="center ">
-                            <span class="ml-2 text-sm-center " style="font-size:0.9em;padding: 0 "><b>Время в отделении:</b> <br>{{feedback.department_time}}</span>
+                            <span class="ml-2 text-sm-center " style="font-size:0.9em;padding: 0 "><b>Время в
+                                отделении:</b> <br>{{feedback.department_time}}</span>
+                        </div>
+                        <div class="col-3 border " align="center ">
+                            <span class="ml-2 text-sm-center " style="font-size:0.9em;padding: 0 "><b>Затраты:</b> <br>{{feedback.cost}}</span>
                         </div>
                         <div class="col-3 border">
                             <div class="btn btn-dark btn-sm mt-2" (click)="getPhoto(feedback.id)">Фото</div>
+                        </div>
+                        <div class="col-3 border">
+                            <div class="btn btn-dark btn-sm mt-2" (click)="getFeedback(feedback.id)">Редактировать</div>
                         </div>
                     </div>
                 </div>
@@ -193,39 +282,103 @@
                 <form>
                     <div class="form-group ml-5 ">
                         <br> <label>Введите Имя отделения:<br>
-            <input [(ngModel)]="postDepartmentName " type="text " name="postDepartmentName ">
-          </label>
+                            <input [(ngModel)]="postDepartmentName " type="text " name="postDepartmentName ">
+                        </label>
                         <br> <button *ngIf="postDepartmentName" class="btn btn-success " (click)="addDepartment() ">
-  
-            Submit
-          </button>
+
+                            Submit
+                        </button>
                         <button *ngIf="!postDepartmentName " class="btn btn-warning ">
-  
-            Заполните все поля
-          </button>
+
+                            Заполните все поля
+                        </button>
 
 
                     </div>
                 </form>
-
-
             </div>
 
+            <div *ngIf="menulink==5" class="PostList2 col-md-10 " align="center" style="margin-bottom: 20%;">
+                <h3>Посмотреть историю отзывов</h3>
+                <input [(ngModel)]="selectedUser" placeholder="Имя пользователя">
+
+                <input [(ngModel)]="startTime" type="datetime-local" name="startTime">
+
+                <input [(ngModel)]="endTime" type="datetime-local" name="endTime"><br />
+                <div class="btn btn-primary" (click)="getFeedbacksByUser()">Поиск</div>
+                <div class="feadbacksList pt-2">
+                    <div *ngFor="let feedback of feedbacks;index as i;" class="row flex-row flex-nowrap   m-1 " style="font-size:0.9em;margin-left:2%;margin-top: 1%">
+                        <div class="col-3 border " align="center ">
+                            <span class="ml-2 text-sm-center " style="font-size:0.9em;padding: 0 "><b></b>
+                                <br>{{i+1}}</span>
+                        </div>
+                        <div class=" col-4 p-0 m-0 text-sm-center border " align="center" style="float: left;">
+                            <span style="font-size:0.9em;padding: 0;margin: 0 text-sm-center "><b>Отделение</b><br>{{getFeedbackNameByID(feedback.departmentId)}}</span>
+                        </div>
+                        <div class=" col-4 p-0 m-0 text-sm-center border " align="center" style="float: left;">
+
+                            <span style="font-size:0.9em;padding: 0;margin: 0 text-sm-center "><b>Имя</b><br>{{feedback.username}}</span>
+                        </div>
+                        <div class="col-4 border pl-1 " align="left " style="font-size:0.9em;padding: 0 ">
+                            <span><b>Дата
+                                    отзыва:</b><br>{{feedback.date.split('T')[0] + ' ' + feedback.date.split('T')[1].substring(0,8) }}</span>
+                        </div>
+
+                        <div class="col-3 border " align="center ">
+                            <span class="ml-2 text-sm-center " style="font-size:0.9em;padding: 0 "><b>Оценка:</b>
+                                <br>{{feedback.mark}}</span>
+                        </div>
+                        <div class="col-6 ml-0 border text-justify" align="left " style="word-wrap:  break-word">
+
+                            <p style="font-size:0.8em">{{feedback.text.split('-')[0]}}</p>
+                            <p style="font-size:0.8em">- {{feedback.text.split('-')[1]}}</p>
+                        </div>
+                        <div class="col-4 border-left border pl-1 " align="left " style="font-size:0.9em;padding: 0 ">
+                            <span><b>Дата
+                                    отправки:</b><br>{{feedback.dispatch_time.split('T')[0] + ' ' + feedback.dispatch_time.split('T')[1].substring(0,8) }}</span>
+                        </div>
+                        <div class="col-4 border-left border pl-1 " align="left " style="font-size:0.9em;padding: 0 ">
+                            <span><b>Дата
+                                    получения:</b><br>{{feedback.arrived_time.split('T')[0] + ' ' + feedback.arrived_time.split('T')[1].substring(0,8) }}</span>
+                        </div>
+                        <div class="col-3 border " align="center ">
+                            <span class="ml-2 text-sm-center " style="font-size:0.9em;padding: 0 "><b>Время в
+                                    отделении:</b>
+                                <br>{{feedback.department_time}}</span>
+                        </div>
+                        <div class="col-3 border">
+                            <div class="btn btn-dark btn-sm mt-2" (click)="getPhoto(feedback.id)">Фото</div>
+                        </div>
+                        <div class="col-3 border">
+                            <div class="btn btn-dark btn-sm mt-2" (click)="getFeedback(feedback.id)">Редактировать</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div id="footer" class="row justify-content-center mb-3 navbar-fixed-bottom border mr-0 " style="margin-right: 0 ">
+            <div class="col-12">
+                <div class="row justify-content-center">
 
-            <!-- <div class="col-sm-8 " >  -->
-            <!-- <div class="container-fluid " align="center " > -->
-            <!-- <div class="row " align="center " style="height: auto; "> -->
-
-            <button class="col-2 btn m-3 ml-0 mt-1 menu-link " (click)="MenuLink1(1) "><i class="fa fa-envelope fa ml-2 "></i></button>
-            <button class="col-2 btn m-3 mt-1 menu-link " (click)="MenuLink1(2) "><i class="fa fa-calendar ml-2" ></i></button>
-            <button *ngIf="checkAdmin()" class="col-2 btn m-3 mt-1 menu-link " (click)="MenuLink1(3) "><i class="fa fa-users ml-2 "></i></button>
-            <button *ngIf="checkAdmin()" class="col-2 btn m-3 mt-1 menu-link " (click)="MenuLink1(4) "><i class="fa fa-university ml-2 "></i></button>
-            <!-- <button        class="col-2 btn m-1 menu-link " (click)="MenuLink1(4) ">w </button> -->
-            <!-- </div> -->
-            <!-- </div> -->
-            <!-- </div> -->
+                    <div class="col-3 btn m-3 ml-0 mt-1 menu-link  " (click)="MenuLink1(5) ">
+                        <i class="fa fa-history ml-2 "></i>
+                    </div>
+                    <div class="col-3 btn m-3 ml-0 mt-1 menu-link btn-2 " (click)="MenuLink1(1) ">
+                        <i class="fa fa-envelope fa ml-2"></i>
+                    </div>
+                    <div class="col-3 btn m-3 ml-0 mt-1 menu-link " (click)="MenuLink1(2) ">
+                        <i class="fa fa-calendar ml-2"></i>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-3 btn m-3 ml-0 mt-1 menu-link " (click)="MenuLink1(3) ">
+                        <i class="fa fa-users ml-2 "></i>
+                    </div>
+                    <div class="col-3 btn m-3 ml-0 mt-1 menu-link " (click)="MenuLink1(4) ">
+                        <i class="fa fa-university ml-2 "></i>
+                    </div>
+                </div>
+            </div>
         </div>
 
     </div>

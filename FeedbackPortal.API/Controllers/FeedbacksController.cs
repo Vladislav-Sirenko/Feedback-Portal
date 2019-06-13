@@ -40,8 +40,9 @@ namespace FeedbackPortal.API.Controllers
 
         // PUT: api/Feedbacks/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public void Put(int id, [FromBody] Feedback feedback)
         {
+            _feedbackService.EditFeedback(id,feedback);
         }
 
         // DELETE: api/ApiWithActions/5
@@ -78,6 +79,11 @@ namespace FeedbackPortal.API.Controllers
         {
             _feedbackService.AddDepartment(department);
         }
+        [HttpPost("[action]")]
+        public List<Feedback> GetByUserName([FromBody] UserPeriod period)
+        {
+          return  _feedbackService.GetFeedbacksByUser(period);
+        }
         [HttpGet("{id}/FirstPhoto")]
         public ActionResult<Photo> GetFirstPhoto(int id)
         {
@@ -90,6 +96,12 @@ namespace FeedbackPortal.API.Controllers
         {
             var photo = _feedbackService.GetSecondImage(id);
             return Ok(photo);
+        }
+        [HttpGet("{id}/GetFeedbacksByMark")]
+        public List<Feedback> GetFeedbacksByMark(int id)
+        {
+            var feedbacks = _feedbackService.GetFeedbacksByMark(id);
+            return feedbacks.ToList();
         }
         [HttpGet("{id}/ThirdPhoto")]
         public ActionResult<Photo> GetThirdPhoto(int id)

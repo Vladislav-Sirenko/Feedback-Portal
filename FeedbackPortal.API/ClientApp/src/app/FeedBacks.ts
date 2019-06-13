@@ -10,6 +10,7 @@ export class Feedback {
     dispatch_time: Date;
     arrived_time: Date;
     department_time: string;
+    cost: string;
 }
 export class Users {
     id: number;

@@ -17,6 +17,7 @@ import { PhotoComponent } from './photo/photo.component';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatInputModule} from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LoagingSpinnerComponent } from './loaging-spinner/loaging-spinner.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     LoginComponent,
     FeedBackComponent,
     FileUploadComponent,
-    PhotoComponent
+    PhotoComponent,
+    LoagingSpinnerComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

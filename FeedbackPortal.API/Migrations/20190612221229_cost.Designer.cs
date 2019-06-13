@@ -4,14 +4,16 @@ using FeedbackPortal.API.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FeedbackPortal.API.Migrations
 {
     [DbContext(typeof(FeedbackContext))]
-    partial class FeedbackContextModelSnapshot : ModelSnapshot
+    [Migration("20190612221229_cost")]
+    partial class cost
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -59,7 +61,7 @@ namespace FeedbackPortal.API.Migrations
 
                     b.Property<int>("authUserId");
 
-                    b.Property<string>("cost");
+                    b.Property<int>("cost");
 
                     b.Property<DateTime>("date");
 

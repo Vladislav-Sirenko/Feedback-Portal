@@ -1,12 +1,29 @@
-<div align="center" style="margin-top: 5%">
-    <div class="btn btn-primary" (click)="getFirst()">Первое фото</div>
-    <div class="btn btn-primary" (click)="getSecond()">Второе фото</div>
-    <div class="btn btn-primary" (click)="getThird()">Третье фото</div>
-</div>
-<div class="container">
-    <div class="row justify-content-md-center mt-5" align="center">
-        <div class="col-sm-4 ">
-            <img *ngIf="photo | async; let photo" style="border-radius: 5px;max-width: 500px;width: auto;border:2px solid silver" class="img " src="data:image/jpeg;base64,{{photo.code}}" />
+<div class="container bg-dark" style="height: 100vh ">
+    <div class="row justify-content-center mt-2">
+        <h3 class="text-light">Photo Galerry</h3>
+    </div>
+    <div class="row justify-content-center mt-5 ">
+
+        <div class="btn btn-primary m-3 col-3" (click)="getFirst() ">фото</div>
+        <div class="btn btn-primary m-3 col-3" (click)="getSecond()">фото</div>
+        <div class="btn btn-primary m-3 col-3" (click)="getThird() ">фото</div>
+    </div>
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-5  " align="center">
+            <app-loaging-spinner *ngIf="showSpinner"></app-loaging-spinner>
+            <img *ngIf="photo | async; let photo" style="border-radius: 5px;border:2px solid silver" class="img mt-5" src="data:image/jpeg;base64,{{photo.code}}" />
+
         </div>
     </div>
 </div>
+<!-- <div align="center" style="margin-top: 5%">
+
+</div> -->
+<!-- <div class="container">
+    <div class="row justify-content-md-center mt-5" align="center">
+        <div class="col-sm-4 ">
+            <app-loaging-spinner *ngIf="showSpinner"></app-loaging-spinner>
+            <img *ngIf="photo | async; let photo" style="border-radius: 5px;border:2px solid silver" class="img " src="data:image/jpeg;base64,{{photo.code}}" />
+        </div>
+    </div>
+</div> -->
