@@ -30,7 +30,8 @@ export class FeedBackComponent implements OnInit {
     this.subscription = this.ChangeP.getUserValue().subscribe(user => { this.admin = user; });
   }
   // checkPage:number=this.ChangeP.checkChanges();
-
+  searchtext: string;
+  comments: string[] = [];
   Posts: Department[] = [];
   PostsNames: string[] = [];
   id: number;
@@ -152,8 +153,10 @@ export class FeedBackComponent implements OnInit {
     Post.department_time = this.department_time;
     Post.arrived_time = this.arrived_time;
     Post.dispatch_time = this.dispatch_time;
-    Post.text = '+ ' + this.text;
-    Post.text += '\n' + '- ' + this.text2;
+    Post.text = this.text ? '+ ' + this.text : '+';
+    if (this.text2) {
+      Post.text += '\n' + '- ' + this.text2;
+    }
     Post.cost = this.Money;
     Post.username = localStorage.getItem('Username');
     this.service.postCategories(Post).subscribe((id: number) => {
@@ -210,6 +213,26 @@ export class FeedBackComponent implements OnInit {
       });
     }
   }
+ /* searchword() {
+    const re = new RegExp(this.searchtext, 'gi');
+    for (const feedback of this.feedbacks) {
+      if (feedback.text.includes(this.searchtext)) {
+        const a = feedback.text.split(' ');
+        feedback.text = '';
+        for (const b of a) {
+          if (b === this.searchtext) {
+            feedback.text += ' ' + `<span class='yellow'>${this.searchtext}</span>` + '';
+          } else {
+            feedback.text += b;
+          }
+        }
+        feedback.text.replace(' ', 'AAA');
+        feedback.text.replace(this.searchtext, `<span class='yellow'>${this.searchtext}</span>`);
+        console.log(feedback.text);
+      }
+    }
+  }
+  */
   getFeedback(id: number) {
     const feedback = this.feedbacks.find(x => x.id === id);
     this.currentMenuLink = this.menulink;
@@ -235,8 +258,10 @@ export class FeedBackComponent implements OnInit {
     feedback.department_time = this.department_time;
     feedback.arrived_time = this.arrived_time;
     feedback.dispatch_time = this.dispatch_time;
-    feedback.text = '+ ' + this.text;
-    feedback.text += '\n' + '- ' + this.text2;
+    feedback.text = this.text ? '+ ' + this.text : '+';
+    if (this.text2) {
+      feedback.text += '\n' + '- ' + this.text2;
+    }
     feedback.cost = this.Money;
     feedback.username = localStorage.getItem('Username');
     this.service.editFeedback(feedback).subscribe(() => {
@@ -255,5 +280,7 @@ export class FeedBackComponent implements OnInit {
   }
   clear() {
     this.departemntName = '';
+    this.searchMark = null;
+    this.feedbacks = [];
   }
 }

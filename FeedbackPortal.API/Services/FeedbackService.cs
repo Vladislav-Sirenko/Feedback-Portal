@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using FeedbackPortal.API.Context;
 using FeedbackPortal.API.Models;
@@ -39,7 +40,7 @@ namespace FeedbackPortal.API.Services
                 feedbackModel.department_time = feedback.department_time;
                 feedbackModel.dispatch_time = feedback.dispatch_time;
                 feedbackModel.mark = feedback.mark;
-                feedbackModel.text = feedbackModel.text;
+                feedbackModel.text = feedback.text;
                 _context.Feedbacks.Update(feedbackModel);
                 _context.SaveChanges();
             }
@@ -87,7 +88,18 @@ namespace FeedbackPortal.API.Services
 
         public List<Feedback> GetFeedbacksByUser(UserPeriod period)
         {
-            return _context.Feedbacks.Where(x => x.date > period.StartTime && x.date < period.EndTime && x.username == period.UserName).ToList();
+            if (period.UserName != null && period.StartTime != null && period.EndTime != null)
+                return _context.Feedbacks.Where(x =>
+                    x.date > period.StartTime && x.date < period.EndTime && x.username == period.UserName).ToList();
+            if (period.UserName != null && period.StartTime != null)
+            {
+                return _context.Feedbacks.Where(x => x.username == period.UserName && x.date > period.StartTime).ToList();
+            }
+            if (period.UserName != null && period.EndTime != null)
+            {
+                return _context.Feedbacks.Where(x => x.username == period.UserName && x.date < period.EndTime).ToList();
+            }
+            return _context.Feedbacks.Where(x => x.username == period.UserName).ToList();
         }
         public void AddImage(string image, int id)
         {

@@ -76,11 +76,11 @@
                         <app-file-upload></app-file-upload>
 
 
-                        <br> <button *ngIf="departemntName && mark && text " class="btn btn-success" (click)="Submit()">
+                        <br> <button *ngIf="departemntName && mark && dispatch_time  " class="btn btn-success" (click)="Submit()">
 
                             Submit
                         </button>
-                        <button *ngIf="!departemntName || !mark || !text " class="btn btn-warning">
+                        <button *ngIf="!departemntName || !dispatch_time || !mark " class="btn btn-warning">
                             Заполните все поля!
 
                         </button>
@@ -99,7 +99,7 @@
 
             </div>
             <div *ngIf="menulink==6" class="PostList col-sm-10 " style="margin-bottom: 20%;padding-bottom: 5%">
-                <h3>Создать отзыв:</h3>
+                <h3>Внести отзыв:</h3>
                 <div class="btn" style="background-color:rgb(17, 129, 77);color:white;" (click)="togle()">
                     Редактировать отзыв </div>
 
@@ -139,20 +139,21 @@
                             <input [(ngModel)]="mark" type="text" name="Mark">
                         </label>
                         <br> <label>Положительный комментарий:<br>
-                            <input [(ngModel)]="text" class="input " type="text" name="Comment"
-                                style="border:3px solid rgb(90, 202, 76)">
+                            <textarea [(ngModel)]="text" class="input " type="text" name="Comment"
+                                style="border:3px solid rgb(90, 202, 76);color: black;">
+                                </textarea>
                         </label><br>
                         <label>Отрицательный комментарий:<br>
-                            <input [(ngModel)]="text2" class="input " type="text" name="Comment"
-                                style="border:3px solid rgb(233, 56, 50)">
+                            <textarea [(ngModel)]="text2" class="input " type="text" name="Comment"
+                                style="border:3px solid rgb(233, 56, 50);color: black;"></textarea>
                         </label>
                         <br>
 
-                        <br> <button *ngIf="departemntName && mark && text " class="btn btn-success" (click)="editFeedback()">
+                        <br> <button *ngIf="departemntName && mark && dispatch_time" class="btn btn-success" (click)="editFeedback()">
 
                             Submit
                         </button>
-                        <button *ngIf="!departemntName || !mark || !text " class="btn btn-warning">
+                        <button *ngIf="!departemntName || !dispatch_time || !mark" class="btn btn-warning">
                             Заполните все поля!
 
                         </button>
@@ -179,7 +180,7 @@
 
                     <form>
                         <div class="form-group ml-5">
-                            <br> <label>Введите Имя Юзера:<br>
+                            <br> <label>Введите Имя пользователя:<br>
                                 <input [(ngModel)]="Frst_Name" type="text" name="F_Name">
                             </label>
                             <br> <label>Создайте пароль:<br>
@@ -218,6 +219,7 @@
                 <h3>Посмотреть историю отзывов</h3>
                 <input [(ngModel)]="departemntName" (change)="searchList()" (click)="clear()" placeholder="Номер отделения">
                 <input [(ngModel)]="searchMark" (change)="searchListbyMark()" (click)="clear()" placeholder="Оценка">
+                <div *ngIf="feedbacks">Количество отзывов: {{feedbacks.length}}</div>
                 <div class="feadbacksList pt-2">
                     <div *ngFor="let feedback of feedbacks;index as i;" class="row flex-row flex-nowrap   m-1 " style="font-size:0.9em;margin-left:2%;margin-top: 1%">
 
@@ -236,12 +238,16 @@
                         </div>
                         <div class="col-4 border pl-1 " align="left " style="font-size:0.9em;padding: 0 ">
                             <span><b>Дата
-                                    отзыва:</b><br>{{feedback.date.split('T')[0] + ' ' + feedback.date.split('T')[1].substring(0,8) }}</span>
+                                    отзыва:</b><br>{{feedback.date ? feedback.date.split('T')[0] + ' ' + feedback.date.split('T')[1].substring(0,8) : ''}}</span>
                         </div>
 
                         <div class="col-3 border " align="center ">
                             <span class="ml-2 text-sm-center " style="font-size:0.9em;padding: 0 "><b>Оценка:</b>
-                                <br>{{feedback.mark}}</span>
+                                <br>
+                                    <span *ngIf="feedback.mark>0 && feedback.mark<3 " style="color:red">{{feedback.mark}}</span>
+                            <span *ngIf="feedback.mark==3 " style="color:rgba(209, 209, 42, 0.904)">{{feedback.mark}}</span>
+                            <span *ngIf="feedback.mark>3 && feedback.mark<=5 " style="color:green">{{feedback.mark}}</span>
+                            </span>
                         </div>
                         <div class="col-6 ml-0 border text-justify" align="left " style="word-wrap:  break-word">
 
@@ -250,11 +256,11 @@
                         </div>
                         <div class="col-4 border-left border pl-1 " align="left " style="font-size:0.9em;padding: 0 ">
                             <span><b>Дата
-                                    отправки:</b><br>{{feedback.dispatch_time.split('T')[0] + ' ' + feedback.dispatch_time.split('T')[1].substring(0,8) }}</span>
+                                    отправки:</b><br>{{feedback.dispatch_time ? feedback.dispatch_time.split('T')[0] + ' ' + feedback.dispatch_time.split('T')[1].substring(0,8) : '' }}</span>
                         </div>
                         <div class="col-4 border-left border pl-1 " align="left " style="font-size:0.9em;padding: 0 ">
                             <span><b>Дата
-                                    получения:</b><br>{{feedback.arrived_time.split('T')[0] + ' ' + feedback.arrived_time.split('T')[1].substring(0,8) }}</span>
+                                    получения:</b><br>{{feedback.arrived_time ? feedback.arrived_time.split('T')[0] + ' ' + feedback.arrived_time.split('T')[1].substring(0,8) : '' }}</span>
                         </div>
                         <div class="col-3 border " align="center ">
                             <span class="ml-2 text-sm-center " style="font-size:0.9em;padding: 0 "><b>Время в
@@ -266,7 +272,7 @@
                         <div class="col-3 border">
                             <div class="btn btn-dark btn-sm mt-2" (click)="getPhoto(feedback.id)">Фото</div>
                         </div>
-                        <div class="col-3 border">
+                        <div class="col-6 border">
                             <div class="btn btn-dark btn-sm mt-2" (click)="getFeedback(feedback.id)">Редактировать</div>
                         </div>
                     </div>
@@ -305,7 +311,11 @@
                 <input [(ngModel)]="startTime" type="datetime-local" name="startTime">
 
                 <input [(ngModel)]="endTime" type="datetime-local" name="endTime"><br />
-                <div class="btn btn-primary" (click)="getFeedbacksByUser()">Поиск</div>
+                <div *ngIf="feedbacks">Количество отзывов: {{feedbacks.length}}</div>
+                <div *ngIf="selectedUser" class="btn btn-primary" (click)="getFeedbacksByUser()">Поиск</div>
+                <button *ngIf="!selectedUser" class="btn btn-warning ">
+                    Заполните все поля
+                </button>
                 <div class="feadbacksList pt-2">
                     <div *ngFor="let feedback of feedbacks;index as i;" class="row flex-row flex-nowrap   m-1 " style="font-size:0.9em;margin-left:2%;margin-top: 1%">
                         <div class="col-3 border " align="center ">
@@ -326,7 +336,11 @@
 
                         <div class="col-3 border " align="center ">
                             <span class="ml-2 text-sm-center " style="font-size:0.9em;padding: 0 "><b>Оценка:</b>
-                                <br>{{feedback.mark}}</span>
+                                <br> 
+                                <span *ngIf="feedback.mark>0 && feedback.mark<3 " style="color:red">{{feedback.mark}}</span>
+                            <span *ngIf="feedback.mark==3 " style="color:rgba(209, 209, 42, 0.904)">{{feedback.mark}}</span>
+                            <span *ngIf="feedback.mark>3 && feedback.mark<=5 " style="color:green">{{feedback.mark}}</span>
+                            </span>
                         </div>
                         <div class="col-6 ml-0 border text-justify" align="left " style="word-wrap:  break-word">
 
@@ -335,16 +349,19 @@
                         </div>
                         <div class="col-4 border-left border pl-1 " align="left " style="font-size:0.9em;padding: 0 ">
                             <span><b>Дата
-                                    отправки:</b><br>{{feedback.dispatch_time.split('T')[0] + ' ' + feedback.dispatch_time.split('T')[1].substring(0,8) }}</span>
+                                    отправки:</b><br>{{feedback.dispatch_time ? feedback.dispatch_time.split('T')[0] + ' ' + feedback.dispatch_time.split('T')[1].substring(0,8) : '' }}</span>
                         </div>
                         <div class="col-4 border-left border pl-1 " align="left " style="font-size:0.9em;padding: 0 ">
                             <span><b>Дата
-                                    получения:</b><br>{{feedback.arrived_time.split('T')[0] + ' ' + feedback.arrived_time.split('T')[1].substring(0,8) }}</span>
+                                    получения:</b><br>{{feedback.arrived_time ? feedback.arrived_time.split('T')[0] + ' ' + feedback.arrived_time.split('T')[1].substring(0,8) : '' }}</span>
                         </div>
                         <div class="col-3 border " align="center ">
                             <span class="ml-2 text-sm-center " style="font-size:0.9em;padding: 0 "><b>Время в
                                     отделении:</b>
                                 <br>{{feedback.department_time}}</span>
+                        </div>
+                        <div class="col-3 border " align="center ">
+                            <span class="ml-2 text-sm-center " style="font-size:0.9em;padding: 0 "><b>Затраты:</b> <br>{{feedback.cost}}</span>
                         </div>
                         <div class="col-3 border">
                             <div class="btn btn-dark btn-sm mt-2" (click)="getPhoto(feedback.id)">Фото</div>
@@ -371,10 +388,10 @@
                     </div>
                 </div>
                 <div class="row justify-content-center">
-                    <div class="col-3 btn m-3 ml-0 mt-1 menu-link " (click)="MenuLink1(3) ">
+                    <div *ngIf="checkAdmin()==1" class="col-3 btn m-3 ml-0 mt-1 menu-link " (click)="MenuLink1(3) ">
                         <i class="fa fa-users ml-2 "></i>
                     </div>
-                    <div class="col-3 btn m-3 ml-0 mt-1 menu-link " (click)="MenuLink1(4) ">
+                    <div *ngIf="checkAdmin()==1" class="col-3 btn m-3 ml-0 mt-1 menu-link " (click)="MenuLink1(4) ">
                         <i class="fa fa-university ml-2 "></i>
                     </div>
                 </div>
