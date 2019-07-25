@@ -269,11 +269,17 @@
                         <div class="col-3 border " align="center ">
                             <span class="ml-2 text-sm-center " style="font-size:0.9em;padding: 0 "><b>Затраты:</b> <br>{{feedback.cost}}</span>
                         </div>
+                        <div class="col-3 border " align="center ">
+                            <span class="ml-2 text-sm-center " style="font-size:0.9em;padding: 0 "><b>Количество фото:</b> <br>{{feedback.photosCount}}</span>
+                        </div>
                         <div class="col-3 border">
                             <div class="btn btn-dark btn-sm mt-2" (click)="getPhoto(feedback.id)">Фото</div>
                         </div>
                         <div class="col-6 border">
                             <div class="btn btn-dark btn-sm mt-2" (click)="getFeedback(feedback.id)">Редактировать</div>
+                        </div>
+                        <div *ngIf="checkAdmin()==1" class="col-6 border">
+                            <div class="btn btn-dark btn-sm mt-2" (click)="deleteFeedback(feedback.id)">Удалить</div>
                         </div>
                     </div>
                 </div>
@@ -312,6 +318,9 @@
 
                 <input [(ngModel)]="endTime" type="datetime-local" name="endTime"><br />
                 <div *ngIf="feedbacks">Количество отзывов: {{feedbacks.length}}</div>
+                <div *ngIf="checkAdmin()==1">
+                    <div *ngIf="feedbacks">Суммарные затраты: {{getSummary()}}</div>
+                </div>
                 <div *ngIf="selectedUser" class="btn btn-primary" (click)="getFeedbacksByUser()">Поиск</div>
                 <button *ngIf="!selectedUser" class="btn btn-warning ">
                     Заполните все поля
@@ -363,11 +372,17 @@
                         <div class="col-3 border " align="center ">
                             <span class="ml-2 text-sm-center " style="font-size:0.9em;padding: 0 "><b>Затраты:</b> <br>{{feedback.cost}}</span>
                         </div>
+                        <div class="col-3 border " align="center ">
+                            <span class="ml-2 text-sm-center " style="font-size:0.9em;padding: 0 "><b>Количество фото:</b> <br>{{feedback.photosCount}}</span>
+                        </div>
                         <div class="col-3 border">
                             <div class="btn btn-dark btn-sm mt-2" (click)="getPhoto(feedback.id)">Фото</div>
                         </div>
-                        <div class="col-3 border">
+                        <div class="col-4 border">
                             <div class="btn btn-dark btn-sm mt-2" (click)="getFeedback(feedback.id)">Редактировать</div>
+                        </div>
+                        <div *ngIf="checkAdmin()==1" class="col-6 border">
+                            <div class="btn btn-dark btn-sm mt-2" (click)="deleteFeedback(feedback.id)">Удалить</div>
                         </div>
                     </div>
                 </div>

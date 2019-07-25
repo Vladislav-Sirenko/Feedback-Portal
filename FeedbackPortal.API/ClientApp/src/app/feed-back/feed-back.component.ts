@@ -190,8 +190,26 @@ export class FeedBackComponent implements OnInit {
       });
     });
   }
+  deleteFeedback(id: number) {
+    this.service.deleteFeedbacksById(id).subscribe(() => {
+      this.service.getFeedbacksByDepartmentId(this.Posts.find(x => x.name === this.departemntName).id).subscribe((feedbacks) => {
+        this.feedbacks = [];
+        // tslint:disable-next-line:forin
+        this.feedbacks = feedbacks;
+      });
+    });
+  }
   checkAdmin() {
     return localStorage.getItem('Admin') === '1';
+  }
+  getSummary() {
+    let sum = 0;
+    for (const feedback of this.feedbacks) {
+      if (feedback.cost && +feedback.cost) {
+        sum += +feedback.cost;
+      }
+    }
+    return sum;
   }
   checkName() {
     return localStorage.getItem('Username');
@@ -213,26 +231,26 @@ export class FeedBackComponent implements OnInit {
       });
     }
   }
- /* searchword() {
-    const re = new RegExp(this.searchtext, 'gi');
-    for (const feedback of this.feedbacks) {
-      if (feedback.text.includes(this.searchtext)) {
-        const a = feedback.text.split(' ');
-        feedback.text = '';
-        for (const b of a) {
-          if (b === this.searchtext) {
-            feedback.text += ' ' + `<span class='yellow'>${this.searchtext}</span>` + '';
-          } else {
-            feedback.text += b;
-          }
-        }
-        feedback.text.replace(' ', 'AAA');
-        feedback.text.replace(this.searchtext, `<span class='yellow'>${this.searchtext}</span>`);
-        console.log(feedback.text);
-      }
-    }
-  }
-  */
+  /* searchword() {
+     const re = new RegExp(this.searchtext, 'gi');
+     for (const feedback of this.feedbacks) {
+       if (feedback.text.includes(this.searchtext)) {
+         const a = feedback.text.split(' ');
+         feedback.text = '';
+         for (const b of a) {
+           if (b === this.searchtext) {
+             feedback.text += ' ' + `<span class='yellow'>${this.searchtext}</span>` + '';
+           } else {
+             feedback.text += b;
+           }
+         }
+         feedback.text.replace(' ', 'AAA');
+         feedback.text.replace(this.searchtext, `<span class='yellow'>${this.searchtext}</span>`);
+         console.log(feedback.text);
+       }
+     }
+   }
+   */
   getFeedback(id: number) {
     const feedback = this.feedbacks.find(x => x.id === id);
     this.currentMenuLink = this.menulink;

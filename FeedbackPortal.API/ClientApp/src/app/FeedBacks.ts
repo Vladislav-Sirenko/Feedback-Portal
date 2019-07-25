@@ -11,6 +11,7 @@ export class Feedback {
     arrived_time: Date;
     department_time: string;
     cost: string;
+    photosCount?: number;
 }
 export class Users {
     id: number;

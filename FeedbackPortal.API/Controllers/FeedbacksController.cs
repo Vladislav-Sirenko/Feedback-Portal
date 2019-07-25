@@ -49,6 +49,7 @@ namespace FeedbackPortal.API.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            _feedbackService.DeleteFeedBack(id);
         }
 
         // DELETE: api/ApiWithActions/5
@@ -131,7 +132,6 @@ namespace FeedbackPortal.API.Controllers
 
             return response;
         }
-
 
     }
 }

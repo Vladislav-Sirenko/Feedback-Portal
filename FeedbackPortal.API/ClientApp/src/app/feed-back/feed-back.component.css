@@ -117,7 +117,3 @@ row>.col-xs-3 {
 .row:after {
     display: none;
 }
-
-.ngx-text-highlight {
-    background: red;
-}

@@ -36,6 +36,9 @@ export class AddPostService {
   getFeedbacksByDepartmentId(id: number) {
     return this._http.get<Feedback[]>(this._baseUrl + 'api/Feedbacks/' + id);
   }
+  deleteFeedbacksById(id: number) {
+    return this._http.delete(this._baseUrl + 'api/Feedbacks/' + id);
+  }
   getFeedbacksByDepartmentMark(id: number) {
     return this._http.get<Feedback[]>(this._baseUrl + 'api/Feedbacks/' + id + '/GetFeedbacksByMark');
   }

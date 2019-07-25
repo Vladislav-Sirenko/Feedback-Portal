@@ -30,7 +30,7 @@ namespace FeedbackPortal.API.Services
             return _context.Feedbacks.FirstOrDefault(x => x.departmentId == feedback.departmentId && x.date == feedback.date).id;
         }
 
-        public void EditFeedback(int id ,Feedback feedback)
+        public void EditFeedback(int id, Feedback feedback)
         {
             var feedbackModel = _context.Feedbacks.FirstOrDefault(x => x.id == id);
             if (feedbackModel != null)
@@ -48,30 +48,28 @@ namespace FeedbackPortal.API.Services
 
         public void DeleteFeedBack(int id)
         {
-            var feedback = _context.Feedbacks.First(x => x.id == id);
-            _context.Feedbacks.Remove(feedback);
+            var feedback = _context.Feedbacks.FirstOrDefault(x => x.id == id);
+            if (feedback != null) _context.Feedbacks.Remove(feedback);
             _context.SaveChanges();
         }
 
         public List<Feedback> GetAll()
         {
-            return _context.Feedbacks.ToList();
+            var feedbacks =  _context.Feedbacks.ToList();
+            foreach (var feedback in feedbacks)
+            {
+                feedback.photosCount = _context.Photos.Count(x => x.FeedbackId == feedback.id);
+            }
+            _context.UpdateRange(feedbacks);
+            _context.SaveChanges();
+            return feedbacks;
         }
 
-        public List<Feedback> GetFeedbacksByDepartmentId(int id)
-        {
-            return _context.Feedbacks.Where(x => x.departmentId == id).ToList();
-        }
+        public List<Feedback> GetFeedbacksByDepartmentId(int id) => _context.Feedbacks.Where(x => x.departmentId == id).ToList();
 
-        public List<Department> GetDepartments()
-        {
-            return _context.Departments.ToList();
-        }
+        public List<Department> GetDepartments() => _context.Departments.ToList();
 
-        public Feedback GetFeedbackById(int id)
-        {
-            return _context.Feedbacks.First(x => x.id == id);
-        }
+        public Feedback GetFeedbackById(int id) => _context.Feedbacks.First(x => x.id == id);
 
         public void AddUser(AuthUser user)
         {
@@ -90,7 +88,7 @@ namespace FeedbackPortal.API.Services
         {
             if (period.UserName != null && period.StartTime != null && period.EndTime != null)
                 return _context.Feedbacks.Where(x =>
-                    x.date > period.StartTime && x.date < period.EndTime && x.username == period.UserName).ToList();
+                     x.date > period.StartTime && x.date < period.EndTime && x.username == period.UserName).ToList();
             if (period.UserName != null && period.StartTime != null)
             {
                 return _context.Feedbacks.Where(x => x.username == period.UserName && x.date > period.StartTime).ToList();
@@ -103,8 +101,11 @@ namespace FeedbackPortal.API.Services
         }
         public void AddImage(string image, int id)
         {
-           _context.Photos.Add(new Photo(){Code = image ,FeedbackId = id});
-                _context.SaveChanges();
+            _context.Photos.Add(new Photo() { Code = image, FeedbackId = id });
+            var feedback = _context.Feedbacks.FirstOrDefault(x => x.id == id);
+            feedback.photosCount++;
+            _context.Feedbacks.Update(feedback);
+            _context.SaveChanges();
         }
 
         public Photo GetFirstImage(int id)
@@ -114,7 +115,7 @@ namespace FeedbackPortal.API.Services
 
         public Photo GetSecondImage(int id)
         {
-            var photos = _context.Photos.AsNoTracking().Where(x=>x.FeedbackId==id);
+            var photos = _context.Photos.AsNoTracking().Where(x => x.FeedbackId == id);
             return photos.ToList().ElementAtOrDefault(1);
         }
 
@@ -126,7 +127,7 @@ namespace FeedbackPortal.API.Services
 
         public IOrderedQueryable<Feedback> GetFeedbacksByMark(int mark)
         {
-            var feedbacks = _context.Feedbacks.Where(x => x.mark == mark).OrderByDescending(x=>x.date);
+            var feedbacks = _context.Feedbacks.Where(x => x.mark == mark).OrderByDescending(x => x.date);
             return feedbacks;
         }
     }

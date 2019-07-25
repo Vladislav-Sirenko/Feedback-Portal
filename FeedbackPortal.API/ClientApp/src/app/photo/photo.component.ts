@@ -14,11 +14,11 @@ import { Observable } from 'rxjs';
 export class PhotoComponent implements OnInit {
   id: number;
   photo: Observable<Photo>;
-  showSpinner:boolean=false;
+  showSpinner: boolean = false;
   constructor(private service: AddPostService, private router: Router, private route: ActivatedRoute) {
     this.route.queryParams.subscribe(params => {
       this.id = params['id'];
-     
+
     });
   }
 
@@ -27,30 +27,30 @@ export class PhotoComponent implements OnInit {
   }
 
   getFirst() {
-    this.showSpinner=true;
+    this.showSpinner = true;
     this.photo = this.service.getFirstPhoto(this.id);
-    
+
     setTimeout(() => {
       this.photo.subscribe(() => this.showSpinner = false)
     }, 300);
-    
-    
+
+
   }
   getSecond() {
-    this.showSpinner=true;
+    this.showSpinner = true;
     this.photo = this.service.getSecondPhoto(this.id);
     setTimeout(() => {
       this.photo.subscribe(() => this.showSpinner = false)
     }, 300);
-    
+
   }
   getThird() {
-    this.showSpinner=true;
+    this.showSpinner = true;
     this.photo = this.service.getThirdPhoto(this.id);
-    
+
     setTimeout(() => {
       this.photo.subscribe(() => this.showSpinner = false)
     }, 300);
-    
+
   }
 }
