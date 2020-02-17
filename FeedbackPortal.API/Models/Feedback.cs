@@ -18,7 +18,7 @@ namespace FeedbackPortal.API.Models
         public int departmentId { get; set; }
         public string username { get; set; }
         public int authUserId { get; set; }
-        public DateTime dispatch_time { get; set; }
+        public DateTime? dispatch_time { get; set; }
         public DateTime? arrived_time { get; set; }
         public string department_time { get; set; }
         public string cost { get; set; }

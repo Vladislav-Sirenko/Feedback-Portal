@@ -10,7 +10,6 @@ import { AuthUserService } from '../_services/auth-user.service';
 import { Department } from '../department.model';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
-import { map, startWith } from 'rxjs/operators';
 import { UserPeriod } from '../_model/period.model';
 
 @Component({
@@ -29,7 +28,6 @@ export class FeedBackComponent implements OnInit {
     this.subscription = this.ChangeP.getsetchangePager().subscribe(number => { this.succsess = number; });
     this.subscription = this.ChangeP.getUserValue().subscribe(user => { this.admin = user; });
   }
-  // checkPage:number=this.ChangeP.checkChanges();
   searchtext: string;
   comments: string[] = [];
   Posts: Department[] = [];
@@ -151,8 +149,8 @@ export class FeedBackComponent implements OnInit {
     Post.departmentId = this.Posts.find(x => x.name === this.departemntName).id;
     Post.mark = this.mark;
     Post.department_time = this.department_time;
-    Post.arrived_time = this.arrived_time;
-    Post.dispatch_time = this.dispatch_time;
+    Post.arrived_time = null;
+    Post.dispatch_time = null;
     Post.text = this.text ? '+ ' + this.text : '+';
     if (this.text2) {
       Post.text += '\n' + '- ' + this.text2;

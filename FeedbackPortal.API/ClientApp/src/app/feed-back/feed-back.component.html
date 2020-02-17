@@ -35,26 +35,6 @@
                     <div class="form-group mt-2">
                         <input [(ngModel)]="departemntName" (change)="searchList()" (click)="clear()" placeholder="Номер отделения">
                         <br>
-
-                        <br><label>Время отправки:<br>
-                                <input [(ngModel)]="dispatch_time" type="datetime-local" name="dispatch_time" >
-                                
-                            </label>
-                        <br>
-                        <span>Прибытие
-                        <div class="btn btn-dispatch" (click)="DispatchArive()">
-                            <i *ngIf="!DispatchArive_time" class="fa fa-toggle-off fa-2x"></i>
-                            <i *ngIf="DispatchArive_time" class="fa fa-toggle-on fa-2x" aria-hidden="true"></i>
-                        </div>
-                        <br>
-                    </span>
-                        <div *ngIf="DispatchArive_time">
-                            <label>Время прибытия:<br>
-                                    <input [(ngModel)]="arrived_time" type="datetime-local" name="arrived_time">
-                                </label>
-                        </div>
-
-
                         <label>Время в отделении:<br>
                             <input [(ngModel)]="department_time" type="text" name="department_time">
                         </label>
@@ -76,11 +56,11 @@
                         <app-file-upload></app-file-upload>
 
 
-                        <br> <button *ngIf="departemntName && mark && dispatch_time  " class="btn btn-success" (click)="Submit()">
+                        <br> <button *ngIf="departemntName && mark" class="btn btn-success" (click)="Submit()">
 
                             Submit
                         </button>
-                        <button *ngIf="!departemntName || !dispatch_time || !mark " class="btn btn-warning">
+                        <button *ngIf="!departemntName || !mark " class="btn btn-warning">
                             Заполните все поля!
 
                         </button>
