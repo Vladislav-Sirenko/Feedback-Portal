@@ -107,7 +107,11 @@
                                     <input [(ngModel)]="arrived_time" type="datetime-local" name="arrived_time">
                                 </label>
                         </div>
-
+                        <div *ngIf="date">
+                            <label>Дата отзыва:<br>
+                                    <input [(ngModel)]="date" type="datetime-local" name="date">
+                                </label>
+                        </div>
 
                         <label>Время в отделении:<br>
                             <input [(ngModel)]="department_time" type="text" name="department_time">

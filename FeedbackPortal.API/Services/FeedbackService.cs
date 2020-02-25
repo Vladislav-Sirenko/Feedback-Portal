@@ -39,6 +39,7 @@ namespace FeedbackPortal.API.Services
                 feedbackModel.cost = feedback.cost;
                 feedbackModel.department_time = feedback.department_time;
                 feedbackModel.dispatch_time = feedback.dispatch_time;
+                feedbackModel.date = feedback.date;
                 feedbackModel.mark = feedback.mark;
                 feedbackModel.text = feedback.text;
                 _context.Feedbacks.Update(feedbackModel);

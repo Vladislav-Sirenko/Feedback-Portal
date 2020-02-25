@@ -274,6 +274,7 @@ export class FeedBackComponent implements OnInit {
     feedback.department_time = this.department_time;
     feedback.arrived_time = this.arrived_time;
     feedback.dispatch_time = this.dispatch_time;
+    feedback.date = this.date;
     feedback.text = this.text ? '+ ' + this.text : '+';
     if (this.text2) {
       feedback.text += '\n' + '- ' + this.text2;
