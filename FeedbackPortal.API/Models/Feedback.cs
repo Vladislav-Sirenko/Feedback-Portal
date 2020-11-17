@@ -21,7 +21,6 @@ namespace FeedbackPortal.API.Models
         public DateTime? dispatch_time { get; set; }
         public DateTime? arrived_time { get; set; }
         public string department_time { get; set; }
-        public string cost { get; set; }
         public int photosCount { get; set; }
         public ICollection<Photo> Feedbacks { get; set; }
     }

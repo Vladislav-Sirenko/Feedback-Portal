@@ -60,7 +60,6 @@ export class FeedBackComponent implements OnInit {
   DispatchArive_time = false;
   fakePosts: Department[] = [];
   searchMark: number;
-  Money: string;
   editingFeedbackId: number;
   currentMenuLink: number;
   config = {
@@ -155,7 +154,6 @@ export class FeedBackComponent implements OnInit {
     if (this.text2) {
       Post.text += '\n' + '- ' + this.text2;
     }
-    Post.cost = this.Money;
     Post.username = localStorage.getItem('Username');
     this.service.postCategories(Post).subscribe((id: number) => {
       alert('Отзыв успешно создан. Подождите,пожалуйста, пока загрузяться фото.');
@@ -169,7 +167,6 @@ export class FeedBackComponent implements OnInit {
     this.department_time = null;
     this.mark = null;
     this.text = null;
-    this.Money = null;
   }
   getfeedbacksByDepartmentID(id: number) {
     this.service.getFeedbacksByDepartmentId(id).subscribe((feedbacks) => {
@@ -199,15 +196,6 @@ export class FeedBackComponent implements OnInit {
   }
   checkAdmin() {
     return localStorage.getItem('Admin') === '1';
-  }
-  getSummary() {
-    let sum = 0;
-    for (const feedback of this.feedbacks) {
-      if (feedback.cost && +feedback.cost) {
-        sum += +feedback.cost;
-      }
-    }
-    return sum;
   }
   checkName() {
     return localStorage.getItem('Username');
@@ -256,7 +244,6 @@ export class FeedBackComponent implements OnInit {
       this.menulink = 6;
       this.editingFeedbackId = id;
       this.departemntName = this.Posts.find(x => x.id === feedback.departmentId).name;
-      this.Money = feedback.cost;
       this.arrived_time = feedback.arrived_time;
       this.department_time = feedback.department_time;
       this.dispatch_time = feedback.dispatch_time;
@@ -279,7 +266,6 @@ export class FeedBackComponent implements OnInit {
     if (this.text2) {
       feedback.text += '\n' + '- ' + this.text2;
     }
-    feedback.cost = this.Money;
     feedback.username = localStorage.getItem('Username');
     this.service.editFeedback(feedback).subscribe(() => {
       this.dispatch_time = null;
@@ -288,7 +274,6 @@ export class FeedBackComponent implements OnInit {
       this.department_time = null;
       this.mark = null;
       this.text = null;
-      this.Money = null;
       this.feedbacks = [];
       this.departemntName = null;
       this.menulink = this.currentMenuLink ? this.currentMenuLink : 2;

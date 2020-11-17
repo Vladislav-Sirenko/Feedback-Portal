@@ -36,7 +36,6 @@ namespace FeedbackPortal.API.Services
             if (feedbackModel != null)
             {
                 feedbackModel.arrived_time = feedback.arrived_time;
-                feedbackModel.cost = feedback.cost;
                 feedbackModel.department_time = feedback.department_time;
                 feedbackModel.dispatch_time = feedback.dispatch_time;
                 feedbackModel.date = feedback.date;

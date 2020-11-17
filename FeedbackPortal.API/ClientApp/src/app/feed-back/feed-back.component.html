@@ -38,9 +38,6 @@
                         <label>Время в отделении:<br>
                             <input [(ngModel)]="department_time" type="text" name="department_time">
                         </label>
-                        <br><label>Затраты:<br>
-                            <input [(ngModel)]="Money" type="text" name="Money">
-                        </label>
                         <br><label>Оценка:<br>
                             <input [(ngModel)]="mark" type="text" name="Mark">
                         </label>
@@ -71,9 +68,9 @@
                 </div>
                 <div *ngIf="!ShowForm">
                     <div>
-                        <p>
-                            Оцените филиал и напишите краткий кометарий!!
-                        </p>
+                      <p>
+                        Оцените отделение и напишите краткий кометарий.
+                      </p>
                     </div>
                 </div>
 
@@ -116,9 +113,6 @@
                         <label>Время в отделении:<br>
                             <input [(ngModel)]="department_time" type="text" name="department_time">
                         </label>
-                        <br><label>Затраты:<br>
-                            <input [(ngModel)]="Money" type="text" name="Money">
-                        </label>
                         <br><label>Оценка:<br>
                             <input [(ngModel)]="mark" type="text" name="Mark">
                         </label>
@@ -149,7 +143,7 @@
                 <div *ngIf="!ShowForm">
                     <div>
                         <p>
-                            Оцените филиал и напишите краткий кометарий!!
+                          Оцените отделение и напишите краткий кометарий.
                         </p>
                     </div>
                 </div>
@@ -251,9 +245,6 @@
                                 отделении:</b> <br>{{feedback.department_time}}</span>
                         </div>
                         <div class="col-3 border " align="center ">
-                            <span class="ml-2 text-sm-center " style="font-size:0.9em;padding: 0 "><b>Затраты:</b> <br>{{feedback.cost}}</span>
-                        </div>
-                        <div class="col-3 border " align="center ">
                             <span class="ml-2 text-sm-center " style="font-size:0.9em;padding: 0 "><b>Количество фото:</b> <br>{{feedback.photosCount}}</span>
                         </div>
                         <div class="col-3 border">
@@ -302,9 +293,6 @@
 
                 <input [(ngModel)]="endTime" type="datetime-local" name="endTime"><br />
                 <div *ngIf="feedbacks">Количество отзывов: {{feedbacks.length}}</div>
-                <div *ngIf="checkAdmin()==1">
-                    <div *ngIf="feedbacks">Суммарные затраты: {{getSummary()}}</div>
-                </div>
                 <div *ngIf="selectedUser" class="btn btn-primary" (click)="getFeedbacksByUser()">Поиск</div>
                 <button *ngIf="!selectedUser" class="btn btn-warning ">
                     Заполните все поля
@@ -352,9 +340,6 @@
                             <span class="ml-2 text-sm-center " style="font-size:0.9em;padding: 0 "><b>Время в
                                     отделении:</b>
                                 <br>{{feedback.department_time}}</span>
-                        </div>
-                        <div class="col-3 border " align="center ">
-                            <span class="ml-2 text-sm-center " style="font-size:0.9em;padding: 0 "><b>Затраты:</b> <br>{{feedback.cost}}</span>
                         </div>
                         <div class="col-3 border " align="center ">
                             <span class="ml-2 text-sm-center " style="font-size:0.9em;padding: 0 "><b>Количество фото:</b> <br>{{feedback.photosCount}}</span>
