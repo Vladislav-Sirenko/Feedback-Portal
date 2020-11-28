@@ -17,11 +17,6 @@
 
         </div>
         <div class="row justify-content-md-center" align="center">
-            <!-- <div class="col-8">
-                <select class="selectpicker" data-show-subtext="true" data-live-search="true">
-                            <option *ngFor="let post of PostsNames" data-subtext="Rep California">{{post}}</option>
-                           </select>
-            </div> -->
 
             <div *ngIf="menulink==1" class="PostList col-sm-10 " style="margin-bottom: 20%;padding-bottom: 5%">
                 <h3>Создать отзыв:</h3>
@@ -36,26 +31,21 @@
                         <input [(ngModel)]="departemntName" (change)="searchList()" (click)="clear()" placeholder="Номер отделения">
                         <br>
                         <label>Время в отделении:<br>
-                            <input [(ngModel)]="department_time" type="text" name="department_time">
+                            <input type="text" [(ngModel)]="department_time" name="department_time">
                         </label>
                         <br><label>Оценка:<br>
                             <input [(ngModel)]="mark" type="text" name="Mark">
                         </label>
-                        <br> <label>Положительный комментарий:<br>
+                        <br> <label>Комментарий:<br>
                             <input [(ngModel)]="text" class="input " type="text" name="Comment"
                                 style="border:3px solid rgb(90, 202, 76)">
                         </label><br>
-                        <label>Отрицательный комментарий:<br>
-                            <input [(ngModel)]="text2" class="input " type="text" name="Comment"
-                                style="border:3px solid rgb(233, 56, 50)">
-                        </label>
-                        <br>
                         <app-file-upload></app-file-upload>
 
 
                         <br> <button *ngIf="departemntName && mark" class="btn btn-success" (click)="Submit()">
 
-                            Submit
+                            Отправить
                         </button>
                         <button *ngIf="!departemntName || !mark " class="btn btn-warning">
                             Заполните все поля!
@@ -111,25 +101,19 @@
                         </div>
 
                         <label>Время в отделении:<br>
-                            <input [(ngModel)]="department_time" type="text" name="department_time">
+                            <input [(ngModel)]="department_time" class="masked" pattern="(1[0-2]|0[1-9])\/(1[5-9]|2\d)"  name="department_time">
                         </label>
                         <br><label>Оценка:<br>
                             <input [(ngModel)]="mark" type="text" name="Mark">
                         </label>
-                        <br> <label>Положительный комментарий:<br>
+                        <br> <label>Комментарий:<br>
                             <textarea [(ngModel)]="text" class="input " type="text" name="Comment"
                                 style="border:3px solid rgb(90, 202, 76);color: black;">
                                 </textarea>
                         </label><br>
-                        <label>Отрицательный комментарий:<br>
-                            <textarea [(ngModel)]="text2" class="input " type="text" name="Comment"
-                                style="border:3px solid rgb(233, 56, 50);color: black;"></textarea>
-                        </label>
-                        <br>
-
                         <br> <button *ngIf="departemntName && mark && dispatch_time" class="btn btn-success" (click)="editFeedback()">
 
-                            Submit
+                            Отправить
                         </button>
                         <button *ngIf="!departemntName || !dispatch_time || !mark" class="btn btn-warning">
                             Заполните все поля!
@@ -169,7 +153,7 @@
                             <input id="adminCheck" type="checkbox" [(ngModel)]="adminCheck" [ngModelOptions]="{standalone: true}" />
                             <br> <button *ngIf="Password && Frst_Name" class="btn btn-success" (click)="addUser()">
 
-                                Submit
+                                Отправить
                             </button>
                             <button *ngIf="!Password || !Frst_Name" class="btn btn-warning">
 
@@ -197,28 +181,19 @@
                 <h3>Посмотреть историю отзывов</h3>
                 <input [(ngModel)]="departemntName" (change)="searchList()" (click)="clear()" placeholder="Номер отделения">
                 <input [(ngModel)]="searchMark" (change)="searchListbyMark()" (click)="clear()" placeholder="Оценка">
+                <input [(ngModel)]="historyStartTime" (change)="searchListbyDate()" (click)="clearAllButDate()" type="date" name="historyStartTime">
+                <input [(ngModel)]="historyEndTime" (change)="searchListbyDate()" (click)="clearAllButDate()" type="date" name="historyEndTime">
+                <input [(ngModel)]="startq" (change)="searchListbyQ()" (click)="clearAllButQ()" placeholder="Начальное время очереди">
+                <input [(ngModel)]="endq" (change)="searchListbyQ()" (click)="clearAllButQ()" placeholder="Конечное время очереди">
                 <div *ngIf="feedbacks">Количество отзывов: {{feedbacks.length}}</div>
                 <div class="feadbacksList pt-2">
                     <div *ngFor="let feedback of feedbacks;index as i;" class="row flex-row flex-nowrap   m-1 " style="font-size:0.9em;margin-left:2%;margin-top: 1%">
 
-                        <div class="col-3 border " align="center ">
-                            <span class="ml-2 text-sm-center " style="font-size:0.9em;padding: 0 "><b></b>
-                                <br>{{i+1}}</span>
-                        </div>
                         <div class=" col-4 p-0 m-0 text-sm-center border " align="center" style="float: left;">
 
                             <span style="font-size:0.9em;padding: 0;margin: 0 text-sm-center "><b>
                                     Отделение</b><br>{{getFeedbackNameByID(feedback.departmentId)}}</span>
                         </div>
-                        <div class=" col-4 p-0 m-0 text-sm-center border " align="center" style="float: left;">
-
-                            <span style="font-size:0.9em;padding: 0;margin: 0 text-sm-center "><b>Имя</b><br>{{feedback.username}}</span>
-                        </div>
-                        <div class="col-4 border pl-1 " align="left " style="font-size:0.9em;padding: 0 ">
-                            <span><b>Дата
-                                    отзыва:</b><br>{{feedback.date ? feedback.date.split('T')[0] + ' ' + feedback.date.split('T')[1].substring(0,8) : ''}}</span>
-                        </div>
-
                         <div class="col-3 border " align="center ">
                             <span class="ml-2 text-sm-center " style="font-size:0.9em;padding: 0 "><b>Оценка:</b>
                                 <br>
@@ -228,21 +203,15 @@
                             </span>
                         </div>
                         <div class="col-6 ml-0 border text-justify" align="left " style="word-wrap:  break-word">
-
+                            <div *ngIf="feedback.text.includes('-')">
                             <p style="font-size:0.8em">{{feedback.text.split('-')[0]}}</p>
                             <p style="font-size:0.8em">- {{feedback.text.split('-')[1]}}</p>
+                            </div>
+                            <p  *ngIf="!feedback.text.includes('-')" style="font-size:0.8em">{{feedback.text}}</p>
                         </div>
-                        <div class="col-4 border-left border pl-1 " align="left " style="font-size:0.9em;padding: 0 ">
+                        <div class="col-4 border pl-1 " align="left " style="font-size:0.9em;padding: 0 ">
                             <span><b>Дата
-                                    отправки:</b><br>{{feedback.dispatch_time ? feedback.dispatch_time.split('T')[0] + ' ' + feedback.dispatch_time.split('T')[1].substring(0,8) : '' }}</span>
-                        </div>
-                        <div class="col-4 border-left border pl-1 " align="left " style="font-size:0.9em;padding: 0 ">
-                            <span><b>Дата
-                                    получения:</b><br>{{feedback.arrived_time ? feedback.arrived_time.split('T')[0] + ' ' + feedback.arrived_time.split('T')[1].substring(0,8) : '' }}</span>
-                        </div>
-                        <div class="col-3 border " align="center ">
-                            <span class="ml-2 text-sm-center " style="font-size:0.9em;padding: 0 "><b>Время в
-                                отделении:</b> <br>{{feedback.department_time}}</span>
+                                    отзыва:</b><br>{{feedback.date ? feedback.date.split('T')[0] + ' ' + feedback.date.split('T')[1].substring(0,5) : ''}}</span>
                         </div>
                         <div class="col-3 border " align="center ">
                             <span class="ml-2 text-sm-center " style="font-size:0.9em;padding: 0 "><b>Количество фото:</b> <br>{{feedback.photosCount}}</span>
@@ -250,6 +219,22 @@
                         <div class="col-3 border">
                             <div class="btn btn-dark btn-sm mt-2" (click)="getPhoto(feedback.id)">Фото</div>
                         </div>
+                        <div class=" col-4 p-0 m-0 text-sm-center border " align="center" style="float: left;">
+
+                            <span style="font-size:0.9em;padding: 0;margin: 0 text-sm-center "><b>Имя</b><br>{{feedback.username}}</span>
+                        </div>
+                        <div class="col-4 border-left border pl-1 " align="left " style="font-size:0.9em;padding: 0 ">
+                            <span><b>Дата
+                                    отправки:</b><br>{{feedback.dispatch_time ? feedback.dispatch_time.split('T')[0] + ' ' + feedback.dispatch_time.split('T')[1].substring(0,5) : '' }}</span>
+                        </div>
+                        <div class="col-4 border-left border pl-1 " align="left " style="font-size:0.9em;padding: 0 ">
+                            <span><b>Дата
+                                    получения:</b><br>{{feedback.arrived_time ? feedback.arrived_time.split('T')[0] + ' ' + feedback.arrived_time.split('T')[1].substring(0,5) : '' }}</span>
+                        </div>
+                        <div class="col-3 border " align="center ">
+                            <span class="ml-2 text-sm-center " style="font-size:0.9em;padding: 0 "><b>Время в
+                                отделении:</b> <br>{{feedback.department_time}}</span>
+                        </div>                    
                         <div class="col-6 border">
                             <div class="btn btn-dark btn-sm mt-2" (click)="getFeedback(feedback.id)">Редактировать</div>
                         </div>
@@ -268,13 +253,14 @@
                 <h3>Добавить отделение</h3>
                 <form>
                     <div class="form-group ml-5 ">
-                        <br> <label>Введите Имя отделения:<br>
+                        <br> <label>Введите номер отделения:<br>
                             <input [(ngModel)]="postDepartmentName " type="text " name="postDepartmentName ">
                         </label>
                         <br> <button *ngIf="postDepartmentName" class="btn btn-success " (click)="addDepartment() ">
-
-                            Submit
+                            Отправить
                         </button>
+                        <button  class="btn btn-success " (click)="getReport()">Получить отчет</button>
+                        <br>
                         <button *ngIf="!postDepartmentName " class="btn btn-warning ">
 
                             Заполните все поля
@@ -286,35 +272,18 @@
             </div>
 
             <div *ngIf="menulink==5" class="PostList2 col-md-10 " align="center" style="margin-bottom: 20%;">
-                <h3>Посмотреть историю отзывов</h3>
-                <input [(ngModel)]="selectedUser" placeholder="Имя пользователя">
+                <h3>Посмотреть отзывы пользователя</h3>
+                <input [(ngModel)]="selectedUser" (input)="getFeedbacksByUser()" placeholder="Имя пользователя">
 
-                <input [(ngModel)]="startTime" type="datetime-local" name="startTime">
+                <input [(ngModel)]="startTime" (change)="getFeedbacksByUser()" type="date" name="startTime">
 
-                <input [(ngModel)]="endTime" type="datetime-local" name="endTime"><br />
+                <input [(ngModel)]="endTime" (change)="getFeedbacksByUser()" type="date" name="endTime"><br />
                 <div *ngIf="feedbacks">Количество отзывов: {{feedbacks.length}}</div>
-                <div *ngIf="selectedUser" class="btn btn-primary" (click)="getFeedbacksByUser()">Поиск</div>
-                <button *ngIf="!selectedUser" class="btn btn-warning ">
-                    Заполните все поля
-                </button>
                 <div class="feadbacksList pt-2">
                     <div *ngFor="let feedback of feedbacks;index as i;" class="row flex-row flex-nowrap   m-1 " style="font-size:0.9em;margin-left:2%;margin-top: 1%">
-                        <div class="col-3 border " align="center ">
-                            <span class="ml-2 text-sm-center " style="font-size:0.9em;padding: 0 "><b></b>
-                                <br>{{i+1}}</span>
-                        </div>
                         <div class=" col-4 p-0 m-0 text-sm-center border " align="center" style="float: left;">
                             <span style="font-size:0.9em;padding: 0;margin: 0 text-sm-center "><b>Отделение</b><br>{{getFeedbackNameByID(feedback.departmentId)}}</span>
                         </div>
-                        <div class=" col-4 p-0 m-0 text-sm-center border " align="center" style="float: left;">
-
-                            <span style="font-size:0.9em;padding: 0;margin: 0 text-sm-center "><b>Имя</b><br>{{feedback.username}}</span>
-                        </div>
-                        <div class="col-4 border pl-1 " align="left " style="font-size:0.9em;padding: 0 ">
-                            <span><b>Дата
-                                    отзыва:</b><br>{{feedback.date.split('T')[0] + ' ' + feedback.date.split('T')[1].substring(0,8) }}</span>
-                        </div>
-
                         <div class="col-3 border " align="center ">
                             <span class="ml-2 text-sm-center " style="font-size:0.9em;padding: 0 "><b>Оценка:</b>
                                 <br> 
@@ -324,22 +293,15 @@
                             </span>
                         </div>
                         <div class="col-6 ml-0 border text-justify" align="left " style="word-wrap:  break-word">
-
-                            <p style="font-size:0.8em">{{feedback.text.split('-')[0]}}</p>
-                            <p style="font-size:0.8em">- {{feedback.text.split('-')[1]}}</p>
-                        </div>
-                        <div class="col-4 border-left border pl-1 " align="left " style="font-size:0.9em;padding: 0 ">
+                            <div *ngIf="feedback.text.includes('-')">
+                                <p style="font-size:0.8em">{{feedback.text.split('-')[0]}}</p>
+                                <p style="font-size:0.8em">- {{feedback.text.split('-')[1]}}</p>
+                                </div>
+                                <p  *ngIf="!feedback.text.includes('-')" style="font-size:0.8em">{{feedback.text}}</p>
+                            </div>
+                        <div class="col-4 border pl-1 " align="left " style="font-size:0.9em;padding: 0 ">
                             <span><b>Дата
-                                    отправки:</b><br>{{feedback.dispatch_time ? feedback.dispatch_time.split('T')[0] + ' ' + feedback.dispatch_time.split('T')[1].substring(0,8) : '' }}</span>
-                        </div>
-                        <div class="col-4 border-left border pl-1 " align="left " style="font-size:0.9em;padding: 0 ">
-                            <span><b>Дата
-                                    получения:</b><br>{{feedback.arrived_time ? feedback.arrived_time.split('T')[0] + ' ' + feedback.arrived_time.split('T')[1].substring(0,8) : '' }}</span>
-                        </div>
-                        <div class="col-3 border " align="center ">
-                            <span class="ml-2 text-sm-center " style="font-size:0.9em;padding: 0 "><b>Время в
-                                    отделении:</b>
-                                <br>{{feedback.department_time}}</span>
+                                    отзыва:</b><br>{{feedback.date.split('T')[0] + ' ' + feedback.date.split('T')[1].substring(0,5) }}</span>
                         </div>
                         <div class="col-3 border " align="center ">
                             <span class="ml-2 text-sm-center " style="font-size:0.9em;padding: 0 "><b>Количество фото:</b> <br>{{feedback.photosCount}}</span>
@@ -347,6 +309,24 @@
                         <div class="col-3 border">
                             <div class="btn btn-dark btn-sm mt-2" (click)="getPhoto(feedback.id)">Фото</div>
                         </div>
+                        <div class=" col-4 p-0 m-0 text-sm-center border " align="center" style="float: left;">
+
+                            <span style="font-size:0.9em;padding: 0;margin: 0 text-sm-center "><b>Имя</b><br>{{feedback.username}}</span>
+                        </div>
+                       
+                        <div class="col-4 border-left border pl-1 " align="left " style="font-size:0.9em;padding: 0 ">
+                            <span><b>Дата
+                                    отправки:</b><br>{{feedback.dispatch_time ? feedback.dispatch_time.split('T')[0] + ' ' + feedback.dispatch_time.split('T')[1].substring(0,5) : '' }}</span>
+                        </div>
+                        <div class="col-4 border-left border pl-1 " align="left " style="font-size:0.9em;padding: 0 ">
+                            <span><b>Дата
+                                    получения:</b><br>{{feedback.arrived_time ? feedback.arrived_time.split('T')[0] + ' ' + feedback.arrived_time.split('T')[1].substring(0,5) : '' }}</span>
+                        </div>
+                        <div class="col-3 border " align="center ">
+                            <span class="ml-2 text-sm-center " style="font-size:0.9em;padding: 0 "><b>Время в
+                                    отделении:</b>
+                                <br>{{feedback.department_time}}</span>
+                        </div>                       
                         <div class="col-4 border">
                             <div class="btn btn-dark btn-sm mt-2" (click)="getFeedback(feedback.id)">Редактировать</div>
                         </div>

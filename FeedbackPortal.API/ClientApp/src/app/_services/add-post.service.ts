@@ -9,7 +9,7 @@ import { Feedback } from '../FeedBacks';
 import { Department } from '../department.model';
 import 'rxjs/add/operator/map';
 import { Photo } from '../photo.model';
-import { UserPeriod } from '../_model/period.model';
+import { QPeriod, UserPeriod } from '../_model/period.model';
 
 
 @Injectable(
@@ -45,9 +45,15 @@ export class AddPostService {
   addDepartment(department: Department) {
     return this._http.post(this._baseUrl + 'api/Feedbacks/AddDepartment', department);
   }
+  getReport() {
+    return this._http.get(this._baseUrl + 'api/Feedbacks/GetReport', {responseType: 'blob'});
+  }
 
   getFeedbacksByUser(userPeriod: UserPeriod) {
     return this._http.post(this._baseUrl + 'api/Feedbacks/GetByUserName', userPeriod);
+  }
+  getFeedbacksByQ(userPeriod: QPeriod) {
+    return this._http.post(this._baseUrl + 'api/Feedbacks/GetByQ', userPeriod);
   }
 
   postFile(fileToUpload: File[], id: number): Observable<boolean> {

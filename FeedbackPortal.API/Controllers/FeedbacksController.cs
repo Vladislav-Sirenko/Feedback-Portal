@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using ClosedXML.Excel;
 using FeedbackPortal.API.Models;
 using FeedbackPortal.API.Services;
 using Microsoft.AspNetCore.Http;
@@ -88,7 +89,12 @@ namespace FeedbackPortal.API.Controllers
 		{
 			return _feedbackService.GetFeedbacksByUser(period);
 		}
-		[HttpGet("{id}/FirstPhoto")]
+        [HttpPost("[action]")]
+        public List<Feedback> GetByQ([FromBody] QPeriod period)
+        {
+            return _feedbackService.GetFeedbacksByQ(period);
+        }
+        [HttpGet("{id}/FirstPhoto")]
 		public ActionResult<Photo> GetFirstPhoto(int id)
 		{
 			var photo = _feedbackService.GetFirstImage(id);
@@ -166,5 +172,41 @@ namespace FeedbackPortal.API.Controllers
 				}
 			}
 		}
-	}
+        [HttpGet("[action]")]
+        public IActionResult GetReport()
+        {
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("Feedbacks");
+                var currentRow = 1;
+                worksheet.Cell(currentRow, 1).Value = "Номер отделения";
+                worksheet.Cell(currentRow, 2).Value = "Время в отделении";
+                worksheet.Cell(currentRow, 3).Value = "Отзыв";
+                worksheet.Cell(currentRow, 4).Value = "Дата";
+                worksheet.Cell(currentRow, 5).Value = "Оценка";
+                var feedbacks = _feedbackService.GetAllWithoutPhotos();
+                var deps = _feedbackService.GetDepartmentsAsNoTracking();
+                foreach (var feedback in feedbacks)
+                {
+                    currentRow++;
+                    worksheet.Cell(currentRow, 1).Value = deps.FirstOrDefault(x=>x.Id == feedback.departmentId)?.Name;
+                    worksheet.Cell(currentRow, 2).Value = feedback.department_time;
+                    worksheet.Cell(currentRow, 3).Value = feedback.text;
+                    worksheet.Cell(currentRow, 4).Value = feedback.date;
+                    worksheet.Cell(currentRow, 5).Value = feedback.mark;
+                }
+
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    var content = stream.ToArray();
+
+                    return File(
+                        content,
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        "users.xlsx");
+                }
+            }
+        }
+    }
 }

@@ -3,3 +3,8 @@ export class UserPeriod {
     endTime: Date;
     userName: string;
 }
+export class QPeriod {
+    startQ: number;
+    endQ: number;
+}
+

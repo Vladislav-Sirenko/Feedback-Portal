@@ -9,8 +9,9 @@ namespace FeedbackPortal.API.Services
     public interface IFeedBackService
     {
         void AddDepartment(Department department);
-        List<Feedback> GetAll();
+        List<Feedback> GetAllWithoutPhotos();
         Feedback GetFeedbackById(int id);
+        List<Department> GetDepartmentsAsNoTracking();
         List<Feedback> GetFeedbacksByDepartmentId(int id);
         List<Department> GetDepartments();
         int AddFeedBack(Feedback feedback);
@@ -23,6 +24,7 @@ namespace FeedbackPortal.API.Services
         Photo GetThirdImage(int id);
         IOrderedQueryable<Feedback> GetFeedbacksByMark(int mark);
         List<Feedback> GetFeedbacksByUser(UserPeriod period);
+        List<Feedback> GetFeedbacksByQ(QPeriod period);
         void EditFeedback(int id, Feedback feedback);
     }
 }

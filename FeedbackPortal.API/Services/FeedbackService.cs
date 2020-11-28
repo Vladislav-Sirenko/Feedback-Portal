@@ -27,7 +27,17 @@ namespace FeedbackPortal.API.Services
             feedback.authUserId = _context.AuthUsers.FirstOrDefault(x => x.first_name == feedback.username).id;
             _context.Feedbacks.Add(feedback);
             _context.SaveChanges();
-            return _context.Feedbacks.FirstOrDefault(x => x.departmentId == feedback.departmentId && x.date == feedback.date).id;
+            return feedback.id;
+        }
+
+        public List<Feedback> GetFeedbacksByQ(QPeriod period)
+        {
+            var feedbacks = _context.Feedbacks.AsNoTracking()
+                .Where(x => x.department_time.Length == 5 && x.department_time.Contains(':')).ToList();
+            var feed = feedbacks.Where(x => Convert.ToInt32(x.department_time.Split(":")[0].Substring(1, 1)) < period.EndQ &&
+                                        Convert.ToInt32(x.department_time.Split(":")[0].Substring(1, 1)) > period.StartQ)
+                .ToList();
+            return feed;
         }
 
         public void EditFeedback(int id, Feedback feedback)
@@ -52,22 +62,11 @@ namespace FeedbackPortal.API.Services
             if (feedback != null) _context.Feedbacks.Remove(feedback);
             _context.SaveChanges();
         }
-
-        public List<Feedback> GetAll()
-        {
-            var feedbacks =  _context.Feedbacks.ToList();
-            foreach (var feedback in feedbacks)
-            {
-                feedback.photosCount = _context.Photos.Count(x => x.FeedbackId == feedback.id);
-            }
-            _context.UpdateRange(feedbacks);
-            _context.SaveChanges();
-            return feedbacks;
-        }
-
-        public List<Feedback> GetFeedbacksByDepartmentId(int id) => _context.Feedbacks.Where(x => x.departmentId == id).ToList();
+        public List<Feedback> GetAllWithoutPhotos() => _context.Feedbacks.AsNoTracking().ToList();
+        public List<Feedback> GetFeedbacksByDepartmentId(int id) => _context.Feedbacks.Where(x => x.departmentId == id).OrderByDescending(x => x.date).ToList();
 
         public List<Department> GetDepartments() => _context.Departments.ToList();
+        public List<Department> GetDepartmentsAsNoTracking() => _context.Departments.AsNoTracking().ToList();
 
         public Feedback GetFeedbackById(int id) => _context.Feedbacks.First(x => x.id == id);
 
@@ -86,18 +85,12 @@ namespace FeedbackPortal.API.Services
 
         public List<Feedback> GetFeedbacksByUser(UserPeriod period)
         {
-            if (period.UserName != null && period.StartTime != null && period.EndTime != null)
-                return _context.Feedbacks.Where(x =>
-                     x.date > period.StartTime && x.date < period.EndTime && x.username == period.UserName).ToList();
-            if (period.UserName != null && period.StartTime != null)
-            {
-                return _context.Feedbacks.Where(x => x.username == period.UserName && x.date > period.StartTime).ToList();
-            }
-            if (period.UserName != null && period.EndTime != null)
-            {
-                return _context.Feedbacks.Where(x => x.username == period.UserName && x.date < period.EndTime).ToList();
-            }
-            return _context.Feedbacks.Where(x => x.username == period.UserName).ToList();
+            return _context.Feedbacks
+                .WhereIf(period.UserName != null, x => x.username.StartsWith(period.UserName))
+                .WhereIf(period.StartTime != null, x => x.date > period.StartTime)
+                .WhereIf(period.EndTime != null, x => x.date < period.EndTime)
+                .OrderByDescending(x => x.date)
+                .ToList();
         }
         public void AddImage(string image, int id)
         {

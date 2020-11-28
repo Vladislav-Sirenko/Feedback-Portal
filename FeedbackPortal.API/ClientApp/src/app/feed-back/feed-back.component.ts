@@ -10,7 +10,7 @@ import { AuthUserService } from '../_services/auth-user.service';
 import { Department } from '../department.model';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
-import { UserPeriod } from '../_model/period.model';
+import { QPeriod, UserPeriod } from '../_model/period.model';
 
 @Component({
   selector: 'app-feed-back',
@@ -43,6 +43,8 @@ export class FeedBackComponent implements OnInit {
   dispatch_time: Date;
   startTime: Date;
   endTime: Date;
+  historyStartTime: Date;
+  historyEndTime: Date;
   selectedPost: string;
   myControl = new FormControl();
   filteredOptions: Observable<string[]>;
@@ -53,6 +55,8 @@ export class FeedBackComponent implements OnInit {
   selectedType: number;
   selectedAdmin: number;
   depName: string;
+  startq : number;
+  endq: number;
   postDepartmentName: string;
   postDepartmentAdress: string;
   isPositive = true;
@@ -103,7 +107,6 @@ export class FeedBackComponent implements OnInit {
   ngOnInit() {
     this.service.getCategories().subscribe((posts) => {
       this.Posts = posts;
-
       this.fakePosts = posts;
     });
   }
@@ -122,6 +125,7 @@ export class FeedBackComponent implements OnInit {
     this.selectedType = adminn;
   }
   getFeedbacksByUser() {
+    if(this.selectedUser){
     const user = new UserPeriod();
     user.userName = this.selectedUser;
     user.startTime = this.startTime;
@@ -129,6 +133,7 @@ export class FeedBackComponent implements OnInit {
     this.service.getFeedbacksByUser(user).subscribe((feedbacks: Feedback[]) => {
       this.feedbacks = feedbacks;
     });
+  }
   }
   addUser() {
     const User = new Users();
@@ -150,10 +155,7 @@ export class FeedBackComponent implements OnInit {
     Post.department_time = this.department_time;
     Post.arrived_time = null;
     Post.dispatch_time = null;
-    Post.text = this.text ? '+ ' + this.text : '+';
-    if (this.text2) {
-      Post.text += '\n' + '- ' + this.text2;
-    }
+    Post.text = this.text;
     Post.username = localStorage.getItem('Username');
     this.service.postCategories(Post).subscribe((id: number) => {
       alert('Отзыв успешно создан. Подождите,пожалуйста, пока загрузяться фото.');
@@ -163,7 +165,6 @@ export class FeedBackComponent implements OnInit {
     });
     this.dispatch_time = null;
     this.arrived_time = null;
-    this.text2 = null;
     this.department_time = null;
     this.mark = null;
     this.text = null;
@@ -185,6 +186,28 @@ export class FeedBackComponent implements OnInit {
       });
     });
   }
+  getReport() {
+    this.service.getReport().subscribe((response) => {
+        var newBlob = new Blob([response], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+  
+        if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+            window.navigator.msSaveOrOpenBlob(newBlob);
+            return;
+        }
+  
+        const data = window.URL.createObjectURL(newBlob);
+  
+        var link = document.createElement('a');
+        link.href = data;
+        link.download = "ImportFile.xlsx";
+        link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
+  
+        setTimeout(function () {
+            window.URL.revokeObjectURL(data);
+            link.remove();
+        }, 100);
+    });
+    }
   deleteFeedback(id: number) {
     this.service.deleteFeedbacksById(id).subscribe(() => {
       this.service.getFeedbacksByDepartmentId(this.Posts.find(x => x.name === this.departemntName).id).subscribe((feedbacks) => {
@@ -217,26 +240,26 @@ export class FeedBackComponent implements OnInit {
       });
     }
   }
-  /* searchword() {
-     const re = new RegExp(this.searchtext, 'gi');
-     for (const feedback of this.feedbacks) {
-       if (feedback.text.includes(this.searchtext)) {
-         const a = feedback.text.split(' ');
-         feedback.text = '';
-         for (const b of a) {
-           if (b === this.searchtext) {
-             feedback.text += ' ' + `<span class='yellow'>${this.searchtext}</span>` + '';
-           } else {
-             feedback.text += b;
-           }
-         }
-         feedback.text.replace(' ', 'AAA');
-         feedback.text.replace(this.searchtext, `<span class='yellow'>${this.searchtext}</span>`);
-         console.log(feedback.text);
-       }
-     }
-   }
-   */
+  searchListbyDate() {
+    if (this.historyStartTime && this.historyEndTime) {
+      const user = new UserPeriod();
+      user.startTime = this.historyStartTime;
+      user.endTime = this.historyEndTime;
+      this.service.getFeedbacksByUser(user).subscribe((feedbacks: Feedback[]) => {
+        this.feedbacks = feedbacks;
+      });
+    }
+  }
+  searchListbyQ() {
+    if (this.startq && this.endq) {
+      const user = new QPeriod();
+      user.endQ = this.endq;
+      user.startQ = this.startq;
+      this.service.getFeedbacksByQ(user).subscribe((feedbacks: Feedback[]) => {
+        this.feedbacks = feedbacks;
+      });
+    }
+  }
   getFeedback(id: number) {
     const feedback = this.feedbacks.find(x => x.id === id);
     this.currentMenuLink = this.menulink;
@@ -248,8 +271,11 @@ export class FeedBackComponent implements OnInit {
       this.department_time = feedback.department_time;
       this.dispatch_time = feedback.dispatch_time;
       this.date = feedback.date;
+      if(this.text.includes('-') && this.text.includes('+')){
       this.text = feedback.text.split('-')[0].split('+')[1];
       this.text2 = feedback.text.split('-')[1];
+      }
+      else this.text = feedback.text;
       this.mark = feedback.mark;
     }
   }
@@ -263,14 +289,10 @@ export class FeedBackComponent implements OnInit {
     feedback.dispatch_time = this.dispatch_time;
     feedback.date = this.date;
     feedback.text = this.text ? '+ ' + this.text : '+';
-    if (this.text2) {
-      feedback.text += '\n' + '- ' + this.text2;
-    }
     feedback.username = localStorage.getItem('Username');
     this.service.editFeedback(feedback).subscribe(() => {
       this.dispatch_time = null;
       this.arrived_time = null;
-      this.text2 = null;
       this.department_time = null;
       this.mark = null;
       this.text = null;
@@ -284,5 +306,23 @@ export class FeedBackComponent implements OnInit {
     this.departemntName = '';
     this.searchMark = null;
     this.feedbacks = [];
+    this.historyEndTime = null;
+    this.historyStartTime = null;
+    this.startq = 0;
+    this.endq = 0;
+  }
+  clearAllButQ(){
+    this.departemntName = '';
+    this.searchMark = null;
+    this.feedbacks = [];
+    this.historyEndTime = null;
+    this.historyStartTime = null;
+  }
+  clearAllButDate(){
+    this.departemntName = '';
+    this.searchMark = null;
+    this.feedbacks = [];
+    this.startq = 0;
+    this.endq = 0;
   }
 }

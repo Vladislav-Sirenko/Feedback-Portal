@@ -8,15 +8,8 @@ import { ViewChild } from '@angular/core';
   styleUrls: ['./file-upload.component.css']
 })
 export class FileUploadComponent implements OnInit {
-  @ViewChild('myInput')
-  myInputVariable: ElementRef;
-  @ViewChild('myInputOne')
-  myInputVariableOne: ElementRef;
   @ViewChild('myInputTwo')
   myInputVariableTwo: ElementRef;
-  fileToUpload: File = null;
-  fileToUpload1: File = null;
-  fileToUpload2: File = null;
   files: File[] = [];
   showSpinner: boolean = false;
   constructor(private service: AddPostService, ) { }
@@ -24,14 +17,6 @@ export class FileUploadComponent implements OnInit {
   ngOnInit() {
     this.service.feedbackAdded.subscribe((id) => {
       this.showSpinner = true;
-      if (this.fileToUpload) { this.files.push(this.fileToUpload); }
-      if (this.fileToUpload1) { this.files.push(this.fileToUpload1); }
-      if (this.fileToUpload2) { this.files.push(this.fileToUpload2); }
-      this.fileToUpload = null;
-      this.fileToUpload1 = null;
-      this.fileToUpload2 = null;
-      this.myInputVariable.nativeElement.value = '';
-      this.myInputVariableOne.nativeElement.value = '';
       this.myInputVariableTwo.nativeElement.value = '';
       this.service.postFile(this.files, id).subscribe(() => {
         this.showSpinner = false;
@@ -40,13 +25,16 @@ export class FileUploadComponent implements OnInit {
     });
   }
 
-  handleFileInput(files: FileList) {
-    this.fileToUpload = files.item(0);
-  }
-  handleFileInput1(files: FileList) {
-    this.fileToUpload1 = files.item(0);
-  }
   handleFileInput2(files: FileList) {
-    this.fileToUpload2 = files.item(0);
+    this.files = [];
+    if(files.item(0)){
+      this.files.push(files.item(0));
+    }
+    if(files.item(1)){
+      this.files.push(files.item(1));
+    }
+    if(files.item(2)){
+      this.files.push(files.item(2));
+    }
   }
 }
