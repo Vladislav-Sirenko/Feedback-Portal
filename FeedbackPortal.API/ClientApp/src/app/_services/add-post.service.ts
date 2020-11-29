@@ -3,13 +3,12 @@ import { HttpClient } from '@angular/common/http';
 
 // tslint:disable-next-line:import-blacklist
 import { Observable, Subject } from 'rxjs';
-import { AddPost } from '../_model/addPost.model';
-import { environment } from '../../environments/environment';
 import { Feedback } from '../FeedBacks';
 import { Department } from '../department.model';
 import 'rxjs/add/operator/map';
 import { Photo } from '../photo.model';
 import { QPeriod, UserPeriod } from '../_model/period.model';
+import { MarkIdModel } from '../_model/markId.model';
 
 
 @Injectable(
@@ -35,6 +34,9 @@ export class AddPostService {
   }
   getFeedbacksByDepartmentId(id: number) {
     return this._http.get<Feedback[]>(this._baseUrl + 'api/Feedbacks/' + id);
+  }
+  getFeedbacksByDepartment(model: MarkIdModel) {
+    return this._http.post(this._baseUrl + 'api/Feedbacks/GetFeedbacksByDepartment',model);
   }
   deleteFeedbacksById(id: number) {
     return this._http.delete(this._baseUrl + 'api/Feedbacks/' + id);

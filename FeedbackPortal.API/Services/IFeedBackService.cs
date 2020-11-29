@@ -13,6 +13,7 @@ namespace FeedbackPortal.API.Services
         Feedback GetFeedbackById(int id);
         List<Department> GetDepartmentsAsNoTracking();
         List<Feedback> GetFeedbacksByDepartmentId(int id);
+        List<Feedback> GetFeedbacksByDepartment(MarkIdModel model);
         List<Department> GetDepartments();
         int AddFeedBack(Feedback feedback);
         void DeleteFeedBack(int id);

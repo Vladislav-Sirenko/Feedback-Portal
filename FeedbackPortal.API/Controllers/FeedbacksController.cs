@@ -63,11 +63,11 @@ namespace FeedbackPortal.API.Controllers
 			return _feedbackService.GetDepartments();
 		}
 
-		[HttpGet("[action]")]
+		[HttpPost("[action]")]
 
-		public List<Feedback> GetFeedbacksByDepartment(int id)
+		public List<Feedback> GetFeedbacksByDepartment(MarkIdModel model)
 		{
-			return _feedbackService.GetFeedbacksByDepartmentId(id);
+			return _feedbackService.GetFeedbacksByDepartment(model);
 		}
 		[HttpGet("[action]")]
 		public IEnumerable<AuthUser> GetUsers()

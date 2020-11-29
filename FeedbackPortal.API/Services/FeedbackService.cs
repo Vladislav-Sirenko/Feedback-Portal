@@ -64,6 +64,12 @@ namespace FeedbackPortal.API.Services
         }
         public List<Feedback> GetAllWithoutPhotos() => _context.Feedbacks.AsNoTracking().ToList();
         public List<Feedback> GetFeedbacksByDepartmentId(int id) => _context.Feedbacks.Where(x => x.departmentId == id).OrderByDescending(x => x.date).ToList();
+        public List<Feedback> GetFeedbacksByDepartment(MarkIdModel model)
+        {
+            return _context.Feedbacks.AsNoTracking().WhereIf(model.Id != null, x => x.departmentId == model.Id)
+                .WhereIf(model.Mark != null, x => x.mark == model.Mark)
+                .OrderByDescending(x => x.date).ToList();
+        }
 
         public List<Department> GetDepartments() => _context.Departments.ToList();
         public List<Department> GetDepartmentsAsNoTracking() => _context.Departments.AsNoTracking().ToList();

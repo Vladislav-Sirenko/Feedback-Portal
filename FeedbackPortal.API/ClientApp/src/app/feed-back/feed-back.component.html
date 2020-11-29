@@ -31,7 +31,7 @@
                         <input [(ngModel)]="departemntName" (change)="searchList()" (click)="clear()" placeholder="Номер отделения">
                         <br>
                         <label>Время в отделении:<br>
-                            <input type="text" [(ngModel)]="department_time" name="department_time">
+                            <input type="text" placeholder="MM:SS" [(ngModel)]="department_time" name="department_time">
                         </label>
                         <br><label>Оценка:<br>
                             <input [(ngModel)]="mark" type="text" name="Mark">
@@ -101,7 +101,7 @@
                         </div>
 
                         <label>Время в отделении:<br>
-                            <input [(ngModel)]="department_time" class="masked" pattern="(1[0-2]|0[1-9])\/(1[5-9]|2\d)"  name="department_time">
+                            <input [(ngModel)]="department_time" placeholder="MM:SS"  name="department_time">
                         </label>
                         <br><label>Оценка:<br>
                             <input [(ngModel)]="mark" type="text" name="Mark">
@@ -180,11 +180,13 @@
 
                 <h3>Посмотреть историю отзывов</h3>
                 <input [(ngModel)]="departemntName" (change)="searchList()" (click)="clear()" placeholder="Номер отделения">
-                <input [(ngModel)]="searchMark" (change)="searchListbyMark()" (click)="clear()" placeholder="Оценка">
-                <input [(ngModel)]="historyStartTime" (change)="searchListbyDate()" (click)="clearAllButDate()" type="date" name="historyStartTime">
-                <input [(ngModel)]="historyEndTime" (change)="searchListbyDate()" (click)="clearAllButDate()" type="date" name="historyEndTime">
-                <input [(ngModel)]="startq" (change)="searchListbyQ()" (click)="clearAllButQ()" placeholder="Начальное время очереди">
-                <input [(ngModel)]="endq" (change)="searchListbyQ()" (click)="clearAllButQ()" placeholder="Конечное время очереди">
+                <input [(ngModel)]="searchMark" (change)="searchList()" (click)="clear()" placeholder="Оценка"><br>
+                <label>Выберите первую дату периода</label><br>
+                <input [(ngModel)]="historyStartTime" (change)="searchListbyDate()" (click)="clearAllButDate()" type="date" name="historyStartTime"><br>
+                <label>Выберите последнюю дату периода</label><br>
+                <input [(ngModel)]="historyEndTime" (change)="searchListbyDate()" (click)="clearAllButDate()" type="date" name="historyEndTime"><br>
+                <input [(ngModel)]="startq" (change)="searchListbyQ()" (click)="clearAllButQ()" placeholder="Минимальное время в отделении">
+                <input [(ngModel)]="endq" (change)="searchListbyQ()" (click)="clearAllButQ()" placeholder="Максимальное время в отделении">
                 <div *ngIf="feedbacks">Количество отзывов: {{feedbacks.length}}</div>
                 <div class="feadbacksList pt-2">
                     <div *ngFor="let feedback of feedbacks;index as i;" class="row flex-row flex-nowrap   m-1 " style="font-size:0.9em;margin-left:2%;margin-top: 1%">
@@ -274,9 +276,9 @@
             <div *ngIf="menulink==5" class="PostList2 col-md-10 " align="center" style="margin-bottom: 20%;">
                 <h3>Посмотреть отзывы пользователя</h3>
                 <input [(ngModel)]="selectedUser" (input)="getFeedbacksByUser()" placeholder="Имя пользователя">
-
+                <label>Выберите первую дату периода</label>
                 <input [(ngModel)]="startTime" (change)="getFeedbacksByUser()" type="date" name="startTime">
-
+                <label>Выберите последнюю дату периода</label>
                 <input [(ngModel)]="endTime" (change)="getFeedbacksByUser()" type="date" name="endTime"><br />
                 <div *ngIf="feedbacks">Количество отзывов: {{feedbacks.length}}</div>
                 <div class="feadbacksList pt-2">

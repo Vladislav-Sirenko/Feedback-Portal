@@ -11,6 +11,8 @@ import { Department } from '../department.model';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { QPeriod, UserPeriod } from '../_model/period.model';
+import { MarkIdModel } from '../_model/markId.model';
+import { m } from '@angular/core/src/render3';
 
 @Component({
   selector: 'app-feed-back',
@@ -55,8 +57,8 @@ export class FeedBackComponent implements OnInit {
   selectedType: number;
   selectedAdmin: number;
   depName: string;
-  startq : number;
-  endq: number;
+  startq : string;
+  endq: string;
   postDepartmentName: string;
   postDepartmentAdress: string;
   isPositive = true;
@@ -231,7 +233,14 @@ export class FeedBackComponent implements OnInit {
   }
   searchList() {
     this.departemntName = this.Posts.find(x => x.name.startsWith(this.departemntName)).name;
-    this.getfeedbacksByDepartmentID(this.Posts.find(x => x.name === this.departemntName).id);
+    var model = new MarkIdModel();
+    model.id = this.Posts.find(x => x.name === this.departemntName).id;
+    model.mark = this.searchMark;
+    this.service.getFeedbacksByDepartment(model).subscribe((feedbacks:Feedback[]) => {
+      this.feedbacks = [];
+      // tslint:disable-next-line:forin
+      this.feedbacks = feedbacks;
+    });
   }
   searchListbyMark() {
     if (this.searchMark) {
@@ -251,10 +260,10 @@ export class FeedBackComponent implements OnInit {
     }
   }
   searchListbyQ() {
-    if (this.startq && this.endq) {
+    if (this.startq && this.endq && parseInt(this.startq) && parseInt(this.endq)) {
       const user = new QPeriod();
-      user.endQ = this.endq;
-      user.startQ = this.startq;
+      user.endQ = parseInt(this.endq);
+      user.startQ = parseInt(this.startq) ;
       this.service.getFeedbacksByQ(user).subscribe((feedbacks: Feedback[]) => {
         this.feedbacks = feedbacks;
       });
@@ -303,13 +312,11 @@ export class FeedBackComponent implements OnInit {
     });
   }
   clear() {
-    this.departemntName = '';
-    this.searchMark = null;
     this.feedbacks = [];
     this.historyEndTime = null;
     this.historyStartTime = null;
-    this.startq = 0;
-    this.endq = 0;
+    this.startq = '';
+    this.endq = '';
   }
   clearAllButQ(){
     this.departemntName = '';
@@ -322,7 +329,7 @@ export class FeedBackComponent implements OnInit {
     this.departemntName = '';
     this.searchMark = null;
     this.feedbacks = [];
-    this.startq = 0;
-    this.endq = 0;
+    this.startq = '';
+    this.endq = '';
   }
 }
